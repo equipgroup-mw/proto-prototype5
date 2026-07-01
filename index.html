@@ -8,7 +8,7 @@
   <link rel="apple-touch-icon" href="icon.png">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <title>Poultry Farm Dashboard | Live Monitoring</title>
+  <title>Poultry Farm Dashboard | Multi-Farmer Monitoring</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700;800&family=Georgia:wght@400;700&display=swap" rel="stylesheet">
@@ -51,6 +51,105 @@
     
     .dashboard { max-width: 1400px; margin: 0 auto; width: 100%; }
     
+    /* ========== FARMER SELECTOR ========== */
+    .farmer-selector {
+      background: rgba(201,169,75,0.06);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: clamp(0.7rem, 2vw, 1rem) clamp(1rem, 3vw, 1.5rem);
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .farmer-selector-inner {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+    .farmer-label {
+      font-size: clamp(0.7rem, 2.2vw, 0.78rem);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .farmer-dropdown {
+      background: rgba(201, 169, 75, 0.08);
+      color: var(--text-primary);
+      border: 1px solid var(--border-subtle);
+      padding: clamp(0.4rem, 1.5vw, 0.5rem) clamp(0.8rem, 2vw, 1rem);
+      border-radius: var(--radius-pill);
+      font-family: 'Libre Franklin', sans-serif;
+      font-weight: 500;
+      font-size: clamp(0.75rem, 2.5vw, 0.85rem);
+      cursor: pointer;
+      transition: var(--transition);
+      min-width: 200px;
+      flex: 1;
+      max-width: 400px;
+      outline: none;
+    }
+    .farmer-dropdown:hover {
+      border-color: var(--brand-gold);
+      background: rgba(201, 169, 75, 0.15);
+    }
+    .farmer-dropdown:focus {
+      border-color: var(--brand-gold-light);
+      box-shadow: 0 0 0 3px rgba(201, 169, 75, 0.2);
+    }
+    .farmer-dropdown option {
+      background: var(--brand-navy);
+      color: var(--text-primary);
+      padding: 0.5rem;
+    }
+    .farmer-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-left: auto;
+    }
+    .farmer-detail {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: clamp(0.7rem, 2.2vw, 0.75rem);
+      color: var(--text-secondary);
+      background: rgba(201,169,75,0.08);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      border: 1px solid var(--border-subtle);
+      flex-wrap: wrap;
+    }
+    .farmer-name {
+      font-weight: 700;
+      color: var(--brand-gold-light);
+      font-family: 'Georgia', serif;
+    }
+    .farmer-district {
+      color: var(--text-muted);
+      font-size: 0.7rem;
+    }
+    .farmer-contact {
+      color: var(--text-secondary);
+      font-size: 0.7rem;
+    }
+    .farmer-count-badge {
+      background: var(--brand-gold);
+      color: var(--brand-navy);
+      padding: 0.2rem 0.6rem;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.7rem;
+      white-space: nowrap;
+    }
+
     /* ========== MONITORING BAR ========== */
     .monitoring-bar {
       display: flex;
@@ -171,6 +270,10 @@
         gap: 0.3rem;
       }
       .week-filter-btn { padding: 0.3rem 0.6rem; font-size: 0.65rem; }
+      .farmer-selector { flex-direction: column; align-items: stretch; padding: 0.8rem; }
+      .farmer-selector-inner { flex-direction: column; align-items: stretch; }
+      .farmer-dropdown { max-width: 100%; }
+      .farmer-info { margin-left: 0; justify-content: center; }
     }
     @media (max-width: 600px) {
       .monitoring-age-row { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 0.3rem; }
@@ -285,6 +388,7 @@
     .hero-icon-ring { width: 100%; aspect-ratio: 1; border-radius: 50%; background: rgba(201,169,75,0.08); border: 2px solid rgba(201,169,75,0.3); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 25px rgba(201,169,75,0.25), inset 0 0 15px rgba(201,169,75,0.1); }
     .hero-icon { font-size: clamp(2rem, 4vw, 3rem); line-height: 1; }
     .hero-center { flex: 1; min-width: 0; z-index: 2; display: flex; flex-direction: column; justify-content: center; }
+    .hero-farmer-name { font-family: 'Georgia', serif; font-size: clamp(0.7rem, 1.5vw, 0.8rem); color: var(--brand-gold-light); margin-bottom: 0.1rem; font-weight: 700; opacity: 0.8; }
     .hero-title { font-family: 'Georgia', serif; font-size: clamp(0.75rem, 1.5vw, 0.85rem); text-transform: uppercase; letter-spacing: 3px; color: var(--brand-gold-light); margin-bottom: 0.1rem; font-weight: 700; }
     .hero-kpi { font-family: 'Libre Franklin', sans-serif; font-size: clamp(4.5rem, 10vw, 7rem); font-weight: 800; letter-spacing: -3px; color: #ffffff; line-height: 0.9; white-space: nowrap; margin-bottom: 0.15rem; }
     .hero-started { font-size: clamp(0.95rem, 2vw, 1.1rem); color: rgba(255,255,255,0.85); font-weight: 500; letter-spacing: 0.3px; }
@@ -313,7 +417,6 @@
       line-height: 1.5;
     }
     
-    /* Target comparison styles */
     .context-target-diff {
       font-weight: 700;
       display: inline-block;
@@ -807,7 +910,7 @@
     <div class="header-content">
       <h1>Poultry Farm Monitor <span class="live-badge">Live</span></h1>
       <div class="subtitle">
-        <span>Real-time flock analytics</span>
+        <span>Multi-farmer flock analytics</span>
         <span id="latestUpdateBadge" class="latest-update-badge">⏱ Loading...</span>
       </div>
     </div>
@@ -816,7 +919,7 @@
       <button class="refresh-btn" id="refreshBtn">↻ Refresh Data</button>
     </div>
     <div class="header-meta-row">
-      <span class="location-text">Real-time flock analytics</span>
+      <span class="location-text">Multi-farmer flock analytics</span>
       <span id="latestUpdateBadgeMobile" class="latest-update-badge">⏱ Loading...</span>
     </div>
     <div class="logo-row">
@@ -838,6 +941,17 @@
     </div>
   </div>
 
+  <!-- ========== NEW: FARMER SELECTOR ========== -->
+  <div class="farmer-selector">
+    <div class="farmer-selector-inner">
+      <label class="farmer-label" for="farmerSelect">👨‍🌾 Select Farmer</label>
+      <select id="farmerSelect" class="farmer-dropdown">
+        <option value="all">All Farmers (Aggregated View)</option>
+      </select>
+      <div class="farmer-info" id="farmerInfo"></div>
+    </div>
+  </div>
+
   <div class="hero-section">
     <div class="hero-card">
       <div class="hero-top-line"></div>
@@ -848,9 +962,10 @@
         </div>
       </div>
       <div class="hero-center">
+        <div class="hero-farmer-name" id="heroFarmerName"></div>
         <div class="hero-title">BIRDS ALIVE</div>
-        <div class="hero-kpi" id="heroKPI">198 Chickens</div>
-        <div class="hero-started">Started with <strong id="heroStarted">201</strong></div>
+        <div class="hero-kpi" id="heroKPI">— Chickens</div>
+        <div class="hero-started">Started with <strong id="heroStarted">—</strong></div>
       </div>
       <div class="hero-right">
         <div class="sync-pill">
@@ -868,9 +983,9 @@
     <div class="monitoring-age">
       <div class="monitoring-age-row">
         <span class="monitoring-age-label">Age & Monitoring</span>
-        <span class="monitoring-age-value" id="monitoringDays">17 Days</span>
+        <span class="monitoring-age-value" id="monitoringDays">— Days</span>
       </div>
-      <span class="monitoring-age-sub" id="monitoringRange">25 May – 10 Jun</span>
+      <span class="monitoring-age-sub" id="monitoringRange">—</span>
     </div>
     <div class="monitoring-filter">
       <span class="monitoring-filter-label">Filter</span>
@@ -909,7 +1024,7 @@
         <div class="vaccination-header-text">Vaccination Record</div>
         <div class="vaccination-header-sub">Full flock immunisation history</div>
       </div>
-      <div class="vaccination-header-count" id="vaccinationCount">6 doses</div>
+      <div class="vaccination-header-count" id="vaccinationCount">— doses</div>
     </div>
     <div id="vaccinationTimeline" class="vaccination-timeline"></div>
     <div class="vaccination-footer">
@@ -949,33 +1064,46 @@
 
 <script>
   (function() {
+    // ========== CONFIGURATION ==========
+    // Replace these with your actual Google Sheets published CSV URLs
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT3Z8PP96_vPHYKHP6zOmyJwfc4VFTjR0O3H95mHSAElxDUcHnsKuIuklyaqRsqYwY6Z1iSbmq8mrjK/pub?gid=1870817852&single=true&output=csv";
     const TARGET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT3Z8PP96_vPHYKHP6zOmyJwfc4VFTjR0O3H95mHSAElxDUcHnsKuIuklyaqRsqYwY6Z1iSbmq8mrjK/pub?gid=972239246&single=true&output=csv";
     const VACCINATION_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT3Z8PP96_vPHYKHP6zOmyJwfc4VFTjR0O3H95mHSAElxDUcHnsKuIuklyaqRsqYwY6Z1iSbmq8mrjK/pub?gid=513211046&single=true&output=csv";
+    // NEW: Farmer Registry URL - replace GID with your actual Farmer Registry sheet GID
+    const FARMER_REGISTRY_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT3Z8PP96_vPHYKHP6zOmyJwfc4VFTjR0O3H95mHSAElxDUcHnsKuIuklyaqRsqYwY6Z1iSbmq8mrjK/pub?gid=YOUR_FARMER_REGISTRY_GID&single=true&output=csv";
+
     let TARGET_DATA = null;
     let VACCINATION_DATA = null;
+    let FARMER_REGISTRY = []; // NEW: Store farmer registry data
 
     const isMobile = () => window.innerWidth <= 900;
 
+    // Fallback data for offline/demo - updated with identifier column
     const FALLBACK_DATA = [
-      { time:"16:00", date:"25 May 2026", birdsAlive:201, deaths:0, deathCause:"", feed:3, water:20, temp:30, litter:"yes", avgWeight:null, timeMinutes:960 },
-      { time:"10:00", date:"27 May 2026", birdsAlive:200, deaths:1, deathCause:"Squashed under tray", feed:3, water:20, temp:30, litter:"no", avgWeight:99, timeMinutes:600 },
-      { time:"10:00", date:"29 May 2026", birdsAlive:199, deaths:1, deathCause:"Stepped on", feed:3, water:20, temp:30, litter:"no", avgWeight:99, timeMinutes:600 },
-      { time:"8:30", date:"30 May 2026", birdsAlive:199, deaths:0, deathCause:"", feed:3, water:20, temp:28, litter:"no", avgWeight:112, timeMinutes:510 },
-      { time:"12:00", date:"30 May 2026", birdsAlive:199, deaths:0, deathCause:"", feed:3, water:20, temp:28, litter:"no", avgWeight:120, timeMinutes:720 },
-      { time:"17:00", date:"30 May 2026", birdsAlive:199, deaths:0, deathCause:"", feed:3, water:20, temp:30, litter:"no", avgWeight:125, timeMinutes:1020 },
-      { time:"8:00", date:"31 May 2026", birdsAlive:199, deaths:0, deathCause:"", feed:3, water:20, temp:30, litter:"Yes", avgWeight:129, timeMinutes:480 },
-      { time:"8:00", date:"1 June 2026", birdsAlive:198, deaths:1, deathCause:"Low temperature", feed:3, water:20, temp:30, litter:"Yes", avgWeight:135, timeMinutes:480 },
-      { time:"17:30", date:"1 June 2026", birdsAlive:198, deaths:0, deathCause:"", feed:3, water:20, temp:30, litter:"Yes", avgWeight:147, timeMinutes:1050 }
+      { time:"16:00", date:"25 May 2026", birdsAlive:201, deaths:0, deathCause:"", feed:3, water:20, temp:30, litter:"yes", avgWeight:null, timeMinutes:960, identifier:"+265888123456" },
+      { time:"10:00", date:"27 May 2026", birdsAlive:200, deaths:1, deathCause:"Squashed under tray", feed:3, water:20, temp:30, litter:"no", avgWeight:99, timeMinutes:600, identifier:"+265888123456" },
+      { time:"10:00", date:"29 May 2026", birdsAlive:199, deaths:1, deathCause:"Stepped on", feed:3, water:20, temp:30, litter:"no", avgWeight:99, timeMinutes:600, identifier:"+265888123456" },
+      { time:"8:30", date:"30 May 2026", birdsAlive:199, deaths:0, deathCause:"", feed:3, water:20, temp:28, litter:"no", avgWeight:112, timeMinutes:510, identifier:"+265888123456" },
+      { time:"12:00", date:"30 May 2026", birdsAlive:199, deaths:0, deathCause:"", feed:3, water:20, temp:28, litter:"no", avgWeight:120, timeMinutes:720, identifier:"+265888123456" },
+      { time:"17:00", date:"30 May 2026", birdsAlive:199, deaths:0, deathCause:"", feed:3, water:20, temp:30, litter:"no", avgWeight:125, timeMinutes:1020, identifier:"+265888123456" },
+      { time:"8:00", date:"31 May 2026", birdsAlive:199, deaths:0, deathCause:"", feed:3, water:20, temp:30, litter:"Yes", avgWeight:129, timeMinutes:480, identifier:"+265888123456" },
+      { time:"8:00", date:"1 June 2026", birdsAlive:198, deaths:1, deathCause:"Low temperature", feed:3, water:20, temp:30, litter:"Yes", avgWeight:135, timeMinutes:480, identifier:"+265888123456" },
+      { time:"17:30", date:"1 June 2026", birdsAlive:198, deaths:0, deathCause:"", feed:3, water:20, temp:30, litter:"Yes", avgWeight:147, timeMinutes:1050, identifier:"+265888123456" }
+    ];
+
+    const FALLBACK_FARMER_REGISTRY = [
+      { name:"John Banda", phone:"+265888123456", email:"john@example.com", district:"Lilongwe" },
+      { name:"Mary Phiri", phone:"+265999654321", email:"mary@example.com", district:"Blantyre" }
     ];
 
     const FALLBACK_VACCINATION_DATA = [
-      { date:"25 May 2026", dayOfCycle:0, items:"Gumboro, Newcastle (NCD), IB, IB Variant" },
-      { date:"9 June 2026", dayOfCycle:16, items:"Gumboro" },
-      { date:"12 June 2026", dayOfCycle:19, items:"Newcastle (NCD)" }
+      { date:"25 May 2026", dayOfCycle:0, items:"Gumboro, Newcastle (NCD), IB, IB Variant", identifier:"+265888123456" },
+      { date:"9 June 2026", dayOfCycle:16, items:"Gumboro", identifier:"+265888123456" },
+      { date:"12 June 2026", dayOfCycle:19, items:"Newcastle (NCD)", identifier:"+265888123456" }
     ];
 
     let currentFilter = 'all';
+    let currentFarmerId = 'all'; // NEW: Track selected farmer
     let allData = [];
 
     const toNum = (val) => { if (val === null || val === undefined || val === '') return 0; let num = Number(String(val).replace(/[^0-9.-]/g, '')); return isNaN(num) ? 0 : num; };
@@ -1007,7 +1135,8 @@
     function mapColumns(headers) {
       const lower = headers.map(h => h.toLowerCase().trim().replace(/\s+/g, ' '));
       return {
-        time: lower.findIndex(h => /^time$/i.test(h)), date: lower.findIndex(h => /^date$/i.test(h)),
+        time: lower.findIndex(h => /^time$/i.test(h)), 
+        date: lower.findIndex(h => /^date$/i.test(h)),
         birdsAlive: lower.findIndex(h => /bird.*alive|alive|stock|count/i.test(h)),
         deaths: lower.findIndex(h => /death|dead|mortality/i.test(h) && !/cause/i.test(h)),
         deathCause: lower.findIndex(h => /death.*cause|cause.*death|cause/i.test(h)),
@@ -1015,10 +1144,118 @@
         water: lower.findIndex(h => /water.*litre|water.*l|water/i.test(h)),
         temp: lower.findIndex(h => /temp/i.test(h)),
         litter: lower.findIndex(h => /litter/i.test(h)),
-        avgWeight: lower.findIndex(h => /avg.*weight|weight.*avg|weight/i.test(h))
+        avgWeight: lower.findIndex(h => /avg.*weight|weight.*avg|weight/i.test(h)),
+        identifier: lower.findIndex(h => /identifier|phone|email|farmer/i.test(h)) // NEW: identifier column
       };
     }
 
+    // ========== NEW: FARMER REGISTRY FUNCTIONS ==========
+    async function fetchFarmerRegistry() {
+      try {
+        if (!FARMER_REGISTRY_URL || FARMER_REGISTRY_URL.includes('YOUR_FARMER_REGISTRY_GID')) {
+          console.warn('Farmer Registry URL not configured, using fallback data');
+          return FALLBACK_FARMER_REGISTRY;
+        }
+        const response = await fetch(FARMER_REGISTRY_URL, { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const csvText = await response.text();
+        if (!csvText.trim()) throw new Error('Empty CSV');
+        const rows = parseCSV(csvText);
+        if (rows.length < 2) throw new Error('No data rows');
+        const headers = rows[0].map(h => h.toLowerCase().trim());
+        const nameIdx = headers.findIndex(h => h === 'name');
+        const phoneIdx = headers.findIndex(h => h === 'phone');
+        const emailIdx = headers.findIndex(h => h === 'email');
+        const districtIdx = headers.findIndex(h => h === 'district');
+        
+        if (nameIdx === -1) throw new Error('Missing name column in farmer registry');
+        
+        const farmers = [];
+        for (let i = 1; i < rows.length; i++) {
+          const row = rows[i];
+          if (row.length === 0) continue;
+          const farmer = {
+            name: (row[nameIdx] || '').trim(),
+            phone: phoneIdx >= 0 ? (row[phoneIdx] || '').trim() : '',
+            email: emailIdx >= 0 ? (row[emailIdx] || '').trim() : '',
+            district: districtIdx >= 0 ? (row[districtIdx] || '').trim() : ''
+          };
+          // Validate: at least phone or email must be filled
+          if (farmer.name && (farmer.phone || farmer.email)) {
+            farmers.push(farmer);
+          }
+        }
+        return farmers.length > 0 ? farmers : FALLBACK_FARMER_REGISTRY;
+      } catch (err) {
+        console.error('Farmer registry fetch error:', err);
+        return FALLBACK_FARMER_REGISTRY;
+      }
+    }
+
+    function populateFarmerDropdown() {
+      const select = document.getElementById('farmerSelect');
+      if (!select) return;
+      
+      // Keep the "All Farmers" option
+      select.innerHTML = '<option value="all">All Farmers (Aggregated View)</option>';
+      
+      FARMER_REGISTRY.forEach(farmer => {
+        const identifier = farmer.phone || farmer.email;
+        const option = document.createElement('option');
+        option.value = identifier;
+        option.textContent = `${farmer.name} (${farmer.district})`;
+        select.appendChild(option);
+      });
+      
+      // Set initial selection
+      select.value = currentFarmerId;
+    }
+
+    function updateFarmerInfo(farmer) {
+      const infoDiv = document.getElementById('farmerInfo');
+      const heroFarmerName = document.getElementById('heroFarmerName');
+      
+      if (!farmer) {
+        if (infoDiv) infoDiv.innerHTML = '<span class="farmer-count-badge" id="farmerCountBadge"></span>';
+        if (heroFarmerName) heroFarmerName.textContent = '';
+        updateFarmerCountBadge();
+        return;
+      }
+      
+      if (infoDiv) {
+        infoDiv.innerHTML = `
+          <div class="farmer-detail">
+            <span class="farmer-name">${farmer.name}</span>
+            <span class="farmer-district">📍 ${farmer.district}</span>
+            <span class="farmer-contact">📞 ${farmer.phone || farmer.email}</span>
+          </div>
+        `;
+      }
+      
+      if (heroFarmerName) {
+        heroFarmerName.textContent = `${farmer.name}'s Flock`;
+      }
+    }
+
+    function updateFarmerCountBadge() {
+      const badge = document.getElementById('farmerCountBadge');
+      const activeFarmers = new Set();
+      
+      allData.forEach(record => {
+        if (record.identifier) {
+          const farmer = FARMER_REGISTRY.find(f => 
+            f.phone === record.identifier || f.email === record.identifier
+          );
+          if (farmer) activeFarmers.add(farmer.name);
+        }
+      });
+      
+      if (badge) {
+        badge.textContent = `${activeFarmers.size} farmer${activeFarmers.size !== 1 ? 's' : ''}`;
+      }
+    }
+
+    // ========== DATA FETCHING (UPDATED FOR MULTI-FARMER) ==========
     async function fetchData() {
       try {
         const response = await fetch(CSV_URL, { cache: 'no-store' });
@@ -1029,6 +1266,7 @@
         if (rows.length < 2) throw new Error('No data rows');
         const headers = rows[0], col = mapColumns(headers);
         if (col.birdsAlive === -1 || col.date === -1) throw new Error('Missing critical columns');
+        
         const data = [];
         for (let i = 1; i < rows.length; i++) {
           const row = rows[i]; if (row.length === 0) continue;
@@ -1037,21 +1275,57 @@
           const tParts = timeStr.split(':');
           const timeMinutes = (tParts.length === 2) ? (parseInt(tParts[0], 10) * 60) + parseInt(tParts[1], 10) : 0;
           const weightVal = col.avgWeight >= 0 ? (row[col.avgWeight] || '').trim() : '';
-          data.push({ time: timeStr, timeMinutes, date: dateVal, dateObj: parseDate(dateVal),
+          const identifier = col.identifier >= 0 ? (row[col.identifier] || '').trim() : '';
+          
+          // Validate identifier against farmer registry
+          if (identifier) {
+            const farmer = FARMER_REGISTRY.find(f => 
+              f.phone === identifier || f.email === identifier
+            );
+            if (!farmer) {
+              console.warn('Row with unmatched identifier:', identifier);
+            }
+          }
+          
+          data.push({ 
+            time: timeStr, timeMinutes, date: dateVal, dateObj: parseDate(dateVal),
             birdsAlive: col.birdsAlive >= 0 ? toNum(row[col.birdsAlive]) : 0,
             deaths: col.deaths >= 0 ? toNum(row[col.deaths]) : 0,
             deathCause: col.deathCause >= 0 ? (row[col.deathCause] || '').trim() : '',
-            feed: col.feed >= 0 ? toNum(row[col.feed]) : 0, water: col.water >= 0 ? toNum(row[col.water]) : 0,
+            feed: col.feed >= 0 ? toNum(row[col.feed]) : 0, 
+            water: col.water >= 0 ? toNum(row[col.water]) : 0,
             temp: col.temp >= 0 ? toNum(row[col.temp]) : 0,
             litter: col.litter >= 0 ? (row[col.litter] || '').trim().toLowerCase() : '',
-            avgWeight: weightVal ? toNum(weightVal) : null });
+            avgWeight: weightVal ? toNum(weightVal) : null,
+            identifier: identifier
+          });
         }
         data.sort((a, b) => { const d = b.dateObj - a.dateObj; return d !== 0 ? d : (b.timeMinutes - a.timeMinutes); });
-        return { data, success: true };
+        
+        // Apply farmer filter if selected
+        const filtered = filterByFarmer(data, currentFarmerId);
+        return { data: filtered, success: true, allData: data };
       } catch (err) {
         updateSyncStatus(false);
-        return { data: FALLBACK_DATA, success: false };
+        const filtered = filterByFarmer(FALLBACK_DATA, currentFarmerId);
+        return { data: filtered, success: false, allData: FALLBACK_DATA };
       }
+    }
+
+    function filterByFarmer(data, farmerId) {
+      if (farmerId === 'all') return data;
+      
+      // Find the farmer in registry
+      const farmer = FARMER_REGISTRY.find(f => 
+        f.phone === farmerId || f.email === farmerId
+      );
+      
+      if (!farmer) return data;
+      
+      // Filter data by matching phone OR email
+      return data.filter(record => 
+        record.identifier === farmer.phone || record.identifier === farmer.email
+      );
     }
 
     async function fetchTargetData() {
@@ -1083,16 +1357,46 @@
         if (!csvText.trim()) return null;
         const rows = parseCSV(csvText);
         if (rows.length < 2) return null;
+        
+        const headers = rows[0].map(h => h.toLowerCase().trim());
+        const dateIdx = headers.findIndex(h => h === 'date');
+        const dayIdx = headers.findIndex(h => h.includes('day'));
+        const itemsIdx = headers.findIndex(h => h === 'items' || h.includes('vaccine'));
+        const identifierIdx = headers.findIndex(h => h === 'identifier' || h === 'phone' || h === 'email');
+        
         const vaccinations = [];
         for (let i = 1; i < rows.length; i++) {
           const row = rows[i];
           if (row.length < 3) continue;
-          const date = (row[0] || '').trim(), dayOfCycle = toNum(row[1]), items = (row[2] || '').trim();
-          if (date && items) vaccinations.push({ date, dayOfCycle, items });
+          const date = dateIdx >= 0 ? (row[dateIdx] || '').trim() : '';
+          const dayOfCycle = dayIdx >= 0 ? toNum(row[dayIdx]) : 0;
+          const items = itemsIdx >= 0 ? (row[itemsIdx] || '').trim() : '';
+          const identifier = identifierIdx >= 0 ? (row[identifierIdx] || '').trim() : '';
+          
+          if (date && items) {
+            vaccinations.push({ date, dayOfCycle, items, identifier });
+          }
         }
         vaccinations.sort((a, b) => parseDate(a.date) - parseDate(b.date));
-        return vaccinations;
+        
+        // Apply farmer filter
+        const filtered = filterVaccinationsByFarmer(vaccinations, currentFarmerId);
+        return filtered.length > 0 ? filtered : null;
       } catch (err) { return null; }
+    }
+
+    function filterVaccinationsByFarmer(vaccinations, farmerId) {
+      if (farmerId === 'all') return vaccinations;
+      
+      const farmer = FARMER_REGISTRY.find(f => 
+        f.phone === farmerId || f.email === farmerId
+      );
+      
+      if (!farmer) return vaccinations;
+      
+      return vaccinations.filter(v => 
+        v.identifier === farmer.phone || v.identifier === farmer.email
+      );
     }
 
     /* ========== VACCINATION RENDER ========== */
@@ -1100,7 +1404,7 @@
       const container = document.getElementById('vaccinationTimeline');
       const countBadge = document.getElementById('vaccinationCount');
       const statsEl = document.getElementById('vaccinationStats');
-      const data = VACCINATION_DATA || FALLBACK_VACCINATION_DATA;
+      const data = VACCINATION_DATA || (currentFarmerId === 'all' ? FALLBACK_VACCINATION_DATA : filterVaccinationsByFarmer(FALLBACK_VACCINATION_DATA, currentFarmerId));
 
       if (!container) return;
 
@@ -1142,7 +1446,7 @@
           </div>`;
       }).join('');
 
-      // Build mobile nodes - clean vertical cards
+      // Build mobile nodes
       const mobileNodes = data.map(v => {
         const itemList = v.items.split(',').map(i => i.trim());
         const parsedDate = parseDate(v.date);
@@ -1279,6 +1583,36 @@
           }
         });
       }
+      
+      // NEW: Farmer selection handler
+      const farmerSelect = document.getElementById('farmerSelect');
+      if (farmerSelect) {
+        farmerSelect.addEventListener('change', async (e) => {
+          currentFarmerId = e.target.value;
+          
+          // Update farmer info display
+          if (currentFarmerId === 'all') {
+            updateFarmerInfo(null);
+          } else {
+            const farmer = FARMER_REGISTRY.find(f => 
+              f.phone === currentFarmerId || f.email === currentFarmerId
+            );
+            updateFarmerInfo(farmer);
+          }
+          
+          // Refetch data with new farmer filter
+          const { data } = await fetchData();
+          allData = data;
+          VACCINATION_DATA = await fetchVaccinationData();
+          renderVaccinationTimeline();
+          buildWeekFilterButtons(allData);
+          currentFilter = 'all';
+          document.querySelectorAll('.week-filter-btn').forEach(b => b.classList.remove('active'));
+          const allBtn = document.querySelector('.week-filter-btn[data-filter="all"]');
+          if (allBtn) allBtn.classList.add('active');
+          render(allData);
+        });
+      }
     });
 
     function updateMortalityDisplay() {
@@ -1308,6 +1642,7 @@
         document.getElementById('heroStarted').textContent = '—';
         document.getElementById('monitoringDays').textContent = '0 Days';
         document.getElementById('monitoringRange').textContent = 'No data';
+        updateFarmerCountBadge();
         return;
       }
 
@@ -1351,6 +1686,9 @@
       updateBadge(latest.date, latest.time);
       document.getElementById('heroKPI').textContent = `${fmt(latest.birdsAlive)} Chickens`;
       document.getElementById('heroStarted').textContent = fmt(veryFirstRecord.birdsAlive);
+      
+      // Update farmer count badge
+      updateFarmerCountBadge();
 
       const weightTrend = latest.avgWeight && data[1]?.avgWeight ? calculateTrend(latest.avgWeight, data[1].avgWeight, true) : { symbol: '—', class: 'neutral', text: 'Pending' };
       const tempTrend = calculateTrend(latestTemp, data[1]?.temp, false);
@@ -1427,7 +1765,7 @@
         <div class="mortality-item">
           <div class="mortality-dot"></div>
           <div class="mortality-content">
-            <div class="date">${r.date} ${r.time || ''}</div>
+            <div class="date">${r.date} ${r.time || ''} ${r.identifier ? `· ${r.identifier}` : ''}</div>
             <div class="count">${r.deaths} Death${r.deaths!==1?'s':''}</div>
             <div class="note">Cause: ${r.deathCause || 'Unrecorded'}</div>
           </div>
@@ -1565,14 +1903,34 @@
     function renderDataTable(data) {
       const allSorted = [...allData].sort((a, b) => a.dateObj - b.dateObj);
       const oldestDate = allSorted.length > 0 ? allSorted[0].dateObj : new Date();
-      const h = `<thead><tr>${['Date','Time','Alive','Deaths','Cause','Feed(kg)','Water(L)','Temp(°C)','Weight(g)'].map(x=>`<th>${x}</th>`).join('')}</tr></thead>`;
+      // Add identifier column if in multi-farmer view
+      const showIdentifier = currentFarmerId === 'all';
+      const headers = ['Date','Time',...((showIdentifier) ? ['Farmer'] : []),'Alive','Deaths','Cause','Feed(kg)','Water(L)','Temp(°C)','Weight(g)'];
+      const h = `<thead><tr>${headers.map(x=>`<th>${x}</th>`).join('')}</tr></thead>`;
       const b = `<tbody>${data.map(r=>{
         let targetTemp = null;
         if (TARGET_DATA && r.dateObj) {
           const dayDiff = Math.floor((Date.UTC(r.dateObj.getFullYear(),r.dateObj.getMonth(),r.dateObj.getDate()) - Date.UTC(oldestDate.getFullYear(),oldestDate.getMonth(),oldestDate.getDate())) / 86400000) + 1;
           if (TARGET_DATA[dayDiff]) targetTemp = TARGET_DATA[dayDiff].temp;
         }
-        return `<tr><td style="font-weight:600;color:white;">${r.date}</td><td>${r.time||'—'}</td><td style="color:#c9a94b;font-weight:600;">${fmt(r.birdsAlive)}</td><td style="color:${r.deaths>0?'#c97a3b':'#b9c7dd'}">${r.deaths}</td><td>${r.deathCause&&r.deathCause.trim()?`<span style="color:#c97a3b;font-size:0.75rem;">${r.deathCause.trim()}</span>`:(r.deaths>0?'<span style="color:#e6c468;font-size:0.75rem;">Unrecorded</span>':'—')}</td><td>${fmt(r.feed,1)}</td><td>${fmt(r.water,1)}</td><td><span class="temp-indicator ${getTempClass(r.temp,targetTemp)}" style="padding:0.15rem 0.5rem;font-size:0.7rem;">${r.temp}°C</span></td><td>${(r.avgWeight!=null&&r.avgWeight>0)?`${fmt(r.avgWeight)}g`:'—'}</td></tr>`;
+        // Get farmer name for display
+        let farmerDisplay = '';
+        if (r.identifier) {
+          const farmer = FARMER_REGISTRY.find(f => f.phone === r.identifier || f.email === r.identifier);
+          farmerDisplay = farmer ? farmer.name : r.identifier;
+        }
+        return `<tr>
+          <td style="font-weight:600;color:white;">${r.date}</td>
+          <td>${r.time||'—'}</td>
+          ${showIdentifier ? `<td style="color:#c9a94b;font-size:0.75rem;">${farmerDisplay}</td>` : ''}
+          <td style="color:#c9a94b;font-weight:600;">${fmt(r.birdsAlive)}</td>
+          <td style="color:${r.deaths>0?'#c97a3b':'#b9c7dd'}">${r.deaths}</td>
+          <td>${r.deathCause&&r.deathCause.trim()?`<span style="color:#c97a3b;font-size:0.75rem;">${r.deathCause.trim()}</span>`:(r.deaths>0?'<span style="color:#e6c468;font-size:0.75rem;">Unrecorded</span>':'—')}</td>
+          <td>${fmt(r.feed,1)}</td>
+          <td>${fmt(r.water,1)}</td>
+          <td><span class="temp-indicator ${getTempClass(r.temp,targetTemp)}" style="padding:0.15rem 0.5rem;font-size:0.7rem;">${r.temp}°C</span></td>
+          <td>${(r.avgWeight!=null&&r.avgWeight>0)?`${fmt(r.avgWeight)}g`:'—'}</td>
+        </tr>`;
       }).join('')}</tbody>`;
       document.getElementById('dataTable').innerHTML = h + b;
     }
@@ -1605,16 +1963,29 @@
     /* ========== INIT ========== */
     window.addEventListener('DOMContentLoaded', async () => {
       const m = document.getElementById('topMetrics');
-      if (m) m.innerHTML = '<div class="metric-card" style="grid-column:span 6;text-align:center;">⏳ Loading flock data...</div>';
+      if (m) m.innerHTML = '<div class="metric-card" style="grid-column:span 6;text-align:center;">⏳ Loading farmer registry & flock data...</div>';
       try {
-        const { data, success } = await fetchData();
+        // Step 1: Load farmer registry
+        FARMER_REGISTRY = await fetchFarmerRegistry();
+        populateFarmerDropdown();
+        
+        // Step 2: Load farm data
+        const { data, success, allData: unfilteredData } = await fetchData();
         if (data.length === 0) throw new Error('No data records');
         allData = data;
+        
+        // Step 3: Load target data
         TARGET_DATA = await fetchTargetData();
+        
+        // Step 4: Load vaccination data
         VACCINATION_DATA = await fetchVaccinationData();
+        
+        // Step 5: Render everything
         renderVaccinationTimeline();
         buildWeekFilterButtons(allData);
         render(allData);
+        
+        // Auto-refresh every 5 minutes
         if (success) setInterval(async () => {
           const { data: freshData } = await fetchData();
           allData = freshData;
@@ -1624,7 +1995,10 @@
           render(filterDataByWeek(allData, currentFilter));
         }, 300000);
       } catch(e) {
-        allData = FALLBACK_DATA;
+        console.error('Initialization error:', e);
+        FARMER_REGISTRY = FALLBACK_FARMER_REGISTRY;
+        populateFarmerDropdown();
+        allData = filterByFarmer(FALLBACK_DATA, currentFarmerId);
         TARGET_DATA = await fetchTargetData();
         VACCINATION_DATA = await fetchVaccinationData();
         renderVaccinationTimeline();
