@@ -941,7 +941,7 @@
     </div>
   </div>
 
-  <!-- ========== NEW: FARMER SELECTOR ========== -->
+  <!-- FARMER SELECTOR -->
   <div class="farmer-selector">
     <div class="farmer-selector-inner">
       <label class="farmer-label" for="farmerSelect">👨‍🌾 Select Farmer</label>
@@ -1066,29 +1066,29 @@
   (function() {
     // ========== CONFIGURATION ==========
     // Replace these with your actual Google Sheets published CSV URLs
-    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRyGfky3hmhDVQgZGF9_cbndTHAxBpnHHPXd80Jsv-cY7zotnEwI6AmAbZvZ4sNmGhxW4dmvnWmDkGy/pub?gid=1870817852&single=true&output=csv";
-    const TARGET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRyGfky3hmhDVQgZGF9_cbndTHAxBpnHHPXd80Jsv-cY7zotnEwI6AmAbZvZ4sNmGhxW4dmvnWmDkGy/pub?gid=972239246&single=true&output=csv";
-    const VACCINATION_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRyGfky3hmhDVQgZGF9_cbndTHAxBpnHHPXd80Jsv-cY7zotnEwI6AmAbZvZ4sNmGhxW4dmvnWmDkGy/pub?gid=513211046&single=true&output=csv";
-    // NEW: Farmer Registry URL - replace GID with your actual Farmer Registry sheet GID
-    const FARMER_REGISTRY_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRyGfky3hmhDVQgZGF9_cbndTHAxBpnHHPXd80Jsv-cY7zotnEwI6AmAbZvZ4sNmGhxW4dmvnWmDkGy/pub?gid=877233883&single=true&output=csv";
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT3Z8PP96_vPHYKHP6zOmyJwfc4VFTjR0O3H95mHSAElxDUcHnsKuIuklyaqRsqYwY6Z1iSbmq8mrjK/pub?gid=1870817852&single=true&output=csv";
+    const TARGET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT3Z8PP96_vPHYKHP6zOmyJwfc4VFTjR0O3H95mHSAElxDUcHnsKuIuklyaqRsqYwY6Z1iSbmq8mrjK/pub?gid=972239246&single=true&output=csv";
+    const VACCINATION_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT3Z8PP96_vPHYKHP6zOmyJwfc4VFTjR0O3H95mHSAElxDUcHnsKuIuklyaqRsqYwY6Z1iSbmq8mrjK/pub?gid=513211046&single=true&output=csv";
+    // Replace with your Farmer Registry sheet GID
+    const FARMER_REGISTRY_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT3Z8PP96_vPHYKHP6zOmyJwfc4VFTjR0O3H95mHSAElxDUcHnsKuIuklyaqRsqYwY6Z1iSbmq8mrjK/pub?gid=YOUR_FARMER_REGISTRY_GID&single=true&output=csv";
 
     let TARGET_DATA = null;
     let VACCINATION_DATA = null;
-    let FARMER_REGISTRY = []; // NEW: Store farmer registry data
+    let FARMER_REGISTRY = [];
 
     const isMobile = () => window.innerWidth <= 900;
 
-    // Fallback data for offline/demo - updated with identifier column
+    // Fallback data - updated with Phone and Email columns
     const FALLBACK_DATA = [
-      { time:"16:00", date:"25 May 2026", birdsAlive:201, deaths:0, deathCause:"", feed:3, water:20, temp:30, litter:"yes", avgWeight:null, timeMinutes:960, identifier:"+265888123456" },
-      { time:"10:00", date:"27 May 2026", birdsAlive:200, deaths:1, deathCause:"Squashed under tray", feed:3, water:20, temp:30, litter:"no", avgWeight:99, timeMinutes:600, identifier:"+265888123456" },
-      { time:"10:00", date:"29 May 2026", birdsAlive:199, deaths:1, deathCause:"Stepped on", feed:3, water:20, temp:30, litter:"no", avgWeight:99, timeMinutes:600, identifier:"+265888123456" },
-      { time:"8:30", date:"30 May 2026", birdsAlive:199, deaths:0, deathCause:"", feed:3, water:20, temp:28, litter:"no", avgWeight:112, timeMinutes:510, identifier:"+265888123456" },
-      { time:"12:00", date:"30 May 2026", birdsAlive:199, deaths:0, deathCause:"", feed:3, water:20, temp:28, litter:"no", avgWeight:120, timeMinutes:720, identifier:"+265888123456" },
-      { time:"17:00", date:"30 May 2026", birdsAlive:199, deaths:0, deathCause:"", feed:3, water:20, temp:30, litter:"no", avgWeight:125, timeMinutes:1020, identifier:"+265888123456" },
-      { time:"8:00", date:"31 May 2026", birdsAlive:199, deaths:0, deathCause:"", feed:3, water:20, temp:30, litter:"Yes", avgWeight:129, timeMinutes:480, identifier:"+265888123456" },
-      { time:"8:00", date:"1 June 2026", birdsAlive:198, deaths:1, deathCause:"Low temperature", feed:3, water:20, temp:30, litter:"Yes", avgWeight:135, timeMinutes:480, identifier:"+265888123456" },
-      { time:"17:30", date:"1 June 2026", birdsAlive:198, deaths:0, deathCause:"", feed:3, water:20, temp:30, litter:"Yes", avgWeight:147, timeMinutes:1050, identifier:"+265888123456" }
+      { time:"16:00", date:"25 May 2026", birdsAlive:201, deaths:0, deathCause:"", feed:3, water:20, temp:30, litter:"yes", avgWeight:null, timeMinutes:960, phone:"+265888123456", email:"" },
+      { time:"10:00", date:"27 May 2026", birdsAlive:200, deaths:1, deathCause:"Squashed under tray", feed:3, water:20, temp:30, litter:"no", avgWeight:99, timeMinutes:600, phone:"+265888123456", email:"" },
+      { time:"10:00", date:"29 May 2026", birdsAlive:199, deaths:1, deathCause:"Stepped on", feed:3, water:20, temp:30, litter:"no", avgWeight:99, timeMinutes:600, phone:"+265888123456", email:"" },
+      { time:"8:30", date:"30 May 2026", birdsAlive:199, deaths:0, deathCause:"", feed:3, water:20, temp:28, litter:"no", avgWeight:112, timeMinutes:510, phone:"+265888123456", email:"john@example.com" },
+      { time:"12:00", date:"30 May 2026", birdsAlive:199, deaths:0, deathCause:"", feed:3, water:20, temp:28, litter:"no", avgWeight:120, timeMinutes:720, phone:"+265888123456", email:"" },
+      { time:"17:00", date:"30 May 2026", birdsAlive:199, deaths:0, deathCause:"", feed:3, water:20, temp:30, litter:"no", avgWeight:125, timeMinutes:1020, phone:"+265888123456", email:"" },
+      { time:"8:00", date:"31 May 2026", birdsAlive:199, deaths:0, deathCause:"", feed:3, water:20, temp:30, litter:"Yes", avgWeight:129, timeMinutes:480, phone:"+265888123456", email:"" },
+      { time:"8:00", date:"1 June 2026", birdsAlive:198, deaths:1, deathCause:"Low temperature", feed:3, water:20, temp:30, litter:"Yes", avgWeight:135, timeMinutes:480, phone:"+265888123456", email:"" },
+      { time:"17:30", date:"1 June 2026", birdsAlive:198, deaths:0, deathCause:"", feed:3, water:20, temp:30, litter:"Yes", avgWeight:147, timeMinutes:1050, phone:"+265888123456", email:"" }
     ];
 
     const FALLBACK_FARMER_REGISTRY = [
@@ -1097,13 +1097,13 @@
     ];
 
     const FALLBACK_VACCINATION_DATA = [
-      { date:"25 May 2026", dayOfCycle:0, items:"Gumboro, Newcastle (NCD), IB, IB Variant", identifier:"+265888123456" },
-      { date:"9 June 2026", dayOfCycle:16, items:"Gumboro", identifier:"+265888123456" },
-      { date:"12 June 2026", dayOfCycle:19, items:"Newcastle (NCD)", identifier:"+265888123456" }
+      { date:"25 May 2026", itemName:"Gumboro, Newcastle (NCD), IB, IB Variant", phone:"+265888123456", email:"", reactions:"", notes:"" },
+      { date:"9 June 2026", itemName:"Gumboro", phone:"+265888123456", email:"", reactions:"", notes:"" },
+      { date:"12 June 2026", itemName:"Newcastle (NCD)", phone:"+265888123456", email:"", reactions:"", notes:"" }
     ];
 
     let currentFilter = 'all';
-    let currentFarmerId = 'all'; // NEW: Track selected farmer
+    let currentFarmerId = 'all';
     let allData = [];
 
     const toNum = (val) => { if (val === null || val === undefined || val === '') return 0; let num = Number(String(val).replace(/[^0-9.-]/g, '')); return isNaN(num) ? 0 : num; };
@@ -1129,14 +1129,17 @@
         else field += ch;
       }
       if (field || row.length) { row.push(field.trim()); rows.push(row); }
-      return rows.filter(r => r[1] && r[1].trim() !== '');
+      return rows.filter(r => r.length > 1 && r.some(cell => cell.trim() !== ''));
     }
 
-    function mapColumns(headers) {
+    // ========== MAP COLUMNS - UPDATED FOR Phone & Email ==========
+    function mapFarmDataColumns(headers) {
       const lower = headers.map(h => h.toLowerCase().trim().replace(/\s+/g, ' '));
       return {
-        time: lower.findIndex(h => /^time$/i.test(h)), 
+        time: lower.findIndex(h => /^time$/i.test(h)),
         date: lower.findIndex(h => /^date$/i.test(h)),
+        phone: lower.findIndex(h => /^phone$/i.test(h) || h === 'phone'),
+        email: lower.findIndex(h => /^email$/i.test(h) || h === 'email'),
         birdsAlive: lower.findIndex(h => /bird.*alive|alive|stock|count/i.test(h)),
         deaths: lower.findIndex(h => /death|dead|mortality/i.test(h) && !/cause/i.test(h)),
         deathCause: lower.findIndex(h => /death.*cause|cause.*death|cause/i.test(h)),
@@ -1144,12 +1147,24 @@
         water: lower.findIndex(h => /water.*litre|water.*l|water/i.test(h)),
         temp: lower.findIndex(h => /temp/i.test(h)),
         litter: lower.findIndex(h => /litter/i.test(h)),
-        avgWeight: lower.findIndex(h => /avg.*weight|weight.*avg|weight/i.test(h)),
-        identifier: lower.findIndex(h => /identifier|phone|email|farmer/i.test(h)) // NEW: identifier column
+        avgWeight: lower.findIndex(h => /avg.*weight|weight.*avg|weight/i.test(h))
       };
     }
 
-    // ========== NEW: FARMER REGISTRY FUNCTIONS ==========
+    // ========== MAP VACCINATION COLUMNS - UPDATED ==========
+    function mapVaccinationColumns(headers) {
+      const lower = headers.map(h => h.toLowerCase().trim().replace(/\s+/g, ' '));
+      return {
+        dateGiven: lower.findIndex(h => /date.*given|date/i.test(h)),
+        phone: lower.findIndex(h => /^phone$/i.test(h) || h === 'phone'),
+        email: lower.findIndex(h => /^email$/i.test(h) || h === 'email'),
+        itemName: lower.findIndex(h => /item.*name|item|vaccine|vaccination/i.test(h)),
+        reactions: lower.findIndex(h => /reaction/i.test(h)),
+        notes: lower.findIndex(h => /note/i.test(h))
+      };
+    }
+
+    // ========== FARMER REGISTRY FUNCTIONS ==========
     async function fetchFarmerRegistry() {
       try {
         if (!FARMER_REGISTRY_URL || FARMER_REGISTRY_URL.includes('YOUR_FARMER_REGISTRY_GID')) {
@@ -1196,7 +1211,6 @@
       const select = document.getElementById('farmerSelect');
       if (!select) return;
       
-      // Keep the "All Farmers" option
       select.innerHTML = '<option value="all">All Farmers (Aggregated View)</option>';
       
       FARMER_REGISTRY.forEach(farmer => {
@@ -1207,7 +1221,6 @@
         select.appendChild(option);
       });
       
-      // Set initial selection
       select.value = currentFarmerId;
     }
 
@@ -1242,12 +1255,12 @@
       const activeFarmers = new Set();
       
       allData.forEach(record => {
-        if (record.identifier) {
-          const farmer = FARMER_REGISTRY.find(f => 
-            f.phone === record.identifier || f.email === record.identifier
-          );
-          if (farmer) activeFarmers.add(farmer.name);
-        }
+        const phone = record.phone || '';
+        const email = record.email || '';
+        const farmer = FARMER_REGISTRY.find(f => 
+          (f.phone && phone && f.phone === phone) || (f.email && email && f.email === email)
+        );
+        if (farmer) activeFarmers.add(farmer.name);
       });
       
       if (badge) {
@@ -1255,7 +1268,7 @@
       }
     }
 
-    // ========== DATA FETCHING (UPDATED FOR MULTI-FARMER) ==========
+    // ========== DATA FETCHING (UPDATED FOR Phone & Email) ==========
     async function fetchData() {
       try {
         const response = await fetch(CSV_URL, { cache: 'no-store' });
@@ -1264,7 +1277,7 @@
         if (!csvText.trim()) throw new Error('Empty CSV');
         const rows = parseCSV(csvText);
         if (rows.length < 2) throw new Error('No data rows');
-        const headers = rows[0], col = mapColumns(headers);
+        const headers = rows[0], col = mapFarmDataColumns(headers);
         if (col.birdsAlive === -1 || col.date === -1) throw new Error('Missing critical columns');
         
         const data = [];
@@ -1275,17 +1288,8 @@
           const tParts = timeStr.split(':');
           const timeMinutes = (tParts.length === 2) ? (parseInt(tParts[0], 10) * 60) + parseInt(tParts[1], 10) : 0;
           const weightVal = col.avgWeight >= 0 ? (row[col.avgWeight] || '').trim() : '';
-          const identifier = col.identifier >= 0 ? (row[col.identifier] || '').trim() : '';
-          
-          // Validate identifier against farmer registry
-          if (identifier) {
-            const farmer = FARMER_REGISTRY.find(f => 
-              f.phone === identifier || f.email === identifier
-            );
-            if (!farmer) {
-              console.warn('Row with unmatched identifier:', identifier);
-            }
-          }
+          const phone = col.phone >= 0 ? (row[col.phone] || '').trim() : '';
+          const email = col.email >= 0 ? (row[col.email] || '').trim() : '';
           
           data.push({ 
             time: timeStr, timeMinutes, date: dateVal, dateObj: parseDate(dateVal),
@@ -1297,12 +1301,13 @@
             temp: col.temp >= 0 ? toNum(row[col.temp]) : 0,
             litter: col.litter >= 0 ? (row[col.litter] || '').trim().toLowerCase() : '',
             avgWeight: weightVal ? toNum(weightVal) : null,
-            identifier: identifier
+            phone: phone,
+            email: email
           });
         }
         data.sort((a, b) => { const d = b.dateObj - a.dateObj; return d !== 0 ? d : (b.timeMinutes - a.timeMinutes); });
         
-        // Apply farmer filter if selected
+        // Apply farmer filter
         const filtered = filterByFarmer(data, currentFarmerId);
         return { data: filtered, success: true, allData: data };
       } catch (err) {
@@ -1315,16 +1320,16 @@
     function filterByFarmer(data, farmerId) {
       if (farmerId === 'all') return data;
       
-      // Find the farmer in registry
       const farmer = FARMER_REGISTRY.find(f => 
         f.phone === farmerId || f.email === farmerId
       );
       
       if (!farmer) return data;
       
-      // Filter data by matching phone OR email
+      // Filter by matching phone OR email
       return data.filter(record => 
-        record.identifier === farmer.phone || record.identifier === farmer.email
+        (farmer.phone && record.phone === farmer.phone) || 
+        (farmer.email && record.email === farmer.email)
       );
     }
 
@@ -1348,6 +1353,7 @@
       } catch (err) { return null; }
     }
 
+    // ========== UPDATED VACCINATION FETCH ==========
     async function fetchVaccinationData() {
       try {
         if (!VACCINATION_CSV_URL || VACCINATION_CSV_URL.includes('YOUR_PUBLISHED')) return null;
@@ -1358,23 +1364,27 @@
         const rows = parseCSV(csvText);
         if (rows.length < 2) return null;
         
-        const headers = rows[0].map(h => h.toLowerCase().trim());
-        const dateIdx = headers.findIndex(h => h === 'date');
-        const dayIdx = headers.findIndex(h => h.includes('day'));
-        const itemsIdx = headers.findIndex(h => h === 'items' || h.includes('vaccine'));
-        const identifierIdx = headers.findIndex(h => h === 'identifier' || h === 'phone' || h === 'email');
+        const headers = rows[0];
+        const col = mapVaccinationColumns(headers);
+        
+        if (col.dateGiven === -1 || col.itemName === -1) {
+          console.warn('Vaccination sheet missing required columns (Date Given, Item Name)');
+          return null;
+        }
         
         const vaccinations = [];
         for (let i = 1; i < rows.length; i++) {
           const row = rows[i];
-          if (row.length < 3) continue;
-          const date = dateIdx >= 0 ? (row[dateIdx] || '').trim() : '';
-          const dayOfCycle = dayIdx >= 0 ? toNum(row[dayIdx]) : 0;
-          const items = itemsIdx >= 0 ? (row[itemsIdx] || '').trim() : '';
-          const identifier = identifierIdx >= 0 ? (row[identifierIdx] || '').trim() : '';
+          if (row.length === 0) continue;
+          const date = col.dateGiven >= 0 ? (row[col.dateGiven] || '').trim() : '';
+          const itemName = col.itemName >= 0 ? (row[col.itemName] || '').trim() : '';
+          const phone = col.phone >= 0 ? (row[col.phone] || '').trim() : '';
+          const email = col.email >= 0 ? (row[col.email] || '').trim() : '';
+          const reactions = col.reactions >= 0 ? (row[col.reactions] || '').trim() : '';
+          const notes = col.notes >= 0 ? (row[col.notes] || '').trim() : '';
           
-          if (date && items) {
-            vaccinations.push({ date, dayOfCycle, items, identifier });
+          if (date && itemName) {
+            vaccinations.push({ date, itemName, phone, email, reactions, notes });
           }
         }
         vaccinations.sort((a, b) => parseDate(a.date) - parseDate(b.date));
@@ -1382,7 +1392,10 @@
         // Apply farmer filter
         const filtered = filterVaccinationsByFarmer(vaccinations, currentFarmerId);
         return filtered.length > 0 ? filtered : null;
-      } catch (err) { return null; }
+      } catch (err) {
+        console.error('Vaccination fetch error:', err);
+        return null;
+      }
     }
 
     function filterVaccinationsByFarmer(vaccinations, farmerId) {
@@ -1395,16 +1408,22 @@
       if (!farmer) return vaccinations;
       
       return vaccinations.filter(v => 
-        v.identifier === farmer.phone || v.identifier === farmer.email
+        (farmer.phone && v.phone === farmer.phone) || 
+        (farmer.email && v.email === farmer.email)
       );
     }
 
-    /* ========== VACCINATION RENDER ========== */
+    /* ========== VACCINATION RENDER (UPDATED) ========== */
     function renderVaccinationTimeline() {
       const container = document.getElementById('vaccinationTimeline');
       const countBadge = document.getElementById('vaccinationCount');
       const statsEl = document.getElementById('vaccinationStats');
-      const data = VACCINATION_DATA || (currentFarmerId === 'all' ? FALLBACK_VACCINATION_DATA : filterVaccinationsByFarmer(FALLBACK_VACCINATION_DATA, currentFarmerId));
+      
+      let data = VACCINATION_DATA;
+      if (!data || data.length === 0) {
+        // Use fallback filtered by farmer
+        data = currentFarmerId === 'all' ? FALLBACK_VACCINATION_DATA : filterVaccinationsByFarmer(FALLBACK_VACCINATION_DATA, currentFarmerId);
+      }
 
       if (!container) return;
 
@@ -1415,7 +1434,8 @@
         return;
       }
 
-      const totalDoses = data.reduce((sum, v) => sum + v.items.split(',').length, 0);
+      // Calculate total doses (each itemName may contain multiple vaccines separated by commas)
+      const totalDoses = data.reduce((sum, v) => sum + v.itemName.split(',').length, 0);
       if (countBadge) countBadge.textContent = `${totalDoses} dose${totalDoses !== 1 ? 's' : ''}`;
 
       const firstDate = parseDate(data[0].date);
@@ -1424,15 +1444,16 @@
       if (statsEl) statsEl.innerHTML = `<strong>${data.length}</strong> sessions · <strong>${totalDoses}</strong> total doses · Span: <strong>${spanDays} days</strong>`;
 
       // Build desktop nodes
-      const desktopNodes = data.map(v => {
-        const itemList = v.items.split(',').map(i => i.trim());
+      const desktopNodes = data.map((v, index) => {
+        const itemList = v.itemName.split(',').map(i => i.trim());
         const parsedDate = parseDate(v.date);
         const dateFormatted = parsedDate.toLocaleDateString('en-GB', {day:'numeric', month:'short'});
         const year = parsedDate.getFullYear();
+        const sessionNum = index + 1;
         
         return `
           <div class="vaccination-node-desktop">
-            <div class="vaccination-day">Day ${v.dayOfCycle}</div>
+            <div class="vaccination-day">#${sessionNum}</div>
             <div class="vaccination-dot"></div>
             <div class="vacc-node-card">
               <div class="vacc-node-date">
@@ -1442,26 +1463,30 @@
               <div class="vacc-tags">
                 ${itemList.map(item => `<div class="vacc-tag">${item}</div>`).join('')}
               </div>
+              ${v.reactions ? `<div style="font-size:0.6rem;color:#e74c3c;margin-top:0.3rem;">⚠️ ${v.reactions}</div>` : ''}
             </div>
           </div>`;
       }).join('');
 
       // Build mobile nodes
-      const mobileNodes = data.map(v => {
-        const itemList = v.items.split(',').map(i => i.trim());
+      const mobileNodes = data.map((v, index) => {
+        const itemList = v.itemName.split(',').map(i => i.trim());
         const parsedDate = parseDate(v.date);
         const dateFormatted = parsedDate.toLocaleDateString('en-GB', {day:'numeric', month:'short'});
         const year = parsedDate.getFullYear();
+        const sessionNum = index + 1;
         
         return `
           <div class="vaccination-node-mobile">
-            <div class="vaccination-node-day-mobile">Day ${v.dayOfCycle}</div>
+            <div class="vaccination-node-day-mobile">Session #${sessionNum}</div>
             <div class="vaccination-node-date-mobile">
               ${dateFormatted}<span class="vaccination-node-year-mobile">${year}</span>
             </div>
             <div class="vaccination-node-tags-mobile">
               ${itemList.map(item => `<span class="vaccination-tag-mobile">${item}</span>`).join('')}
             </div>
+            ${v.reactions ? `<div style="font-size:0.65rem;color:#e74c3c;margin-top:0.4rem;">⚠️ Reaction: ${v.reactions}</div>` : ''}
+            ${v.notes ? `<div style="font-size:0.6rem;color:var(--text-muted);margin-top:0.2rem;">📝 ${v.notes}</div>` : ''}
           </div>`;
       }).join('');
 
@@ -1584,13 +1609,12 @@
         });
       }
       
-      // NEW: Farmer selection handler
+      // Farmer selection handler
       const farmerSelect = document.getElementById('farmerSelect');
       if (farmerSelect) {
         farmerSelect.addEventListener('change', async (e) => {
           currentFarmerId = e.target.value;
           
-          // Update farmer info display
           if (currentFarmerId === 'all') {
             updateFarmerInfo(null);
           } else {
@@ -1600,7 +1624,6 @@
             updateFarmerInfo(farmer);
           }
           
-          // Refetch data with new farmer filter
           const { data } = await fetchData();
           allData = data;
           VACCINATION_DATA = await fetchVaccinationData();
@@ -1687,13 +1710,11 @@
       document.getElementById('heroKPI').textContent = `${fmt(latest.birdsAlive)} Chickens`;
       document.getElementById('heroStarted').textContent = fmt(veryFirstRecord.birdsAlive);
       
-      // Update farmer count badge
       updateFarmerCountBadge();
 
       const weightTrend = latest.avgWeight && data[1]?.avgWeight ? calculateTrend(latest.avgWeight, data[1].avgWeight, true) : { symbol: '—', class: 'neutral', text: 'Pending' };
       const tempTrend = calculateTrend(latestTemp, data[1]?.temp, false);
 
-      // Build context strings with targets
       let weightContext = 'Latest measurement';
       if (latest.avgWeight && targetWeightForDay) {
         const diff = latest.avgWeight - targetWeightForDay;
@@ -1703,8 +1724,6 @@
         weightContext = `Target: ${targetWeightForDay}g · <span class="context-target-diff ${diffClass}">${arrow} ${sign}${diff}g ${diff >= 0 ? 'ahead' : 'behind'}</span>`;
       } else if (targetWeightForDay && !latest.avgWeight) {
         weightContext = `Target: ${targetWeightForDay}g · <span class="context-target-diff">No data yet</span>`;
-      } else {
-        weightContext = 'Latest measurement';
       }
 
       let tempContext = getTempStatus(latestTemp, targetTempForDay);
@@ -1717,7 +1736,6 @@
         tempContext = `Target: ${targetTempForDay}°C · <span class="context-target-diff ${diffClass}">${arrow} ${sign}${diff}°C · ${getTempStatus(latestTemp, targetTempForDay)}</span>`;
       }
 
-      // Mortality target (industry standard ~5%)
       const targetMortalityRate = 5;
       let mortalityContext = `${fmt(totalDeaths)} total deaths`;
       if (startingBirds > 0) {
@@ -1761,15 +1779,25 @@
       const c = document.getElementById('mortalityTimeline'); if (!c) return;
       const deathRecords = data.filter(r => r.deaths > 0);
       if (deathRecords.length === 0) { c.innerHTML = '<div style="color:var(--text-muted);text-align:center;padding:1rem;">✅ No deaths recorded in this period</div>'; return; }
-      c.innerHTML = deathRecords.map(r => `
+      c.innerHTML = deathRecords.map(r => {
+        // Get farmer name for display
+        let farmerDisplay = '';
+        if (r.phone || r.email) {
+          const farmer = FARMER_REGISTRY.find(f => 
+            (f.phone && r.phone && f.phone === r.phone) || (f.email && r.email && f.email === r.email)
+          );
+          farmerDisplay = farmer ? ` · ${farmer.name}` : '';
+        }
+        return `
         <div class="mortality-item">
           <div class="mortality-dot"></div>
           <div class="mortality-content">
-            <div class="date">${r.date} ${r.time || ''} ${r.identifier ? `· ${r.identifier}` : ''}</div>
+            <div class="date">${r.date} ${r.time || ''}${farmerDisplay}</div>
             <div class="count">${r.deaths} Death${r.deaths!==1?'s':''}</div>
             <div class="note">Cause: ${r.deathCause || 'Unrecorded'}</div>
           </div>
-        </div>`).join('');
+        </div>`;
+      }).join('');
     }
 
     function renderMortalityKPI(data) {
@@ -1903,7 +1931,6 @@
     function renderDataTable(data) {
       const allSorted = [...allData].sort((a, b) => a.dateObj - b.dateObj);
       const oldestDate = allSorted.length > 0 ? allSorted[0].dateObj : new Date();
-      // Add identifier column if in multi-farmer view
       const showIdentifier = currentFarmerId === 'all';
       const headers = ['Date','Time',...((showIdentifier) ? ['Farmer'] : []),'Alive','Deaths','Cause','Feed(kg)','Water(L)','Temp(°C)','Weight(g)'];
       const h = `<thead><tr>${headers.map(x=>`<th>${x}</th>`).join('')}</tr></thead>`;
@@ -1915,9 +1942,11 @@
         }
         // Get farmer name for display
         let farmerDisplay = '';
-        if (r.identifier) {
-          const farmer = FARMER_REGISTRY.find(f => f.phone === r.identifier || f.email === r.identifier);
-          farmerDisplay = farmer ? farmer.name : r.identifier;
+        if (r.phone || r.email) {
+          const farmer = FARMER_REGISTRY.find(f => 
+            (f.phone && r.phone && f.phone === r.phone) || (f.email && r.email && f.email === r.email)
+          );
+          farmerDisplay = farmer ? farmer.name : (r.phone || r.email);
         }
         return `<tr>
           <td style="font-weight:600;color:white;">${r.date}</td>
