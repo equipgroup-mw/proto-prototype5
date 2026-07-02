@@ -1,6 +1,6 @@
 {
-  "name": "Proto Project",
-  "short_name": "Proto",
+  "name": "Proto Mega Project",
+  "short_name": "Proto 500",
   "description": "Real-time Poultry Farm Dashboard",
   "start_url": "./index.html",
   "display": "standalone",
