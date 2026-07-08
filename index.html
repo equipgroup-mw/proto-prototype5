@@ -150,7 +150,7 @@
       white-space: nowrap;
     }
     
-    /* ========== ADMIN RETURN LINK ========== */
+    /* ========== ADMIN RETURN LINK & SHARE BUTTON ========== */
     #adminReturnLink {
       font-family: 'Libre Franklin', sans-serif;
       margin-top: 0.3rem;
@@ -165,8 +165,6 @@
       color: var(--brand-gold);
       text-decoration: underline;
     }
-    
-    /* Share button styles */
     #shareFarmerBtn {
       animation: none !important;
       background: var(--brand-card-bg);
@@ -271,44 +269,6 @@
       border-color: var(--brand-gold);
       box-shadow: 0 4px 12px rgba(201, 169, 75, 0.4);
       font-weight: 700;
-    }
-    @media (max-width: 900px) {
-      .monitoring-bar {
-        flex-direction: column;
-        align-items: center;
-        gap: 0.7rem;
-        padding: 0.8rem;
-      }
-      .monitoring-age {
-        flex: 1 1 auto;
-        width: 100%;
-        padding-right: 0;
-        padding-bottom: 0.6rem;
-        border-right: none;
-        border-bottom: 2px solid rgba(201, 169, 75, 0.3);
-        align-items: center;
-        text-align: center;
-      }
-      .monitoring-age-row { flex-wrap: wrap; justify-content: center; white-space: normal; }
-      .monitoring-age-sub { white-space: normal; }
-      .monitoring-filter {
-        flex: 1 1 auto;
-        width: 100%;
-        padding-left: 0;
-        justify-content: center;
-        gap: 0.3rem;
-      }
-      .week-filter-btn { padding: 0.3rem 0.6rem; font-size: 0.65rem; }
-      .farmer-selector { flex-direction: column; align-items: stretch; padding: 0.8rem; }
-      .farmer-selector-inner { flex-direction: column; align-items: stretch; }
-      .farmer-dropdown { max-width: 100%; }
-      .farmer-info { margin-left: 0; justify-content: center; }
-    }
-    @media (max-width: 600px) {
-      .monitoring-age-row { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 0.3rem; }
-      .monitoring-age-label { font-size: 0.65rem; }
-      .monitoring-age-value { font-size: 0.9rem; }
-      .monitoring-age-sub { font-size: 0.6rem; }
     }
 
     /* ========== HEADER ========== */
@@ -845,6 +805,7 @@
         align-items: center;
         justify-content: space-between;
         gap: 0.8rem;
+        flex-wrap: wrap;
       }
       .header-title-row h1 {
         font-size: clamp(1.2rem, 5.5vw, 1.6rem);
@@ -884,6 +845,7 @@
       .logo-link { flex: 1; }
       .logo-item { height: clamp(45px, 11vw, 65px); border-width: 2px; width: 100%; }
       #latestUpdateBadge { font-size: 0.65rem; padding: 0.2rem 0.5rem; margin-left: auto; }
+      #adminReturnLink { width: 100%; text-align: center; margin-top: 0.5rem; }
       .hero-card {
         flex-direction: row;
         align-items: flex-start;
@@ -1099,7 +1061,6 @@
 
     const isMobile = () => window.innerWidth <= 900;
 
-    // Fallback data
     const FALLBACK_DATA = [
       { time:"16:00", date:"25 May 2026", birdsAlive:201, deaths:0, deathCause:"", feed:3, water:20, temp:30, litter:"yes", avgWeight:null, timeMinutes:960, phone:"+265888123456", email:"" },
       { time:"10:00", date:"27 May 2026", birdsAlive:200, deaths:1, deathCause:"Squashed under tray", feed:3, water:20, temp:30, litter:"no", avgWeight:99, timeMinutes:600, phone:"+265888123456", email:"" },
@@ -1246,6 +1207,93 @@
       return `${baseUrl}?farmer=${nameSlug}`;
     }
 
+    function getRepoPath() {
+      const pathParts = window.location.pathname.split('/');
+      if (pathParts[pathParts.length - 1].includes('.')) {
+        pathParts.pop();
+      }
+      return pathParts.join('/').replace(/\/$/, '') || '';
+    }
+
+    function updateManifestForFarmer() {
+      const manifestLink = document.querySelector('link[rel="manifest"]');
+      if (!manifestLink) return;
+      
+      if (manifestLink.href.startsWith('blob:')) {
+        URL.revokeObjectURL(manifestLink.href);
+      }
+      
+      const repoPath = getRepoPath();
+      
+      if (currentFarmerId !== 'all') {
+        const farmer = FARMER_REGISTRY.find(f => 
+          f.phone === currentFarmerId || f.email === currentFarmerId
+        );
+        
+        if (farmer) {
+          document.title = `${farmer.name}'s Poultry Dashboard`;
+          
+          const firstName = farmer.name.split(' ')[0];
+          const nameSlug = farmer.name.toLowerCase().replace(/\s+/g, '-');
+          
+          const dynamicManifest = {
+            name: `${farmer.name}'s Poultry Dashboard`,
+            short_name: `${firstName}'s Farm`,
+            description: `Poultry farm dashboard for ${farmer.name} - ${farmer.district}`,
+            start_url: `${repoPath}/index.html?farmer=${nameSlug}`,
+            scope: `${repoPath}/`,
+            display: "standalone",
+            background_color: "#0a1625",
+            theme_color: "#c9a94b",
+            orientation: "any",
+            id: `${repoPath}/?farmer=${nameSlug}`,
+            categories: ["business", "productivity"],
+            lang: "en",
+            dir: "ltr",
+            prefer_related_applications: false,
+            icons: [
+              {
+                src: `${repoPath}/icon.png`,
+                sizes: "2000x2000",
+                type: "image/png",
+                purpose: "any"
+              },
+              {
+                src: `${repoPath}/icon.png`,
+                sizes: "512x512",
+                type: "image/png",
+                purpose: "maskable any"
+              },
+              {
+                src: `${repoPath}/icon.png`,
+                sizes: "192x192",
+                type: "image/png",
+                purpose: "any"
+              }
+            ],
+            shortcuts: [
+              {
+                name: `${farmer.name}'s Dashboard`,
+                short_name: "Dashboard",
+                description: `View ${farmer.name}'s poultry farm data`,
+                url: `${repoPath}/index.html?farmer=${nameSlug}`,
+                icons: [{ "src": `${repoPath}/icon.png`, "sizes": "192x192" }]
+              }
+            ]
+          };
+          
+          const blob = new Blob([JSON.stringify(dynamicManifest)], {type: 'application/json'});
+          manifestLink.href = URL.createObjectURL(blob);
+          
+          console.log(`📱 Dynamic manifest created for ${farmer.name}`);
+        }
+      } else {
+        manifestLink.href = './manifest.json';
+        document.title = 'Poultry Farm Dashboard | Multi-Farmer Monitoring';
+        console.log('📱 Admin manifest restored');
+      }
+    }
+
     function updateShareButton(farmer) {
       const shareBtn = document.getElementById('shareFarmerBtn');
       if (!shareBtn) return;
@@ -1287,13 +1335,11 @@
     function updateAdminIndicator() {
       const isFarmerView = currentFarmerId !== 'all';
       
-      // Show/hide farmer selector
       const farmerSelector = document.getElementById('farmerSelectorSection');
       if (farmerSelector) {
         farmerSelector.style.display = isFarmerView ? 'none' : 'flex';
       }
       
-      // Add admin return link for farmer view
       if (isFarmerView) {
         if (!document.getElementById('adminReturnLink')) {
           const headerTitleRow = document.querySelector('.header-title-row');
@@ -1305,7 +1351,6 @@
           }
         }
         
-        // Add share button if not exists
         if (!document.getElementById('shareFarmerBtn')) {
           const shareBtn = document.createElement('button');
           shareBtn.id = 'shareFarmerBtn';
@@ -1322,14 +1367,14 @@
         );
         updateShareButton(farmer);
       } else {
-        // Remove admin return link if in admin view
         const adminLink = document.getElementById('adminReturnLink');
         if (adminLink) adminLink.remove();
         
-        // Hide share button
         const shareBtn = document.getElementById('shareFarmerBtn');
         if (shareBtn) shareBtn.style.display = 'none';
       }
+      
+      updateManifestForFarmer();
     }
 
     // ========== FARMER REGISTRY FUNCTIONS ==========
@@ -1834,68 +1879,7 @@
     }
 
     let mortalityViewMode = 'timeline';
-    document.addEventListener('DOMContentLoaded', () => {
-      const btn = document.getElementById('toggleMortalityBtn');
-      if (btn) btn.addEventListener('click', () => {
-        mortalityViewMode = mortalityViewMode === 'timeline' ? 'total' : 'timeline';
-        updateMortalityDisplay();
-        btn.innerHTML = mortalityViewMode === 'total' ? ' Show Daily' : '📊 Show Total';
-        renderMortalitySection(filterDataByWeek(allData, currentFilter));
-      });
-      const refreshBtn = document.getElementById('refreshBtn');
-      if (refreshBtn) {
-        refreshBtn.addEventListener('click', async () => {
-          refreshBtn.textContent = '↻ Refreshing...';
-          refreshBtn.disabled = true;
-          try {
-            const { data } = await fetchData();
-            allData = data;
-            TARGET_DATA = await fetchTargetData();
-            VACCINATION_DATA = await fetchVaccinationData();
-            renderVaccinationTimeline();
-            buildWeekFilterButtons(allData);
-            currentFilter = 'all';
-            document.querySelectorAll('.week-filter-btn').forEach(b => b.classList.remove('active'));
-            const allBtn = document.querySelector('.week-filter-btn[data-filter="all"]');
-            if (allBtn) allBtn.classList.add('active');
-            render(allData);
-            refreshBtn.textContent = '✓ Updated!';
-            setTimeout(() => { refreshBtn.textContent = '↻ Refresh Data'; refreshBtn.disabled = false; }, 1500);
-          } catch(e) {
-            refreshBtn.textContent = '✗ Error';
-            setTimeout(() => { refreshBtn.textContent = '↻ Refresh Data'; refreshBtn.disabled = false; }, 2000);
-          }
-        });
-      }
-      
-      const farmerSelect = document.getElementById('farmerSelect');
-      if (farmerSelect) {
-        farmerSelect.addEventListener('change', async (e) => {
-          currentFarmerId = e.target.value;
-          
-          if (currentFarmerId === 'all') {
-            updateFarmerInfo(null);
-          } else {
-            const farmer = FARMER_REGISTRY.find(f => 
-              f.phone === currentFarmerId || f.email === currentFarmerId
-            );
-            updateFarmerInfo(farmer);
-          }
-          
-          const { data } = await fetchData();
-          allData = data;
-          VACCINATION_DATA = await fetchVaccinationData();
-          renderVaccinationTimeline();
-          buildWeekFilterButtons(allData);
-          currentFilter = 'all';
-          document.querySelectorAll('.week-filter-btn').forEach(b => b.classList.remove('active'));
-          const allBtn = document.querySelector('.week-filter-btn[data-filter="all"]');
-          if (allBtn) allBtn.classList.add('active');
-          render(allData);
-        });
-      }
-    });
-
+    
     function updateMortalityDisplay() {
       const timeline = document.getElementById('mortalityTimeline'), kpi = document.getElementById('mortalityKPI');
       if (timeline) timeline.style.display = mortalityViewMode === 'total' ? 'none' : 'flex';
@@ -2268,6 +2252,21 @@
       document.getElementById('dataTable').innerHTML = h + b;
     }
 
+    /* ========== ONLINE/OFFLINE DETECTION ========== */
+    window.addEventListener('online', () => {
+      updateSyncStatus(true);
+      console.log('🌐 Back online');
+    });
+    
+    window.addEventListener('offline', () => {
+      updateSyncStatus(false);
+      console.log('📡 Offline - using cached data');
+    });
+    
+    if (!navigator.onLine) {
+      updateSyncStatus(false);
+    }
+
     /* ========== PWA INSTALL ========== */
     let deferredPrompt, installButtonTimeout;
     const installButton = document.getElementById('installButton');
@@ -2307,7 +2306,7 @@
         // Step 2: Check URL for farmer parameter
         currentFarmerId = getFarmerFromURL();
         
-        // Step 3: Update UI based on view type
+        // Step 3: Update UI based on view type (includes manifest update)
         updateAdminIndicator();
         
         // Step 4: Populate dropdown and update farmer info
@@ -2336,6 +2335,65 @@
         buildWeekFilterButtons(allData);
         render(allData);
         
+        // Setup event listeners
+        document.getElementById('toggleMortalityBtn')?.addEventListener('click', () => {
+          mortalityViewMode = mortalityViewMode === 'timeline' ? 'total' : 'timeline';
+          updateMortalityDisplay();
+          const btn = document.getElementById('toggleMortalityBtn');
+          if (btn) btn.innerHTML = mortalityViewMode === 'total' ? ' Show Daily' : '📊 Show Total';
+          renderMortalitySection(filterDataByWeek(allData, currentFilter));
+        });
+        
+        document.getElementById('refreshBtn')?.addEventListener('click', async () => {
+          const refreshBtn = document.getElementById('refreshBtn');
+          refreshBtn.textContent = '↻ Refreshing...';
+          refreshBtn.disabled = true;
+          try {
+            const { data: freshData } = await fetchData();
+            allData = freshData;
+            TARGET_DATA = await fetchTargetData();
+            VACCINATION_DATA = await fetchVaccinationData();
+            renderVaccinationTimeline();
+            buildWeekFilterButtons(allData);
+            currentFilter = 'all';
+            document.querySelectorAll('.week-filter-btn').forEach(b => b.classList.remove('active'));
+            const allBtn = document.querySelector('.week-filter-btn[data-filter="all"]');
+            if (allBtn) allBtn.classList.add('active');
+            render(allData);
+            refreshBtn.textContent = '✓ Updated!';
+            setTimeout(() => { refreshBtn.textContent = '↻ Refresh Data'; refreshBtn.disabled = false; }, 1500);
+          } catch(e) {
+            refreshBtn.textContent = '✗ Error';
+            setTimeout(() => { refreshBtn.textContent = '↻ Refresh Data'; refreshBtn.disabled = false; }, 2000);
+          }
+        });
+        
+        document.getElementById('farmerSelect')?.addEventListener('change', async (e) => {
+          currentFarmerId = e.target.value;
+          
+          if (currentFarmerId === 'all') {
+            updateFarmerInfo(null);
+          } else {
+            const farmer = FARMER_REGISTRY.find(f => 
+              f.phone === currentFarmerId || f.email === currentFarmerId
+            );
+            updateFarmerInfo(farmer);
+          }
+          
+          updateManifestForFarmer();
+          
+          const { data: freshData } = await fetchData();
+          allData = freshData;
+          VACCINATION_DATA = await fetchVaccinationData();
+          renderVaccinationTimeline();
+          buildWeekFilterButtons(allData);
+          currentFilter = 'all';
+          document.querySelectorAll('.week-filter-btn').forEach(b => b.classList.remove('active'));
+          const allBtn = document.querySelector('.week-filter-btn[data-filter="all"]');
+          if (allBtn) allBtn.classList.add('active');
+          render(allData);
+        });
+        
         // Auto-refresh every 5 minutes
         if (success) setInterval(async () => {
           const { data: freshData } = await fetchData();
@@ -2349,7 +2407,6 @@
         console.error('Initialization error:', e);
         FARMER_REGISTRY = FALLBACK_FARMER_REGISTRY;
         
-        // Still check URL parameter in fallback mode
         currentFarmerId = getFarmerFromURL();
         updateAdminIndicator();
         populateFarmerDropdown();
