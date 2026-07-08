@@ -149,6 +149,35 @@
       font-size: 0.7rem;
       white-space: nowrap;
     }
+    
+    /* ========== ADMIN RETURN LINK ========== */
+    #adminReturnLink {
+      font-family: 'Libre Franklin', sans-serif;
+      margin-top: 0.3rem;
+    }
+    #adminReturnLink a {
+      color: var(--brand-gold-light);
+      text-decoration: none;
+      font-size: 0.75rem;
+      transition: var(--transition);
+    }
+    #adminReturnLink a:hover {
+      color: var(--brand-gold);
+      text-decoration: underline;
+    }
+    
+    /* Share button styles */
+    #shareFarmerBtn {
+      animation: none !important;
+      background: var(--brand-card-bg);
+      color: var(--brand-gold-light);
+      border: 1px solid var(--brand-gold);
+    }
+    #shareFarmerBtn:hover {
+      background: var(--brand-gold) !important;
+      color: var(--brand-navy) !important;
+      border-color: var(--brand-gold) !important;
+    }
 
     /* ========== MONITORING BAR ========== */
     .monitoring-bar {
@@ -935,7 +964,7 @@
   </div>
 
   <!-- FARMER SELECTOR -->
-  <div class="farmer-selector">
+  <div class="farmer-selector" id="farmerSelectorSection">
     <div class="farmer-selector-inner">
       <label class="farmer-label" for="farmerSelect">👨‍🌾 Select Farmer</label>
       <select id="farmerSelect" class="farmer-dropdown">
@@ -1058,18 +1087,15 @@
 <script>
   (function() {
     // ========== CONFIGURATION ==========
-    // Replace these with your actual Google Sheets published CSV URLs
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRyGfky3hmhDVQgZGF9_cbndTHAxBpnHHPXd80Jsv-cY7zotnEwI6AmAbZvZ4sNmGhxW4dmvnWmDkGy/pub?gid=1870817852&single=true&output=csv";
     const TARGET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRyGfky3hmhDVQgZGF9_cbndTHAxBpnHHPXd80Jsv-cY7zotnEwI6AmAbZvZ4sNmGhxW4dmvnWmDkGy/pub?gid=972239246&single=true&output=csv";
     const VACCINATION_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRyGfky3hmhDVQgZGF9_cbndTHAxBpnHHPXd80Jsv-cY7zotnEwI6AmAbZvZ4sNmGhxW4dmvnWmDkGy/pub?gid=513211046&single=true&output=csv";
-    // Replace with your Farmer Registry sheet GID
     const FARMER_REGISTRY_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRyGfky3hmhDVQgZGF9_cbndTHAxBpnHHPXd80Jsv-cY7zotnEwI6AmAbZvZ4sNmGhxW4dmvnWmDkGy/pub?gid=877233883&single=true&output=csv";
 
-    
     let TARGET_DATA = null;
     let VACCINATION_DATA = null;
     let FARMER_REGISTRY = [];
-    let ALL_UNFILTERED_DATA = []; // Store all data before farmer filtering - needed for aggregate views
+    let ALL_UNFILTERED_DATA = [];
 
     const isMobile = () => window.innerWidth <= 900;
 
@@ -1104,22 +1130,14 @@
     const toNum = (val) => { if (val === null || val === undefined || val === '') return 0; let num = Number(String(val).replace(/[^0-9.-]/g, '')); return isNaN(num) ? 0 : num; };
     const fmt = (val, decimals = 0) => { if (typeof val !== 'number') return val || '—'; return decimals > 0 ? val.toFixed(decimals) : val.toLocaleString(); };
     
-    // FIX #5: Robust date parser that handles both formatted strings AND Excel serial numbers
     const parseDate = (dateStr) => {
       if (!dateStr || dateStr === '') return new Date();
-      
       const trimmed = String(dateStr).trim();
-      
-      // Try Excel serial number (e.g., "46167" or "46167.0")
       const serialNum = parseFloat(trimmed);
       if (!isNaN(serialNum) && serialNum > 30000 && serialNum < 100000) {
-        // Excel serial date: days since Jan 0, 1900 (with the Lotus 1-2-3 bug)
-        // Proper conversion: (serial - 25569) * 86400000 from Unix epoch
         const d = new Date((serialNum - 25569) * 86400 * 1000);
         if (!isNaN(d.getTime())) return d;
       }
-      
-      // Try named month format: "25 May 2026"
       const months = { jan:0, feb:1, mar:2, apr:3, may:4, jun:5, jul:6, aug:7, sep:8, oct:9, nov:10, dec:11 };
       const parts = trimmed.split(/\s+/);
       if (parts.length >= 3) {
@@ -1132,23 +1150,15 @@
           if (!isNaN(d.getTime())) return d;
         }
       }
-      
-      // Try numeric formats: "25/5/2026" or "25-5-2026" or "2026-05-25"
       const d = new Date(trimmed);
       if (!isNaN(d.getTime())) return d;
-      
-      // Last resort fallback
       console.warn('Unable to parse date:', dateStr, '- falling back to today');
       return new Date();
     };
 
-    // FIX #5: Robust time parser that handles both formatted strings AND Excel serial numbers
     const parseTime = (timeStr) => {
       if (!timeStr || timeStr === '') return { time: '', timeMinutes: 0 };
-      
       const trimmed = String(timeStr).trim();
-      
-      // Try Excel serial time (e.g., "0.6666666666666666" = 16:00)
       const serialNum = parseFloat(trimmed);
       if (!isNaN(serialNum) && serialNum >= 0 && serialNum < 1) {
         const totalMinutes = Math.round(serialNum * 24 * 60);
@@ -1157,8 +1167,6 @@
         const formatted = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
         return { time: formatted, timeMinutes: totalMinutes };
       }
-      
-      // Try "HH:MM" format
       const tParts = trimmed.split(':');
       if (tParts.length === 2) {
         const hours = parseInt(tParts[0], 10);
@@ -1167,7 +1175,6 @@
           return { time: `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`, timeMinutes: hours * 60 + minutes };
         }
       }
-      
       return { time: trimmed, timeMinutes: 0 };
     };
 
@@ -1214,6 +1221,115 @@
         reactions: lower.findIndex(h => /reaction/i.test(h)),
         notes: lower.findIndex(h => /note/i.test(h))
       };
+    }
+
+    // ========== URL PARAMETER FUNCTIONS ==========
+    function getFarmerFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      const farmerParam = params.get('farmer');
+      
+      if (!farmerParam) return 'all';
+      
+      const farmer = FARMER_REGISTRY.find(f => {
+        const nameSlug = f.name.toLowerCase().replace(/\s+/g, '-');
+        return nameSlug === farmerParam.toLowerCase() ||
+               f.phone === farmerParam ||
+               f.email === farmerParam;
+      });
+      
+      return farmer ? (farmer.phone || farmer.email) : 'all';
+    }
+
+    function getFarmerShareURL(farmer) {
+      const baseUrl = window.location.origin + window.location.pathname;
+      const nameSlug = farmer.name.toLowerCase().replace(/\s+/g, '-');
+      return `${baseUrl}?farmer=${nameSlug}`;
+    }
+
+    function updateShareButton(farmer) {
+      const shareBtn = document.getElementById('shareFarmerBtn');
+      if (!shareBtn) return;
+      
+      if (!farmer) {
+        shareBtn.style.display = 'none';
+        return;
+      }
+      
+      const shareURL = getFarmerShareURL(farmer);
+      shareBtn.style.display = 'inline-flex';
+      shareBtn.onclick = () => {
+        if (navigator.share) {
+          navigator.share({
+            title: `${farmer.name}'s Poultry Dashboard`,
+            text: `View ${farmer.name}'s poultry farm data`,
+            url: shareURL
+          }).catch(() => copyToClipboard(shareURL));
+        } else {
+          copyToClipboard(shareURL);
+        }
+      };
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert('✅ Dashboard link copied to clipboard!');
+      }).catch(() => {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        alert('✅ Dashboard link copied to clipboard!');
+      });
+    }
+
+    function updateAdminIndicator() {
+      const isFarmerView = currentFarmerId !== 'all';
+      
+      // Show/hide farmer selector
+      const farmerSelector = document.getElementById('farmerSelectorSection');
+      if (farmerSelector) {
+        farmerSelector.style.display = isFarmerView ? 'none' : 'flex';
+      }
+      
+      // Add admin return link for farmer view
+      if (isFarmerView) {
+        if (!document.getElementById('adminReturnLink')) {
+          const headerTitleRow = document.querySelector('.header-title-row');
+          if (headerTitleRow) {
+            const adminLink = document.createElement('div');
+            adminLink.id = 'adminReturnLink';
+            adminLink.innerHTML = `<a href="${window.location.origin + window.location.pathname}">← Return to Admin Dashboard</a>`;
+            headerTitleRow.appendChild(adminLink);
+          }
+        }
+        
+        // Add share button if not exists
+        if (!document.getElementById('shareFarmerBtn')) {
+          const shareBtn = document.createElement('button');
+          shareBtn.id = 'shareFarmerBtn';
+          shareBtn.className = 'refresh-btn';
+          shareBtn.textContent = '📤 Share Dashboard';
+          const refreshBtn = document.getElementById('refreshBtn');
+          if (refreshBtn && refreshBtn.parentNode) {
+            refreshBtn.parentNode.insertBefore(shareBtn, refreshBtn.nextSibling);
+          }
+        }
+        
+        const farmer = FARMER_REGISTRY.find(f => 
+          f.phone === currentFarmerId || f.email === currentFarmerId
+        );
+        updateShareButton(farmer);
+      } else {
+        // Remove admin return link if in admin view
+        const adminLink = document.getElementById('adminReturnLink');
+        if (adminLink) adminLink.remove();
+        
+        // Hide share button
+        const shareBtn = document.getElementById('shareFarmerBtn');
+        if (shareBtn) shareBtn.style.display = 'none';
+      }
     }
 
     // ========== FARMER REGISTRY FUNCTIONS ==========
@@ -1275,7 +1391,6 @@
       select.value = currentFarmerId;
     }
 
-    // FIX #1: Call updateFarmerInfo on initial load to create the badge span
     function initializeFarmerInfo() {
       updateFarmerInfo(null);
     }
@@ -1285,10 +1400,10 @@
       const heroFarmerName = document.getElementById('heroFarmerName');
       
       if (!farmer) {
-        // FIX #1: Always create the farmerCountBadge span so updateFarmerCountBadge can find it
         if (infoDiv) infoDiv.innerHTML = '<span class="farmer-count-badge" id="farmerCountBadge">0 farmers</span>';
         if (heroFarmerName) heroFarmerName.textContent = '';
         updateFarmerCountBadge();
+        updateShareButton(null);
         return;
       }
       
@@ -1305,13 +1420,14 @@
       if (heroFarmerName) {
         heroFarmerName.textContent = `${farmer.name}'s Flock`;
       }
+      
+      updateShareButton(farmer);
     }
 
     function updateFarmerCountBadge() {
       const badge = document.getElementById('farmerCountBadge');
       if (!badge) return;
       
-      // Use ALL_UNFILTERED_DATA to get accurate farmer count regardless of current filter
       const activeFarmers = new Set();
       
       ALL_UNFILTERED_DATA.forEach(record => {
@@ -1326,9 +1442,7 @@
       badge.textContent = `${activeFarmers.size} farmer${activeFarmers.size !== 1 ? 's' : ''}`;
     }
 
-    // ========== FIX #2: AGGREGATE CALCULATIONS ==========
     function getAggregateMetrics(allDataUnfiltered) {
-      // Group data by farmer
       const farmerGroups = new Map();
       
       allDataUnfiltered.forEach(record => {
@@ -1351,7 +1465,6 @@
       let farmerCount = farmerGroups.size;
       
       farmerGroups.forEach((records, farmerName) => {
-        // Sort by date descending for this farmer
         const sorted = [...records].sort((a, b) => b.dateObj - a.dateObj);
         const latest = sorted[0];
         const earliest = sorted[sorted.length - 1];
@@ -1387,7 +1500,6 @@
           const row = rows[i]; if (row.length === 0) continue;
           const dateVal = (row[col.date] || '').trim(); if (!dateVal) continue;
           
-          // FIX #5: Use robust date and time parsers
           const dateObj = parseDate(dateVal);
           const timeStr = col.time >= 0 ? (row[col.time] || '').trim() : '';
           const { time, timeMinutes } = parseTime(timeStr);
@@ -1411,10 +1523,8 @@
         }
         data.sort((a, b) => { const d = b.dateObj - a.dateObj; return d !== 0 ? d : (b.timeMinutes - a.timeMinutes); });
         
-        // Store ALL data for aggregate calculations
         ALL_UNFILTERED_DATA = [...data];
         
-        // Apply farmer filter for display
         const filtered = filterByFarmer(data, currentFarmerId);
         return { data: filtered, success: true, allData: data };
       } catch (err) {
@@ -1491,14 +1601,11 @@
           const notes = col.notes >= 0 ? (row[col.notes] || '').trim() : '';
           
           if (date && itemName) {
-            // If no phone/email in vaccination data, try to match with all farmers' first record dates
-            // This handles the case where vaccination records lack farmer identifiers
             vaccinations.push({ date, itemName, phone, email, reactions, notes });
           }
         }
         vaccinations.sort((a, b) => parseDate(a.date) - parseDate(b.date));
         
-        // Apply farmer filter
         const filtered = filterVaccinationsByFarmer(vaccinations, currentFarmerId);
         return filtered;
       } catch (err) {
@@ -1516,8 +1623,6 @@
       
       if (!farmer) return vaccinations;
       
-      // FIX #3: If vaccination records have no phone/email, try matching by date proximity
-      // to the farmer's data records (assumption: vaccination dates will be within the farmer's data range)
       const hasIdentifiers = vaccinations.some(v => v.phone || v.email);
       
       if (hasIdentifiers) {
@@ -1526,18 +1631,14 @@
           (farmer.email && v.email === farmer.email)
         );
       } else {
-        // No identifiers in vaccination data - show all for this farmer
-        // This is the case where vaccination records need to be backfilled with phone/email
         console.warn('Vaccination records lack farmer identifiers - showing all records. Please backfill Phone/Email columns.');
         return vaccinations;
       }
     }
 
-    // FIX #4: Calculate day of cycle for vaccination display
     function calculateDayOfCycle(vaccinationDate, farmerData) {
       if (!farmerData || farmerData.length === 0) return null;
       
-      // Find earliest record for this farmer
       const sorted = [...farmerData].sort((a, b) => a.dateObj - b.dateObj);
       const earliestDate = sorted[0].dateObj;
       
@@ -1548,7 +1649,6 @@
     }
 
     function getFarmerDataForVaccination(vaccinationRecord) {
-      // Try to find which farmer this vaccination belongs to
       if (vaccinationRecord.phone || vaccinationRecord.email) {
         const farmer = FARMER_REGISTRY.find(f => 
           (f.phone && vaccinationRecord.phone && f.phone === vaccinationRecord.phone) ||
@@ -1563,16 +1663,13 @@
         }
       }
       
-      // If current farmer is selected, use their data
       if (currentFarmerId !== 'all') {
         return allData;
       }
       
-      // Fallback: use all unfiltered data
       return ALL_UNFILTERED_DATA;
     }
 
-    /* ========== VACCINATION RENDER (UPDATED WITH DAY OF CYCLE) ========== */
     function renderVaccinationTimeline() {
       const container = document.getElementById('vaccinationTimeline');
       const countBadge = document.getElementById('vaccinationCount');
@@ -1580,7 +1677,6 @@
       
       let data = VACCINATION_DATA;
       if (!data || data.length === 0) {
-        // Use fallback filtered by farmer
         data = currentFarmerId === 'all' ? FALLBACK_VACCINATION_DATA : filterVaccinationsByFarmer(FALLBACK_VACCINATION_DATA, currentFarmerId);
       }
 
@@ -1593,7 +1689,6 @@
         return;
       }
 
-      // Calculate total doses
       const totalDoses = data.reduce((sum, v) => sum + v.itemName.split(',').length, 0);
       if (countBadge) countBadge.textContent = `${totalDoses} dose${totalDoses !== 1 ? 's' : ''}`;
 
@@ -1602,7 +1697,6 @@
       const spanDays = Math.round((lastDate - firstDate) / 86400000);
       if (statsEl) statsEl.innerHTML = `<strong>${data.length}</strong> sessions · <strong>${totalDoses}</strong> total doses · Span: <strong>${spanDays} days</strong>`;
 
-      // Build desktop nodes with day-of-cycle calculation
       const desktopNodes = data.map((v, index) => {
         const itemList = v.itemName.split(',').map(i => i.trim());
         const parsedDate = parseDate(v.date);
@@ -1610,7 +1704,6 @@
         const year = parsedDate.getFullYear();
         const sessionNum = index + 1;
         
-        // FIX #4: Calculate day of cycle
         const farmerData = getFarmerDataForVaccination(v);
         const dayOfCycle = calculateDayOfCycle(v.date, farmerData);
         const cycleLabel = dayOfCycle ? `Day ${dayOfCycle}` : `#${sessionNum}`;
@@ -1632,14 +1725,12 @@
           </div>`;
       }).join('');
 
-      // Build mobile nodes
       const mobileNodes = data.map((v, index) => {
         const itemList = v.itemName.split(',').map(i => i.trim());
         const parsedDate = parseDate(v.date);
         const dateFormatted = parsedDate.toLocaleDateString('en-GB', {day:'numeric', month:'short'});
         const year = parsedDate.getFullYear();
         
-        // FIX #4: Calculate day of cycle
         const farmerData = getFarmerDataForVaccination(v);
         const dayOfCycle = calculateDayOfCycle(v.date, farmerData);
         const cycleLabel = dayOfCycle ? `Day ${dayOfCycle}` : `Session #${index + 1}`;
@@ -1777,7 +1868,6 @@
         });
       }
       
-      // Farmer selection handler
       const farmerSelect = document.getElementById('farmerSelect');
       if (farmerSelect) {
         farmerSelect.addEventListener('change', async (e) => {
@@ -1837,26 +1927,22 @@
         return;
       }
 
-      // FIX #2: Different logic for aggregate vs single farmer
       const isAggregate = currentFarmerId === 'all';
       
       let startingBirds, latestBirdsAlive, totalDeaths, cumulativeDays, oldestFiltered, latest, veryFirstRecord;
       
       if (isAggregate) {
-        // Use aggregate calculations
         const agg = getAggregateMetrics(ALL_UNFILTERED_DATA);
         latestBirdsAlive = agg.totalBirdsAlive;
         startingBirds = agg.totalStartingBirds;
         totalDeaths = agg.totalDeaths;
         
-        // For date display, use the full dataset range
         const allSorted = [...ALL_UNFILTERED_DATA].sort((a, b) => a.dateObj - b.dateObj);
         veryFirstRecord = allSorted[0];
         latest = allSorted[allSorted.length - 1];
         oldestFiltered = allSorted[0];
         cumulativeDays = Math.max(1, Math.ceil((allSorted[allSorted.length - 1].dateObj - allSorted[0].dateObj) / 86400000) + 1);
       } else {
-        // Single farmer logic
         oldestFiltered = data[data.length - 1];
         const allSorted = [...data].sort((a, b) => a.dateObj - b.dateObj);
         veryFirstRecord = allSorted[0];
@@ -2212,26 +2298,40 @@
       const m = document.getElementById('topMetrics');
       if (m) m.innerHTML = '<div class="metric-card" style="grid-column:span 6;text-align:center;">⏳ Loading farmer registry & flock data...</div>';
       
-      // FIX #1: Initialize farmer info immediately to create badge span
       initializeFarmerInfo();
       
       try {
-        // Step 1: Load farmer registry
+        // Step 1: Load farmer registry FIRST
         FARMER_REGISTRY = await fetchFarmerRegistry();
+        
+        // Step 2: Check URL for farmer parameter
+        currentFarmerId = getFarmerFromURL();
+        
+        // Step 3: Update UI based on view type
+        updateAdminIndicator();
+        
+        // Step 4: Populate dropdown and update farmer info
         populateFarmerDropdown();
         
-        // Step 2: Load farm data
+        if (currentFarmerId !== 'all') {
+          const farmer = FARMER_REGISTRY.find(f => 
+            f.phone === currentFarmerId || f.email === currentFarmerId
+          );
+          updateFarmerInfo(farmer);
+        }
+        
+        // Step 5: Load farm data
         const { data, success } = await fetchData();
         if (data.length === 0) throw new Error('No data records');
         allData = data;
         
-        // Step 3: Load target data
+        // Step 6: Load target data
         TARGET_DATA = await fetchTargetData();
         
-        // Step 4: Load vaccination data
+        // Step 7: Load vaccination data
         VACCINATION_DATA = await fetchVaccinationData();
         
-        // Step 5: Render everything
+        // Step 8: Render everything
         renderVaccinationTimeline();
         buildWeekFilterButtons(allData);
         render(allData);
@@ -2248,7 +2348,12 @@
       } catch(e) {
         console.error('Initialization error:', e);
         FARMER_REGISTRY = FALLBACK_FARMER_REGISTRY;
+        
+        // Still check URL parameter in fallback mode
+        currentFarmerId = getFarmerFromURL();
+        updateAdminIndicator();
         populateFarmerDropdown();
+        
         allData = filterByFarmer(FALLBACK_DATA, currentFarmerId);
         ALL_UNFILTERED_DATA = [...FALLBACK_DATA];
         TARGET_DATA = await fetchTargetData();
