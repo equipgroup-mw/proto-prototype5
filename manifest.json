@@ -37,10 +37,17 @@
   "related_applications": [],
   "shortcuts": [
     {
-      "name": "View Dashboard",
-      "short_name": "Dashboard",
-      "description": "View your poultry farm data",
-      "url": "./index.html",
+      "name": "Executive Overview",
+      "short_name": "Overview",
+      "description": "View aggregated farm analytics",
+      "url": "./overview.html",
+      "icons": [{ "src": "icon.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Farmer Dashboard",
+      "short_name": "My Farm",
+      "description": "View your farm data",
+      "url": "./user.html",
       "icons": [{ "src": "icon.png", "sizes": "192x192" }]
     }
   ]
