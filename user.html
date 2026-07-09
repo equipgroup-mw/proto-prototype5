@@ -1,1 +1,1034 @@
-i
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#c9a94b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="icon.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>My Farm Dashboard | Proto Poultry Project</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700;800&family=Georgia:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" crossorigin="anonymous"></script>
+  
+  <style>
+    :root {
+      --brand-gold: #c9a94b;
+      --brand-gold-light: #e6c468;
+      --brand-navy: #0a1625;
+      --brand-dark-blue: #0f2136;
+      --brand-card-bg: #10273e;
+      --text-primary: #f0f2f5;
+      --text-secondary: #b9c7dd;
+      --text-muted: #8896aa;
+      --success: #2ecc71;
+      --danger: #e74c3c;
+      --warning: #f39c12;
+      --border-subtle: rgba(201, 169, 75, 0.2);
+      --shadow-card: 0 8px 32px rgba(0,0,0,0.4);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --radius-card: 20px;
+      --radius-pill: 30px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: linear-gradient(145deg, var(--brand-navy) 0%, var(--brand-dark-blue) 100%);
+      font-family: 'Libre Franklin', system-ui, -apple-system, sans-serif;
+      padding: clamp(0.8rem, 3vw, 2rem);
+      color: var(--text-primary);
+      line-height: 1.5;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, h4, h5, h6, .section-title, .card-header,
+    .metric-card .label, th, .kpi-total .label, .hero-title,
+    .mortality-item .date { font-family: 'Georgia', serif; font-weight: 700; }
+    
+    .dashboard { max-width: 1400px; margin: 0 auto; width: 100%; }
+
+    .monitoring-bar {
+      display: flex; align-items: center; flex-wrap: wrap;
+      background: rgba(201,169,75,0.06); border: 1px solid var(--border-subtle);
+      border-radius: 16px; padding: clamp(0.7rem, 2vw, 1rem) clamp(1rem, 3vw, 1.5rem);
+      margin-top: 0.5rem; margin-bottom: 0.5rem;
+    }
+    .monitoring-age {
+      flex: 1 1 auto; display: flex; flex-direction: column; gap: 0.15rem;
+      padding-right: clamp(1rem, 3vw, 2rem);
+      border-right: 2px solid rgba(201, 169, 75, 0.3);
+      align-items: flex-start; min-width: 0;
+    }
+    .monitoring-age-row { display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; }
+    .monitoring-age-label { font-size: clamp(0.7rem, 2.2vw, 0.78rem); text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); font-weight: 600; white-space: nowrap; }
+    .monitoring-age-value { font-size: clamp(1rem, 3vw, 1.3rem); font-weight: 700; color: var(--brand-gold-light); font-family: 'Georgia', serif; }
+    .monitoring-age-sub { font-size: clamp(0.65rem, 2vw, 0.7rem); color: var(--text-muted); }
+    .monitoring-filter { flex: 1 1 auto; display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; padding-left: clamp(1rem, 3vw, 2rem); }
+    .monitoring-filter-label { font-size: clamp(0.65rem, 2vw, 0.7rem); text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 600; white-space: nowrap; margin-right: 0.3rem; }
+    .week-filter-btn {
+      background: rgba(201, 169, 75, 0.08); color: var(--text-secondary);
+      border: 1px solid var(--border-subtle); padding: clamp(0.3rem, 1.2vw, 0.4rem) clamp(0.5rem, 1.8vw, 0.8rem);
+      border-radius: var(--radius-pill); font-family: 'Libre Franklin', sans-serif;
+      font-weight: 600; font-size: clamp(0.62rem, 2vw, 0.7rem); cursor: pointer; transition: var(--transition); white-space: nowrap;
+    }
+    .week-filter-btn:hover { background: rgba(201, 169, 75, 0.2); border-color: var(--brand-gold); color: var(--brand-gold-light); }
+    .week-filter-btn.active { background: var(--brand-gold); color: var(--brand-navy); border-color: var(--brand-gold); box-shadow: 0 4px 12px rgba(201, 169, 75, 0.4); font-weight: 700; }
+
+    .header { display: flex; align-items: center; justify-content: space-between; gap: 2rem; margin-bottom: 1.5rem; padding: 0.5rem 0; }
+    .header-content { flex: 1; min-width: 0; }
+    .header h1 { font-size: clamp(1.4rem, 5vw, 2.2rem); letter-spacing: -0.3px; color: #ffffff; display: flex; align-items: center; gap: 0.5rem; line-height: 1.2; margin-bottom: 0.3rem; }
+    .header h1 .live-badge { background: var(--brand-gold); color: var(--brand-navy); font-size: clamp(0.7rem, 2.5vw, 0.9rem); padding: 0.2rem 0.8rem; border-radius: var(--radius-pill); font-weight: 600; white-space: nowrap; }
+    .subtitle { color: var(--text-secondary); font-size: clamp(0.85rem, 2.8vw, 1rem); display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+    .latest-update-badge { background: rgba(201, 169, 75, 0.12); border: 1px solid var(--brand-gold); color: var(--brand-gold-light); padding: 0.2rem 0.7rem; border-radius: var(--radius-pill); font-size: clamp(0.7rem, 2.5vw, 0.75rem); font-weight: 500; display: inline-flex; align-items: center; gap: 0.3rem; white-space: nowrap; }
+    .logo-row { display: flex; align-items: center; gap: clamp(1rem, 3vw, 2rem); flex-shrink: 0; }
+    .logo-link { display: block; text-decoration: none; transition: var(--transition); }
+    .logo-link:hover { transform: translateY(-3px); }
+    .logo-link:hover .logo-item { box-shadow: 0 8px 25px rgba(201, 169, 75, 0.6); border-color: var(--brand-gold-light); }
+    .logo-item { height: clamp(60px, 12vw, 80px); border-radius: 16px; overflow: hidden; border: 3px solid var(--brand-gold); box-shadow: 0 4px 15px rgba(201, 169, 75, 0.4); transition: var(--transition); background: rgba(255,255,255,0.05); flex-shrink: 0; }
+    .logo-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .header-title-row { display: none; }
+    .header-meta-row { display: none; }
+    .refresh-btn { display: none; }
+    .location-text { display: none; }
+    
+    #shareFarmerBtn {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      background: var(--brand-card-bg); color: var(--brand-gold-light);
+      border: 1px solid var(--brand-gold); border-radius: var(--radius-pill);
+      padding: 0.4rem 0.9rem; font-family: 'Libre Franklin', sans-serif;
+      font-weight: 700; font-size: 0.78rem; cursor: pointer; transition: var(--transition);
+      white-space: nowrap; flex-shrink: 0;
+    }
+    #shareFarmerBtn:hover { background: var(--brand-gold); color: var(--brand-navy); }
+
+    .hero-section { margin-bottom: 1.5rem; perspective: 800px; }
+    .hero-card { background: linear-gradient(160deg, #1e3a5f, #142d4a, #0d1f36); border: 2px solid rgba(201,169,75,0.6); border-radius: 28px; padding: clamp(1.2rem, 3vw, 1.8rem); min-height: 200px; display: flex; align-items: center; justify-content: space-between; position: relative; overflow: hidden; box-shadow: 0 20px 60px rgba(201, 169, 75, 0.15), 0 12px 40px rgba(0,0,0,0.5); gap: clamp(1.5rem, 4vw, 3rem); animation: heroFadeIn 0.8s ease-out; }
+    @keyframes heroFadeIn { from { opacity: 0; transform: translateY(15px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    .hero-top-line { position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, rgba(201,169,75,0), #e6c468, rgba(201,169,75,0)); box-shadow: 0 0 15px rgba(201,169,75,0.5); z-index: 2; }
+    .hero-ambient-light { position: absolute; top: -40%; right: -10%; width: 450px; height: 450px; background: radial-gradient(circle, rgba(201,169,75,0.1) 0%, transparent 70%); pointer-events: none; z-index: 1; }
+    .hero-left { flex: 0 0 auto; width: clamp(60px, 12vw, 90px); display: flex; align-items: center; justify-content: center; z-index: 2; }
+    .hero-icon-ring { width: 100%; aspect-ratio: 1; border-radius: 50%; background: rgba(201,169,75,0.08); border: 2px solid rgba(201,169,75,0.3); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 25px rgba(201,169,75,0.25), inset 0 0 15px rgba(201,169,75,0.1); }
+    .hero-icon { font-size: clamp(2rem, 4vw, 3rem); line-height: 1; }
+    .hero-center { flex: 1; min-width: 0; z-index: 2; display: flex; flex-direction: column; justify-content: center; }
+    .hero-farmer-name { font-family: 'Georgia', serif; font-size: clamp(0.7rem, 1.5vw, 0.8rem); color: var(--brand-gold-light); margin-bottom: 0.1rem; font-weight: 700; opacity: 0.8; }
+    .hero-title { font-family: 'Georgia', serif; font-size: clamp(0.75rem, 1.5vw, 0.85rem); text-transform: uppercase; letter-spacing: 3px; color: var(--brand-gold-light); margin-bottom: 0.1rem; font-weight: 700; }
+    .hero-kpi { font-family: 'Libre Franklin', sans-serif; font-size: clamp(4.5rem, 10vw, 7rem); font-weight: 800; letter-spacing: -3px; color: #ffffff; line-height: 0.9; white-space: nowrap; margin-bottom: 0.15rem; }
+    .hero-started { font-size: clamp(0.95rem, 2vw, 1.1rem); color: rgba(255,255,255,0.85); font-weight: 500; letter-spacing: 0.3px; }
+    .hero-started strong { color: #ffffff; font-weight: 700; font-size: 1.05em; }
+    .hero-right { flex: 0 0 auto; width: clamp(140px, 22vw, 170px); display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 0.6rem; z-index: 2; }
+    .sync-pill { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.06); padding: 0.4rem 0.9rem; border-radius: 20px; font-size: 0.8rem; color: rgba(255,255,255,0.85); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(4px); }
+    .sync-dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; box-shadow: 0 0 8px rgba(46,204,113,0.6); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(0.9); } }
+    .hero-context-bottom { font-size: 0.75rem; color: rgba(255,255,255,0.5); text-align: right; }
+
+    .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(clamp(140px, 30vw, 180px), 1fr)); gap: clamp(0.6rem, 2vw, 1rem); margin-bottom: 0.5rem; }
+    .metric-card { background: var(--brand-card-bg); border: 1px solid var(--border-subtle); border-radius: 16px; padding: clamp(0.9rem, 3vw, 1.2rem); box-shadow: var(--shadow-card); transition: var(--transition); border-left: 4px solid var(--brand-gold); display: flex; flex-direction: column; min-height: 110px; }
+    .metric-card:hover { transform: translateY(-3px); border-left-color: var(--brand-gold-light); box-shadow: 0 12px 40px rgba(0,0,0,0.45); }
+    .metric-card .label { font-size: clamp(0.65rem, 2.2vw, 0.75rem); text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 600; margin-bottom: 0.3rem; display: flex; justify-content: space-between; align-items: flex-start; gap: 0.4rem; }
+    .trend-indicator { display: inline-flex; align-items: center; gap: 0.2rem; font-size: clamp(0.65rem, 2vw, 0.7rem); font-weight: 600; padding: 0.1rem 0.4rem; border-radius: 12px; white-space: nowrap; }
+    .trend-up { color: var(--success); background: rgba(46, 204, 113, 0.12); }
+    .trend-down { color: var(--danger); background: rgba(231, 76, 60, 0.12); }
+    .metric-card .value { font-size: clamp(1.4rem, 5vw, 2rem); font-weight: 700; color: white; line-height: 1.1; margin: 0.1rem 0; letter-spacing: -0.5px; }
+    .metric-card .context { font-size: clamp(0.6rem, 2vw, 0.68rem); color: var(--text-muted); margin-top: auto; padding-top: 0.4rem; border-top: 1px dashed rgba(255,255,255,0.08); line-height: 1.5; }
+    .context-target-diff { font-weight: 700; display: inline-block; margin-left: 0.2rem; }
+    .context-target-diff.ahead { color: var(--success); }
+    .context-target-diff.behind { color: var(--danger); }
+
+    .section-title { font-size: clamp(0.75rem, 2.5vw, 0.85rem); text-transform: uppercase; letter-spacing: 2px; font-weight: 700; color: var(--brand-gold); margin: clamp(1.2rem, 4vw, 2rem) 0 clamp(0.5rem, 2vw, 0.8rem); padding-bottom: clamp(0.3rem, 1.5vw, 0.4rem); display: inline-flex; align-items: center; gap: 0.5rem; position: relative; }
+    .section-title::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, var(--brand-gold), transparent); border-radius: 2px; }
+    .card { background: var(--brand-card-bg); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-card); padding: clamp(1rem, 4vw, 1.5rem); margin-top: clamp(0.6rem, 2vw, 1rem); box-shadow: var(--shadow-card); backdrop-filter: blur(2px); }
+    .card-header { font-size: clamp(1rem, 3.5vw, 1.15rem); font-weight: 700; margin-bottom: clamp(0.8rem, 3vw, 1.2rem); display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; border-left: 4px solid var(--brand-gold); padding-left: clamp(0.6rem, 2.5vw, 1rem); color: #ffffff; line-height: 1.3; flex-wrap: wrap; }
+    .card-header-action { background: rgba(201, 169, 75, 0.15); color: var(--brand-gold-light); border: 1px solid var(--brand-gold); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: clamp(0.7rem, 2.5vw, 0.8rem); font-weight: 600; cursor: pointer; font-family: 'Libre Franklin', sans-serif; transition: var(--transition); display: inline-flex; align-items: center; gap: 0.3rem; }
+    .card-header-action:hover { background: var(--brand-gold); color: var(--brand-navy); }
+    .mortality-stack { display: flex; flex-direction: column; gap: clamp(0.8rem, 2.5vw, 1rem); margin-top: clamp(0.5rem, 2vw, 0.8rem); }
+    table { width: 100%; border-collapse: collapse; font-size: clamp(0.75rem, 2.5vw, 0.85rem); min-width: 500px; }
+    th { text-align: left; padding: clamp(0.5rem, 2vw, 0.7rem) clamp(0.4rem, 1.5vw, 0.5rem); color: var(--brand-gold); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid var(--brand-gold); background: rgba(201, 169, 75, 0.08); font-size: clamp(0.7rem, 2.3vw, 0.75rem); white-space: nowrap; }
+    td { padding: clamp(0.45rem, 1.8vw, 0.6rem) clamp(0.4rem, 1.5vw, 0.5rem); border-bottom: 1px solid rgba(255,255,255,0.05); color: #d3dce9; font-size: clamp(0.75rem, 2.5vw, 0.8rem); }
+    tr:hover td { background: rgba(255,255,255,0.04); }
+    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; margin: 0 -0.5rem; padding: 0 0.5rem; max-height: 400px; overflow-y: auto; }
+    .chart-container { position: relative; height: clamp(220px, 45vw, 300px); width: 100%; margin-top: clamp(0.6rem, 2vw, 1rem); display: flex; align-items: center; justify-content: center; }
+    .chart-container canvas { max-width: 100%; max-height: 100%; }
+    .mortality-timeline { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 0.5rem; }
+    .mortality-item { display: flex; align-items: center; gap: 0.8rem; padding: 0.6rem 0.8rem; background: rgba(231, 76, 60, 0.08); border-radius: 12px; border-left: 3px solid #e74c3c; transition: var(--transition); }
+    .mortality-item:hover { background: rgba(231, 76, 60, 0.15); transform: translateX(4px); }
+    .mortality-dot { width: 10px; height: 10px; border-radius: 50%; background: #e74c3c; flex-shrink: 0; box-shadow: 0 0 6px rgba(231, 76, 60, 0.4); }
+    .mortality-content { flex: 1; min-width: 0; }
+    .mortality-item .date { font-size: clamp(0.75rem, 2.5vw, 0.8rem); color: var(--text-secondary); margin-bottom: 0.15rem; }
+    .mortality-item .count { font-size: clamp(0.85rem, 3vw, 0.95rem); font-weight: 600; color: var(--text-primary); }
+    .mortality-item .note { font-size: clamp(0.7rem, 2.3vw, 0.75rem); color: var(--brand-gold-light); margin-top: 0.1rem; font-style: italic; }
+    .kpi-total { background: linear-gradient(135deg, #1a3a54 0%, #0f2136 100%); border: 2px solid rgba(168, 147, 90, 0.4); border-radius: 20px; padding: clamp(1.5rem, 5vw, 2.5rem); text-align: center; box-shadow: 0 12px 40px rgba(168, 147, 90, 0.15); animation: kpiFadeIn 0.4s ease-out; }
+    @keyframes kpiFadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    .kpi-total .label { font-size: clamp(0.85rem, 2.8vw, 1rem); text-transform: uppercase; letter-spacing: 2px; color: var(--brand-gold-light); margin-bottom: 0.8rem; }
+    .kpi-total .value { font-size: clamp(3.5rem, 10vw, 5rem); font-weight: 700; color: #ffffff; line-height: 1; text-shadow: 0 4px 8px rgba(0,0,0,0.4); font-family: 'Georgia', serif; }
+    .kpi-total .subtitle { font-size: clamp(0.75rem, 2.5vw, 0.9rem); color: var(--text-muted); margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid rgba(255,255,255,0.1); }
+    .temp-indicator { display: inline-flex; align-items: center; gap: 0.4rem; padding: clamp(0.25rem, 1.5vw, 0.35rem) clamp(0.6rem, 2.5vw, 0.9rem); border-radius: var(--radius-pill); font-size: clamp(0.7rem, 2.4vw, 0.8rem); font-weight: 600; margin-bottom: clamp(0.5rem, 2vw, 1rem); }
+    .temp-optimal { background: rgba(201, 169, 75, 0.15); color: var(--brand-gold-light); border: 1px solid var(--brand-gold); }
+    .temp-warning { background: rgba(241, 196, 15, 0.12); color: #f1c40f; border: 1px solid #d4ac0d; }
+    .temp-critical { background: rgba(231, 76, 60, 0.12); color: #e74c3c; border: 1px solid #c0392b; }
+    .updated { text-align: right; color: var(--text-muted); font-size: clamp(0.65rem, 2.2vw, 0.7rem); margin-top: clamp(1.2rem, 4vw, 2rem); padding-top: 0.8rem; border-top: 1px solid rgba(255,255,255,0.06); }
+
+    .vaccination-card { background: linear-gradient(160deg, #1a3048 0%, #0f2136 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-card); padding: 1.8rem 2rem 2rem; margin-top: clamp(0.6rem, 2vw, 1rem); box-shadow: var(--shadow-card); position: relative; overflow: hidden; }
+    .vaccination-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(180deg, var(--brand-gold), rgba(201,169,75,0.15)); }
+    .vaccination-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; padding-left: 0.3rem; }
+    .vaccination-header-icon { width: 42px; height: 42px; border-radius: 50%; background: rgba(201,169,75,0.1); border: 1.5px solid rgba(201,169,75,0.35); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+    .vaccination-header-text { font-family: 'Georgia', serif; font-size: clamp(1rem, 3.5vw, 1.1rem); font-weight: 700; color: #ffffff; }
+    .vaccination-header-sub { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.1rem; }
+    .vaccination-header-count { margin-left: auto; background: rgba(201,169,75,0.1); border: 1px solid var(--border-subtle); color: var(--brand-gold-light); font-size: 0.7rem; font-weight: 600; padding: 0.25rem 0.85rem; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+    .vaccination-timeline { display: flex; align-items: flex-start; gap: 0; padding-top: 1rem; padding-left: 0.3rem; position: relative; }
+    .vaccination-timeline::before { content: ''; position: absolute; top: 14px; left: calc(0.3rem + 80px/2); right: calc(80px/2); height: 2px; background: linear-gradient(90deg, rgba(201,169,75,0.1) 0%, var(--brand-gold) 20%, var(--brand-gold-light) 50%, var(--brand-gold) 80%, rgba(201,169,75,0.1) 100%); }
+    .vaccination-node-desktop { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0; position: relative; cursor: default; }
+    .vaccination-node-desktop:hover .vaccination-dot { transform: scale(1.25); box-shadow: 0 0 0 8px rgba(201,169,75,0.4), 0 0 24px rgba(201,169,75,0.5); }
+    .vaccination-node-desktop:hover .vacc-node-card { border-color: rgba(201,169,75,0.6); background: rgba(201,169,75,0.06); }
+    .vaccination-day { font-size: 0.62rem; font-weight: 700; color: var(--brand-gold-light); background: rgba(201,169,75,0.1); border: 1px solid rgba(201,169,75,0.25); border-radius: 10px; padding: 0.12rem 0.55rem; margin-bottom: 0.45rem; white-space: nowrap; letter-spacing: 0.5px; font-family: 'Libre Franklin', sans-serif; }
+    .vaccination-dot { width: 22px; height: 22px; border-radius: 50%; background: var(--brand-gold); border: 3px solid #10273e; box-shadow: 0 0 0 4px rgba(201,169,75,0.3), 0 0 16px rgba(201,169,75,0.3); flex-shrink: 0; transition: all 0.25s ease; position: relative; z-index: 2; animation: vaccDotPulse 2.5s ease-in-out infinite; }
+    @keyframes vaccDotPulse { 0%, 100% { box-shadow: 0 0 0 4px rgba(201,169,75,0.3), 0 0 14px rgba(201,169,75,0.25); } 50% { box-shadow: 0 0 0 7px rgba(201,169,75,0.45), 0 0 22px rgba(201,169,75,0.4); } }
+    .vacc-node-card { margin-top: 0.7rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 0.65rem 0.7rem 0.7rem; width: calc(100% - 12px); transition: all 0.2s ease; }
+    .vacc-node-date { font-family: 'Georgia', serif; font-size: 0.82rem; font-weight: 700; color: #ffffff; text-align: center; margin-bottom: 0.5rem; line-height: 1.25; }
+    .vacc-node-date .year { display: block; font-family: 'Libre Franklin', sans-serif; font-size: 0.6rem; font-weight: 400; color: var(--text-muted); margin-top: 0.05rem; }
+    .vacc-tags { display: flex; flex-direction: column; gap: 0.28rem; }
+    .vacc-tag { font-size: 0.62rem; font-weight: 700; padding: 0.22rem 0.55rem; border-radius: 10px; text-align: center; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: rgba(201,169,75,0.14); border: 1px solid rgba(201,169,75,0.35); color: var(--brand-gold-light); font-family: 'Libre Franklin', sans-serif; }
+    .vaccination-footer { margin-top: 1.5rem; padding-top: 0.9rem; border-top: 1px dashed rgba(255,255,255,0.07); display: flex; align-items: center; justify-content: flex-end; }
+    .vaccination-coverage-stat { font-size: 0.7rem; color: var(--text-muted); }
+    .vaccination-coverage-stat strong { color: var(--text-secondary); font-weight: 600; }
+    .vaccination-node-mobile { display: none; }
+
+    #installButton { position: fixed; bottom: clamp(1rem, 3vw, 2rem); right: clamp(1rem, 3vw, 2rem); z-index: 1000; display: none; background: linear-gradient(135deg, var(--brand-gold), var(--brand-gold-light)); color: var(--brand-navy); border: none; border-radius: 50px; padding: clamp(0.8rem, 2vw, 1.2rem) clamp(1.5rem, 3vw, 2.5rem); font-family: 'Libre Franklin', sans-serif; font-weight: 700; font-size: clamp(0.9rem, 2.5vw, 1.1rem); box-shadow: 0 8px 25px rgba(201, 169, 75, 0.5), 0 4px 12px rgba(0,0,0,0.3); cursor: pointer; transition: var(--transition); align-items: center; gap: 0.5rem; animation: pulseInstall 2s infinite; max-width: 90vw; }
+    @keyframes pulseInstall { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
+    #installButton:hover { transform: translateY(-2px) scale(1.02); }
+
+    @media (max-width: 900px) {
+      body { padding: 0.8rem; background: #0a1625; }
+      .header { flex-direction: column; align-items: stretch; gap: 0.7rem; padding: 0.2rem 0 1rem; }
+      .header-content { display: none; }
+      .header-title-row { display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; flex-wrap: wrap; }
+      .header-title-row h1 { font-size: clamp(1.2rem, 5.5vw, 1.6rem); letter-spacing: -0.3px; color: #ffffff; display: flex; align-items: center; gap: 0.5rem; line-height: 1.2; }
+      .header-title-row h1 .live-badge { display: none; }
+      .header-meta-row { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap; }
+      .refresh-btn { display: inline-flex; background: var(--brand-gold); color: var(--brand-navy); border: none; border-radius: var(--radius-pill); padding: 0.4rem 0.9rem; font-family: 'Libre Franklin', sans-serif; font-weight: 700; font-size: 0.78rem; cursor: pointer; transition: var(--transition); white-space: nowrap; flex-shrink: 0; }
+      #shareFarmerBtn { font-size: 0.7rem; padding: 0.35rem 0.7rem; }
+      .logo-row { order: -1; width: 100%; justify-content: space-between; gap: clamp(0.2rem, 1.5vw, 0.5rem); }
+      .logo-link { flex: 1; }
+      .logo-item { height: clamp(45px, 11vw, 65px); border-width: 2px; width: 100%; }
+      .monitoring-bar { flex-direction: column; align-items: stretch; gap: 0.6rem; padding: 0.8rem; }
+      .monitoring-age { width: 100%; padding-right: 0; padding-bottom: 0.5rem; border-right: none; border-bottom: 2px solid rgba(201, 169, 75, 0.3); align-items: center; text-align: center; }
+      .monitoring-age-row { justify-content: center; }
+      .monitoring-filter { width: 100%; padding-left: 0; justify-content: center; gap: 0.3rem; }
+      .hero-card { flex-direction: row; align-items: flex-start; padding: 1.2rem; gap: 1rem; min-height: auto; border-radius: 16px; background: #11263c; }
+      .hero-left { width: 45px; margin-top: 0.3rem; }
+      .hero-icon-ring { width: 45px; box-shadow: none; border-width: 1px; }
+      .hero-icon { font-size: 1.8rem; }
+      .hero-kpi { font-size: 2.2rem; letter-spacing: -1px; line-height: 1.1; }
+      .hero-right { position: absolute; top: 1rem; right: 1rem; }
+      .hero-ambient-light { display: none; }
+      .metrics-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .metric-card { padding: 0.8rem; min-height: auto; border-left: none; border-top: 3px solid var(--brand-gold); }
+      .chart-container { height: 220px; }
+      .card { padding: 1rem; border-radius: 12px; }
+      .table-scroll { margin: 0 -1rem; padding: 0 1rem; max-height: 300px; }
+      .card-header { flex-direction: column; align-items: flex-start; }
+      .vaccination-card { padding: 1rem 0.9rem 1.2rem; }
+      .vaccination-card::before { width: 3px; }
+      .vaccination-header { margin-bottom: 1rem; padding-left: 0.2rem; flex-wrap: wrap; gap: 0.5rem; }
+      .vaccination-header-icon { width: 32px; height: 32px; font-size: 1rem; }
+      .vaccination-header-text { font-size: 0.95rem; flex: 1; }
+      .vaccination-header-sub { font-size: 0.6rem; }
+      .vaccination-header-count { font-size: 0.62rem; padding: 0.2rem 0.6rem; margin-left: 0; flex-basis: 100%; text-align: center; order: 1; }
+      .vaccination-node-desktop { display: none; }
+      .vaccination-node-mobile { display: block; }
+      .vaccination-timeline { padding: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+      .vaccination-timeline::before { display: none; }
+      .vaccination-node-mobile { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 0.9rem 1rem; transition: all 0.2s ease; }
+      .vaccination-node-mobile:active { border-color: rgba(201,169,75,0.35); background: rgba(201,169,75,0.05); }
+      .vaccination-node-day-mobile { display: inline-block; font-family: 'Libre Franklin', sans-serif; font-size: 0.62rem; font-weight: 700; color: var(--brand-gold-light); background: rgba(201,169,75,0.1); border: 1px solid rgba(201,169,75,0.25); border-radius: 8px; padding: 0.15rem 0.5rem; margin-bottom: 0.6rem; letter-spacing: 0.5px; }
+      .vaccination-node-date-mobile { font-family: 'Georgia', serif; font-size: 0.95rem; font-weight: 700; color: #ffffff; margin-bottom: 0.5rem; line-height: 1.3; }
+      .vaccination-node-year-mobile { font-family: 'Libre Franklin', sans-serif; font-size: 0.62rem; font-weight: 400; color: var(--text-muted); margin-left: 0.3rem; }
+      .vaccination-node-tags-mobile { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+      .vaccination-tag-mobile { font-family: 'Libre Franklin', sans-serif; font-size: 0.68rem; font-weight: 600; padding: 0.3rem 0.65rem; border-radius: 8px; background: rgba(201,169,75,0.12); border: 1px solid rgba(201,169,75,0.28); color: var(--brand-gold-light); white-space: nowrap; }
+      .vaccination-footer { margin-top: 0.8rem; padding-top: 0.6rem; justify-content: center; }
+      .vaccination-coverage-stat { font-size: 0.62rem; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) { 
+      * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      #installButton { animation: none; }
+    }
+  </style>
+</head>
+<body>
+<div class="dashboard">
+  <div class="header">
+    <div class="header-content">
+      <h1 id="headerTitle">My Farm <span class="live-badge">Live</span></h1>
+      <div class="subtitle">
+        <span id="headerSubtitle">Personal flock analytics</span>
+        <span id="latestUpdateBadge" class="latest-update-badge">⏱ Loading...</span>
+      </div>
+    </div>
+    <div class="header-title-row">
+      <h1 id="headerTitleMobile">My Farm <span class="live-badge">Live</span></h1>
+      <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
+        <button class="refresh-btn" id="refreshBtn">↻ Refresh</button>
+        <button id="shareFarmerBtn">📤 Share</button>
+      </div>
+    </div>
+    <div class="header-meta-row">
+      <span class="location-text" id="farmerLocation"></span>
+      <span id="latestUpdateBadgeMobile" class="latest-update-badge">⏱ Loading...</span>
+    </div>
+    <div class="logo-row">
+      <a href="https://www.equipgroup.co" target="_blank" rel="noopener noreferrer" class="logo-link" title="Visit Equip">
+        <div class="logo-item"><img src="EquipLogo.png" alt="Equip" onerror="this.style.display='none'"></div>
+      </a>
+      <a href="https://kelfoods.net/proto-chicks/" target="_blank" rel="noopener noreferrer" class="logo-link" title="Visit Proto">
+        <div class="logo-item"><img src="Proto.png" alt="Proto" onerror="this.style.display='none'"></div>
+      </a>
+      <a href="https://hailcotton.com/" target="_blank" rel="noopener noreferrer" class="logo-link" title="Visit Hail &amp; Cotton">
+        <div class="logo-item"><img src="HC.png" alt="Hail &amp; Cotton" onerror="this.style.display='none'"></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-section">
+    <div class="hero-card">
+      <div class="hero-top-line"></div>
+      <div class="hero-ambient-light"></div>
+      <div class="hero-left"><div class="hero-icon-ring"><span class="hero-icon">🐔</span></div></div>
+      <div class="hero-center">
+        <div class="hero-farmer-name" id="heroFarmerName"></div>
+        <div class="hero-title">MY BIRDS ALIVE</div>
+        <div class="hero-kpi" id="heroKPI">— Chickens</div>
+        <div class="hero-started">Started with <strong id="heroStarted">—</strong></div>
+      </div>
+      <div class="hero-right">
+        <div class="sync-pill"><span class="sync-dot" id="syncDot"></span><span id="syncStatusText">Synced</span></div>
+        <div class="hero-context-bottom">Auto-refresh: 5 min</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="metrics-grid" id="topMetrics"></div>
+
+  <div class="monitoring-bar">
+    <div class="monitoring-age">
+      <div class="monitoring-age-row">
+        <span class="monitoring-age-label">Flock Age</span>
+        <span class="monitoring-age-value" id="monitoringDays">— Days</span>
+      </div>
+      <span class="monitoring-age-sub" id="monitoringRange">—</span>
+    </div>
+    <div class="monitoring-filter">
+      <span class="monitoring-filter-label">Filter</span>
+      <div id="weekFilterButtons" style="display:flex;flex-wrap:wrap;gap:0.3rem;"></div>
+    </div>
+  </div>
+
+  <div class="section-title">📈 Growth & Performance</div>
+  <div class="card">
+    <div class="card-header">Average Weight Progression</div>
+    <div class="chart-container"><canvas id="weightChart"></canvas></div>
+  </div>
+
+  <div class="section-title">☠️ Mortality Analysis</div>
+  <div class="mortality-stack">
+    <div class="card">
+      <div class="card-header">Deaths by Day</div>
+      <div class="chart-container"><canvas id="causeChart"></canvas></div>
+    </div>
+    <div class="card" id="mortalityCard">
+      <div class="card-header">
+        <span>Daily Mortality Trend</span>
+        <button class="card-header-action" id="toggleMortalityBtn" title="Show total deaths">📊 Show Total</button>
+      </div>
+      <div id="mortalityTimeline" class="mortality-timeline"></div>
+      <div id="mortalityKPI" class="kpi-total" style="display: none;"></div>
+    </div>
+  </div>
+
+  <div class="section-title">💉 Vaccination History</div>
+  <div class="vaccination-card" id="vaccinationCard">
+    <div class="vaccination-header">
+      <div class="vaccination-header-icon">💉</div>
+      <div>
+        <div class="vaccination-header-text">Vaccination Record</div>
+        <div class="vaccination-header-sub">Your flock immunisation history</div>
+      </div>
+      <div class="vaccination-header-count" id="vaccinationCount">— doses</div>
+    </div>
+    <div id="vaccinationTimeline" class="vaccination-timeline"></div>
+    <div class="vaccination-footer">
+      <div class="vaccination-coverage-stat" id="vaccinationStats"></div>
+    </div>
+  </div>
+
+  <div class="section-title">🌡️ Environment & Resources</div>
+  <div class="mortality-stack">
+    <div class="card">
+      <div class="card-header">Temperature Monitoring</div>
+      <div id="tempStatus"></div>
+      <div class="chart-container"><canvas id="tempChart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-header">Resources Currently in Use</div>
+      <div class="chart-container"><canvas id="resourceChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="section-title">📋 My Records</div>
+  <div class="card">
+    <div class="card-header">
+      <span>Complete flock history</span>
+      <span id="recordCount" style="font-size:0.8rem;color:var(--text-muted);font-weight:400;font-family:'Libre Franklin';"></span>
+    </div>
+    <div class="table-scroll"><table id="dataTable"></table></div>
+  </div>
+
+  <div class="updated" id="updatedLine"></div>
+</div>
+
+<button id="installButton" title="Install My Farm App">
+  <span class="install-icon">📲</span>
+  <span>Install App</span>
+</button>
+
+<script>
+(function() {
+  const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRyGfky3hmhDVQgZGF9_cbndTHAxBpnHHPXd80Jsv-cY7zotnEwI6AmAbZvZ4sNmGhxW4dmvnWmDkGy/pub?gid=1870817852&single=true&output=csv";
+  const TARGET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRyGfky3hmhDVQgZGF9_cbndTHAxBpnHHPXd80Jsv-cY7zotnEwI6AmAbZvZ4sNmGhxW4dmvnWmDkGy/pub?gid=972239246&single=true&output=csv";
+  const VACCINATION_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRyGfky3hmhDVQgZGF9_cbndTHAxBpnHHPXd80Jsv-cY7zotnEwI6AmAbZvZ4sNmGhxW4dmvnWmDkGy/pub?gid=513211046&single=true&output=csv";
+  const FARMER_REGISTRY_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRyGfky3hmhDVQgZGF9_cbndTHAxBpnHHPXd80Jsv-cY7zotnEwI6AmAbZvZ4sNmGhxW4dmvnWmDkGy/pub?gid=877233883&single=true&output=csv";
+
+  let TARGET_DATA = null;
+  let VACCINATION_DATA = null;
+  let FARMER_REGISTRY = [];
+  let ALL_UNFILTERED_DATA = [];
+  let currentFarmer = null;
+  const isMobile = () => window.innerWidth <= 900;
+
+  const FALLBACK_DATA = [
+    { time:"16:00", date:"25 May 2026", birdsAlive:201, deaths:0, deathCause:"", feed:3, water:20, temp:30, litter:"yes", avgWeight:null, timeMinutes:960, phone:"265888123456", email:"" },
+    { time:"10:00", date:"27 May 2026", birdsAlive:200, deaths:1, deathCause:"Squashed under tray", feed:3, water:20, temp:30, litter:"no", avgWeight:99, timeMinutes:600, phone:"265888123456", email:"" },
+    { time:"17:30", date:"1 June 2026", birdsAlive:198, deaths:0, deathCause:"", feed:3, water:20, temp:30, litter:"Yes", avgWeight:147, timeMinutes:1050, phone:"265888123456", email:"" }
+  ];
+
+  const FALLBACK_FARMER_REGISTRY = [
+    { name:"John Banda", phone:"265888123456", email:"john@example.com", district:"Lilongwe" },
+    { name:"Mary Phiri", phone:"265999654321", email:"mary@example.com", district:"Blantyre" }
+  ];
+
+  const FALLBACK_VACCINATION_DATA = [
+    { date:"25 May 2026", itemName:"Gumboro, Newcastle (NCD), IB, IB Variant", phone:"265888123456", email:"" },
+    { date:"9 June 2026", itemName:"Gumboro", phone:"265888123456", email:"" }
+  ];
+
+  let currentFilter = 'all';
+  let currentFarmerId = null;
+  let allData = [];
+
+  const toNum = v => { if (v === null || v === undefined || v === '') return 0; let n = Number(String(v).replace(/[^0-9.-]/g, '')); return isNaN(n) ? 0 : n; };
+  const fmt = (v, d = 0) => { if (typeof v !== 'number') return v || '—'; return d > 0 ? v.toFixed(d) : v.toLocaleString(); };
+  
+  const parseDate = (s) => {
+    if (!s || s === '') return new Date();
+    const t = String(s).trim();
+    const sn = parseFloat(t);
+    if (!isNaN(sn) && sn > 30000 && sn < 100000) { const d = new Date((sn - 25569) * 86400 * 1000); if (!isNaN(d.getTime())) return d; }
+    const months = { jan:0, feb:1, mar:2, apr:3, may:4, jun:5, jul:6, aug:7, sep:8, oct:9, nov:10, dec:11 };
+    const parts = t.split(/\s+/);
+    if (parts.length >= 3) { const day = parseInt(parts[0]), m = months[parts[1].toLowerCase().slice(0,3)], y = parseInt(parts[2]); if (!isNaN(day) && !isNaN(y)) { const d = new Date(y, m !== undefined ? m : 0, day); if (!isNaN(d.getTime())) return d; } }
+    const d = new Date(t); return !isNaN(d.getTime()) ? d : new Date();
+  };
+
+  const parseTime = (s) => {
+    if (!s || s === '') return { time: '', timeMinutes: 0 };
+    const t = String(s).trim();
+    const sn = parseFloat(t);
+    if (!isNaN(sn) && sn >= 0 && sn < 1) { const tm = Math.round(sn * 1440); return { time: `${String(Math.floor(tm/60)).padStart(2,'0')}:${String(tm%60).padStart(2,'0')}`, timeMinutes: tm }; }
+    const parts = t.split(':'); if (parts.length === 2) { const h = parseInt(parts[0]), m = parseInt(parts[1]); if (!isNaN(h) && !isNaN(m)) return { time: `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`, timeMinutes: h*60+m }; }
+    return { time: t, timeMinutes: 0 };
+  };
+
+  function parseCSV(text) {
+    const rows = []; let row = [], field = '', inQuotes = false;
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i], next = text[i+1];
+      if (ch === '"' && !inQuotes) inQuotes = true;
+      else if (ch === '"' && inQuotes && next === '"') { field += '"'; i++; }
+      else if (ch === '"' && inQuotes) inQuotes = false;
+      else if (ch === ',' && !inQuotes) { row.push(field.trim()); field = ''; }
+      else if ((ch === '\n' || ch === '\r') && !inQuotes) { if (field || row.length) { row.push(field.trim()); rows.push(row); row = []; field = ''; } if (ch === '\r' && next === '\n') i++; }
+      else field += ch;
+    }
+    if (field || row.length) { row.push(field.trim()); rows.push(row); }
+    return rows.filter(r => r.length > 1 && r.some(c => c.trim() !== ''));
+  }
+
+  function mapFarmDataColumns(headers) {
+    const lower = headers.map(h => h.toLowerCase().trim().replace(/\s+/g, ' '));
+    return {
+      time: lower.findIndex(h => /^time$/i.test(h)), date: lower.findIndex(h => /^date$/i.test(h)),
+      phone: lower.findIndex(h => /^phone$/i.test(h) || h === 'phone'), email: lower.findIndex(h => /^email$/i.test(h) || h === 'email'),
+      birdsAlive: lower.findIndex(h => /bird.*alive|alive|stock|count/i.test(h)),
+      deaths: lower.findIndex(h => /death|dead|mortality/i.test(h) && !/cause/i.test(h)),
+      deathCause: lower.findIndex(h => /death.*cause|cause.*death|cause/i.test(h)),
+      feed: lower.findIndex(h => /feed.*given|feed.*kg|feed/i.test(h)),
+      water: lower.findIndex(h => /water.*litre|water.*l|water/i.test(h)),
+      temp: lower.findIndex(h => /temp/i.test(h)), litter: lower.findIndex(h => /litter/i.test(h)),
+      avgWeight: lower.findIndex(h => /avg.*weight|weight.*avg|weight/i.test(h))
+    };
+  }
+
+  function mapVaccinationColumns(headers) {
+    const lower = headers.map(h => h.toLowerCase().trim().replace(/\s+/g, ' '));
+    return {
+      dateGiven: lower.findIndex(h => /date.*given|date/i.test(h)),
+      phone: lower.findIndex(h => /^phone$/i.test(h) || h === 'phone'),
+      email: lower.findIndex(h => /^email$/i.test(h) || h === 'email'),
+      itemName: lower.findIndex(h => /item.*name|item|vaccine|vaccination/i.test(h)),
+      reactions: lower.findIndex(h => /reaction/i.test(h)), notes: lower.findIndex(h => /note/i.test(h))
+    };
+  }
+
+  // ========== URL PARAMETER & FARMER IDENTIFICATION ==========
+  function getFarmerFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    const farmerParam = params.get('farmer');
+    if (!farmerParam) return null;
+    const farmer = FARMER_REGISTRY.find(f => {
+      const nameSlug = f.name.toLowerCase().replace(/\s+/g, '-');
+      return nameSlug === farmerParam.toLowerCase() || f.phone === farmerParam || f.email === farmerParam;
+    });
+    return farmer || null;
+  }
+
+  function getRepoPath() {
+    const pathParts = window.location.pathname.split('/');
+    if (pathParts[pathParts.length - 1].includes('.')) pathParts.pop();
+    return pathParts.join('/').replace(/\/$/, '') || '';
+  }
+
+  function getFarmerShareURL(farmer) {
+    return `${window.location.origin}${window.location.pathname}?farmer=${farmer.name.toLowerCase().replace(/\s+/g, '-')}`;
+  }
+
+  function updateManifestForFarmer(farmer) {
+    const manifestLink = document.querySelector('link[rel="manifest"]');
+    if (!manifestLink || !farmer) return;
+    if (manifestLink.href.startsWith('blob:')) URL.revokeObjectURL(manifestLink.href);
+    const repoPath = getRepoPath();
+    const firstName = farmer.name.split(' ')[0];
+    const nameSlug = farmer.name.toLowerCase().replace(/\s+/g, '-');
+    const dynamicManifest = {
+      name: `${farmer.name}'s Poultry Dashboard`, short_name: `${firstName}'s Farm`,
+      description: `Poultry farm dashboard for ${farmer.name} - ${farmer.district}`,
+      start_url: `${repoPath}/user.html?farmer=${nameSlug}`, scope: `${repoPath}/`,
+      display: "standalone", background_color: "#0a1625", theme_color: "#c9a94b", orientation: "any",
+      id: `${repoPath}/?farmer=${nameSlug}`, categories: ["business", "productivity"], lang: "en", dir: "ltr",
+      prefer_related_applications: false,
+      icons: [
+        { src: `${repoPath}/icon.png`, sizes: "2000x2000", type: "image/png", purpose: "any" },
+        { src: `${repoPath}/icon.png`, sizes: "512x512", type: "image/png", purpose: "maskable any" },
+        { src: `${repoPath}/icon.png`, sizes: "192x192", type: "image/png", purpose: "any" }
+      ]
+    };
+    const blob = new Blob([JSON.stringify(dynamicManifest)], {type: 'application/json'});
+    manifestLink.href = URL.createObjectURL(blob);
+  }
+
+  function setupShareButton(farmer) {
+    const btn = document.getElementById('shareFarmerBtn');
+    if (!btn || !farmer) return;
+    const shareURL = getFarmerShareURL(farmer);
+    btn.onclick = () => {
+      if (navigator.share) {
+        navigator.share({ title: `${farmer.name}'s Poultry Dashboard`, text: `View ${farmer.name}'s poultry farm data`, url: shareURL }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(shareURL).then(() => alert('✅ Dashboard link copied!')).catch(() => alert('Link: ' + shareURL));
+      }
+    };
+  }
+
+  function updateUIForFarmer(farmer) {
+    if (!farmer) {
+      document.getElementById('heroFarmerName').textContent = 'Farmer not found';
+      document.getElementById('headerTitle').textContent = 'My Farm';
+      document.getElementById('headerTitleMobile').textContent = 'My Farm';
+      document.getElementById('farmerLocation').textContent = '';
+      return;
+    }
+    document.title = `${farmer.name}'s Poultry Dashboard`;
+    document.getElementById('heroFarmerName').textContent = `${farmer.name}'s Flock`;
+    document.getElementById('headerTitle').innerHTML = `${farmer.name}'s Farm <span class="live-badge">Live</span>`;
+    document.getElementById('headerTitleMobile').innerHTML = `${farmer.name}'s Farm <span class="live-badge">Live</span>`;
+    document.getElementById('headerSubtitle').textContent = `${farmer.district} · Personal flock analytics`;
+    document.getElementById('farmerLocation').textContent = `📍 ${farmer.district}`;
+    setupShareButton(farmer);
+    updateManifestForFarmer(farmer);
+  }
+
+  // ========== DATA FETCHING ==========
+  async function fetchFarmerRegistry() {
+    try {
+      if (!FARMER_REGISTRY_URL) return FALLBACK_FARMER_REGISTRY;
+      const r = await fetch(FARMER_REGISTRY_URL, { cache: 'no-store' }); if (!r.ok) throw new Error();
+      const rows = parseCSV(await r.text()); if (rows.length < 2) throw new Error();
+      const h = rows[0].map(x => x.toLowerCase().trim());
+      const ni = h.findIndex(x => x === 'name'), pi = h.findIndex(x => x === 'phone'), ei = h.findIndex(x => x === 'email'), di = h.findIndex(x => x === 'district');
+      if (ni === -1) throw new Error();
+      const farmers = [];
+      for (let i = 1; i < rows.length; i++) {
+        const row = rows[i]; if (row.length === 0) continue;
+        const f = { name: (row[ni]||'').trim(), phone: pi>=0?(row[pi]||'').trim():'', email: ei>=0?(row[ei]||'').trim():'', district: di>=0?(row[di]||'').trim():'' };
+        if (f.name && (f.phone || f.email)) farmers.push(f);
+      }
+      return farmers.length > 0 ? farmers : FALLBACK_FARMER_REGISTRY;
+    } catch(e) { return FALLBACK_FARMER_REGISTRY; }
+  }
+
+  function filterByFarmer(data, farmer) {
+    if (!farmer) return data;
+    return data.filter(r => (farmer.phone && r.phone === farmer.phone) || (farmer.email && r.email === farmer.email));
+  }
+
+  async function fetchData() {
+    try {
+      const r = await fetch(CSV_URL, { cache: 'no-store' }); if (!r.ok) throw new Error();
+      const rows = parseCSV(await r.text()); if (rows.length < 2) throw new Error();
+      const col = mapFarmDataColumns(rows[0]);
+      const data = [];
+      for (let i = 1; i < rows.length; i++) {
+        const row = rows[i]; if (row.length === 0) continue;
+        const dv = (row[col.date]||'').trim(); if (!dv) continue;
+        const d = parseDate(dv); const { time, timeMinutes } = parseTime(col.time>=0?(row[col.time]||'').trim():'');
+        const wv = col.avgWeight>=0?(row[col.avgWeight]||'').trim():'';
+        data.push({ time, timeMinutes, date: dv, dateObj: d,
+          birdsAlive: col.birdsAlive>=0?toNum(row[col.birdsAlive]):0, deaths: col.deaths>=0?toNum(row[col.deaths]):0,
+          deathCause: col.deathCause>=0?(row[col.deathCause]||'').trim():'', feed: col.feed>=0?toNum(row[col.feed]):0,
+          water: col.water>=0?toNum(row[col.water]):0, temp: col.temp>=0?toNum(row[col.temp]):0,
+          litter: col.litter>=0?(row[col.litter]||'').trim().toLowerCase():'', avgWeight: wv?toNum(wv):null,
+          phone: col.phone>=0?(row[col.phone]||'').trim():'', email: col.email>=0?(row[col.email]||'').trim():'' });
+      }
+      data.sort((a,b) => { const d = b.dateObj - a.dateObj; return d !== 0 ? d : (b.timeMinutes - a.timeMinutes); });
+      ALL_UNFILTERED_DATA = [...data];
+      const filtered = filterByFarmer(data, currentFarmer);
+      return { data: filtered, success: true };
+    } catch(e) { updateSyncStatus(false); ALL_UNFILTERED_DATA = [...FALLBACK_DATA]; return { data: filterByFarmer(FALLBACK_DATA, currentFarmer), success: false }; }
+  }
+
+  async function fetchTargetData() {
+    try {
+      if (!TARGET_CSV_URL) return null;
+      const r = await fetch(TARGET_CSV_URL, { cache: 'no-store' }); if (!r.ok) return null;
+      const rows = parseCSV(await r.text()); if (rows.length < 2) return null;
+      const targets = {};
+      for (let i = 1; i < rows.length; i++) { const row = rows[i]; if (row.length < 3) continue; const day = toNum(row[0]); if (day > 0) targets[day] = { temp: toNum(row[1]), weight: toNum(row[2]) }; }
+      return targets;
+    } catch(e) { return null; }
+  }
+
+  async function fetchVaccinationData() {
+    try {
+      if (!VACCINATION_CSV_URL) return null;
+      const r = await fetch(VACCINATION_CSV_URL, { cache: 'no-store' }); if (!r.ok) return null;
+      const rows = parseCSV(await r.text()); if (rows.length < 2) return null;
+      const col = mapVaccinationColumns(rows[0]);
+      const vaccs = [];
+      for (let i = 1; i < rows.length; i++) {
+        const row = rows[i]; if (row.length === 0) continue;
+        const date = (row[col.dateGiven]||'').trim(), item = (row[col.itemName]||'').trim();
+        if (date && item) vaccs.push({ date, itemName: item, phone: col.phone>=0?(row[col.phone]||'').trim():'', email: col.email>=0?(row[col.email]||'').trim():'', reactions: col.reactions>=0?(row[col.reactions]||'').trim():'', notes: col.notes>=0?(row[col.notes]||'').trim():'' });
+      }
+      vaccs.sort((a,b) => parseDate(a.date) - parseDate(b.date));
+      if (!currentFarmer) return vaccs;
+      return vaccs.filter(v => (currentFarmer.phone && v.phone === currentFarmer.phone) || (currentFarmer.email && v.email === currentFarmer.email));
+    } catch(e) { return null; }
+  }
+
+  function calculateDayOfCycle(vDate, fData) {
+    if (!fData || fData.length === 0) return null;
+    const sorted = [...fData].sort((a,b) => a.dateObj - b.dateObj);
+    const diff = Math.floor((parseDate(vDate) - sorted[0].dateObj) / 86400000) + 1;
+    return diff > 0 ? diff : null;
+  }
+
+  function getWeekMonday(date) { const d = new Date(date); d.setDate(d.getDate() - d.getDay() + (d.getDay()===0?-6:1)); d.setHours(0,0,0,0); return d; }
+  function calculateWeeks(data) {
+    if (!data || data.length === 0) return { weekMap: new Map(), weekLabels: [], weeks: [] };
+    const sorted = [...data].sort((a,b) => a.dateObj - b.dateObj);
+    const fm = getWeekMonday(sorted[0].dateObj);
+    const wm = new Map();
+    data.forEach(r => { const wn = Math.floor((getWeekMonday(r.dateObj)-fm)/604800000)+1; if (!wm.has(wn)) wm.set(wn,[]); wm.get(wn).push(r); });
+    const weeks = Array.from(wm.keys()).sort((a,b) => a-b);
+    return { weekMap: wm, weekLabels: weeks.map(w => `Week ${w}`), weeks };
+  }
+  function filterDataByWeek(data, filter) {
+    if (filter === 'all') return data;
+    if (filter === 'this-week') { const cm = getWeekMonday(new Date()); return data.filter(r => getWeekMonday(r.dateObj).getTime()===cm.getTime()); }
+    const { weekMap } = calculateWeeks(data);
+    return weekMap.get(parseInt(filter.replace('week-',''),10)) || [];
+  }
+
+  function buildWeekFilterButtons(data) {
+    const { weekLabels, weeks } = calculateWeeks(data);
+    const container = document.getElementById('weekFilterButtons'); if (!container) return;
+    let html = `<button class="week-filter-btn active" data-filter="all">All</button><button class="week-filter-btn" data-filter="this-week">This Week</button>`;
+    weeks.forEach((w,i) => { html += `<button class="week-filter-btn" data-filter="week-${w}">${weekLabels[i]}</button>`; });
+    container.innerHTML = html;
+    container.querySelectorAll('.week-filter-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        container.querySelectorAll('.week-filter-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active'); currentFilter = this.dataset.filter;
+        render(filterDataByWeek(allData, currentFilter));
+      });
+    });
+  }
+
+  function calculateTrend(current, previous, isHigherBetter = true) {
+    if (previous === null || previous === undefined || current === null) return { symbol: '—', class: 'neutral', text: 'No comparison' };
+    const diff = current - previous;
+    if (Math.abs(diff) < 0.5) return { symbol: '→', class: 'neutral', text: 'Stable' };
+    const isPositive = diff > 0;
+    return { symbol: isPositive ? '↑' : '↓', class: (isHigherBetter ? isPositive : !isPositive) ? 'up' : 'down', text: `${isPositive?'+':''}${fmt(diff,1)}` };
+  }
+
+  function getTempClass(temp, targetTemp) {
+    if (!targetTemp) return temp >= 26 && temp <= 32 ? 'temp-optimal' : (temp < 24 || temp > 34 ? 'temp-critical' : 'temp-warning');
+    const lower = targetTemp - 3, upper = targetTemp + 3;
+    return temp >= lower && temp <= upper ? 'temp-optimal' : (temp < lower - 2 || temp > upper + 2 ? 'temp-critical' : 'temp-warning');
+  }
+  function getTempIcon(temp, targetTemp) {
+    if (!targetTemp) return temp >= 26 && temp <= 32 ? '✅' : (temp < 26 ? '↓' : '↑');
+    const lower = targetTemp - 3, upper = targetTemp + 3;
+    return temp >= lower && temp <= upper ? '✅' : (temp < lower ? '↓' : '↑');
+  }
+  function getTempStatus(temp, targetTemp) {
+    if (!targetTemp) return temp >= 26 && temp <= 32 ? 'Optimal' : (temp < 26 ? 'Below' : 'Above');
+    const lower = targetTemp - 3, upper = targetTemp + 3;
+    return temp >= lower && temp <= upper ? 'Optimal' : (temp < lower ? 'Below' : 'Above');
+  }
+  function updateSyncStatus(online) {
+    const dot = document.getElementById('syncDot'), text = document.getElementById('syncStatusText');
+    if (dot) dot.classList.toggle('offline', !online);
+    if (text) text.textContent = online ? 'Synced' : 'Offline';
+  }
+
+  function getLabelIndices(len, max = 14) {
+    if (len <= max) return new Set(Array.from({length: len}, (_,i) => i));
+    const s = new Set([0]), step = (len-1)/(max-1);
+    for (let i=1; i<max-1; i++) s.add(Math.round(i*step));
+    s.add(len-1); return s;
+  }
+
+  let mortalityViewMode = 'timeline';
+  function updateMortalityDisplay() {
+    const tl = document.getElementById('mortalityTimeline'), kp = document.getElementById('mortalityKPI');
+    if (tl) tl.style.display = mortalityViewMode === 'total' ? 'none' : 'flex';
+    if (kp) kp.style.display = mortalityViewMode === 'total' ? 'block' : 'none';
+  }
+  function updateBadge(date, time) {
+    const t = `⏱ ${date} at ${time || '—'}`;
+    const b = document.getElementById('latestUpdateBadge'), bm = document.getElementById('latestUpdateBadgeMobile');
+    if (b) b.textContent = t; if (bm) bm.textContent = t;
+  }
+
+  function render(data) {
+    if (!data || data.length === 0) {
+      document.getElementById('topMetrics').innerHTML = '<div class="metric-card" style="grid-column:span 6;text-align:center;">❌ No data found for this farmer</div>';
+      document.getElementById('heroKPI').textContent = '—';
+      document.getElementById('heroStarted').textContent = '—';
+      document.getElementById('monitoringDays').textContent = '0 Days';
+      document.getElementById('monitoringRange').textContent = 'No data';
+      document.getElementById('tempStatus').innerHTML = '<div><span class="temp-indicator temp-optimal">— No data</span></div>';
+      return;
+    }
+
+    const allSorted = [...data].sort((a,b) => a.dateObj - b.dateObj);
+    const veryFirstRecord = allSorted[0];
+    const latest = data[0];
+    const oldestFiltered = data[data.length - 1];
+    const latestBirdsAlive = latest.birdsAlive;
+    const startingBirds = oldestFiltered.birdsAlive;
+    const totalDeaths = data.reduce((s,r) => s + r.deaths, 0);
+    const cumulativeDays = Math.max(1, Math.ceil((latest.dateObj - veryFirstRecord.dateObj) / 86400000) + 1);
+    const mortalityRate = startingBirds > 0 ? (totalDeaths / startingBirds * 100).toFixed(1) : '0.0';
+    const latestTemp = latest.temp;
+    const litterStatus = latest.litter && latest.litter.includes('yes') ? 'Available' : 'Low';
+    let lastUnavailable = 'N/A';
+    for (let i = 0; i < data.length; i++) { if (!data[i].litter.includes('yes')) { lastUnavailable = `${data[i].date} ${data[i].time||''}`.trim(); break; } }
+
+    let targetTempForDay = null, targetWeightForDay = null;
+    if (TARGET_DATA) {
+      const dayDiff = Math.floor((Date.UTC(latest.dateObj.getFullYear(), latest.dateObj.getMonth(), latest.dateObj.getDate()) - Date.UTC(veryFirstRecord.dateObj.getFullYear(), veryFirstRecord.dateObj.getMonth(), veryFirstRecord.dateObj.getDate())) / 86400000) + 1;
+      if (TARGET_DATA[dayDiff]) { targetTempForDay = TARGET_DATA[dayDiff].temp; targetWeightForDay = TARGET_DATA[dayDiff].weight; }
+    }
+
+    const tw = Math.floor(cumulativeDays/7), rd = cumulativeDays%7;
+    let wdt = tw>0&&rd>0?` (${tw} week${tw!==1?'s':''}, ${rd} day${rd!==1?'s':''})`:tw>0?` (${tw} week${tw!==1?'s':''})`:` (${rd} day${rd!==1?'s':''})`;
+
+    document.getElementById('monitoringDays').textContent = `${cumulativeDays} Days${wdt}`;
+    document.getElementById('monitoringRange').textContent = `${oldestFiltered.dateObj.toLocaleDateString('en-GB',{day:'numeric',month:'short'})} – ${latest.dateObj.toLocaleDateString('en-GB',{day:'numeric',month:'short'})}`;
+    updateBadge(latest.date, latest.time);
+    document.getElementById('heroKPI').textContent = `${fmt(latestBirdsAlive)} Chickens`;
+    document.getElementById('heroStarted').textContent = fmt(startingBirds);
+
+    const weightTrend = latest.avgWeight && data[1]?.avgWeight ? calculateTrend(latest.avgWeight, data[1].avgWeight, true) : { symbol: '—', class: 'neutral', text: 'Pending' };
+    const tempTrend = calculateTrend(latestTemp, data[1]?.temp, false);
+
+    let weightContext = 'Latest measurement';
+    if (latest.avgWeight && targetWeightForDay) {
+      const diff = latest.avgWeight - targetWeightForDay;
+      weightContext = `Target: ${targetWeightForDay}g · <span class="context-target-diff ${diff>=0?'ahead':'behind'}">${diff>=0?'↑ +':'↓ '}${diff}g ${diff>=0?'ahead':'behind'}</span>`;
+    }
+
+    let tempContext = getTempStatus(latestTemp, targetTempForDay);
+    if (targetTempForDay) {
+      const diff = latestTemp - targetTempForDay;
+      tempContext = `Target: ${targetTempForDay}°C · <span class="context-target-diff ${Math.abs(diff)<=3?'ahead':'behind'}">${diff>=0?'↑ +':'↓ '}${diff}°C · ${getTempStatus(latestTemp, targetTempForDay)}</span>`;
+    }
+
+    const targetMortalityRate = 5;
+    let mortalityContext = `${fmt(totalDeaths)} total deaths`;
+    if (startingBirds > 0) {
+      const rateDiff = parseFloat(mortalityRate) - targetMortalityRate;
+      mortalityContext = `Target: <${targetMortalityRate}% · <span class="context-target-diff ${rateDiff<=0?'ahead':'behind'}">${rateDiff<=0?'↓':'↑'} ${Math.abs(rateDiff).toFixed(1)}% ${rateDiff<=0?'below':'above'} target</span> · ${fmt(totalDeaths)} deaths`;
+    }
+
+    document.getElementById('topMetrics').innerHTML = [
+      { label: 'Mortality Rate', value: `${mortalityRate}%`, sub: mortalityContext, trend: { symbol: '—', class: 'neutral', text: 'Tracking' } },
+      { label: 'Last Avg Weight', value: latest.avgWeight ? `${fmt(latest.avgWeight)}g` : '—', sub: weightContext, trend: weightTrend },
+      { label: 'Temperature', value: `${fmt(latestTemp)}°C`, sub: tempContext, trend: tempTrend },
+      { label: 'Litter Status', value: litterStatus, sub: `Last unavailable: ${lastUnavailable}`, trend: { symbol: '•', class: 'neutral', text: '—' } }
+    ].map(m => {
+      const showTrend = m.trend.class === 'up' || m.trend.class === 'down';
+      return `<div class="metric-card"><div class="label">${m.label} ${showTrend?`<span class="trend-indicator trend-${m.trend.class}">${m.trend.symbol} ${m.trend.text}</span>`:''}</div><div class="value">${m.value}</div><div class="context">${m.sub}</div></div>`;
+    }).join('');
+
+    renderWeightChart(data.filter(r => r.avgWeight !== null).reverse());
+    renderCauseChart(data);
+    renderMortalityTimeline(data); renderMortalityKPI(data); updateMortalityDisplay();
+
+    if (targetTempForDay) {
+      document.getElementById('tempStatus').innerHTML = `<div><span class="temp-indicator ${getTempClass(latestTemp, targetTempForDay)}">${getTempIcon(latestTemp, targetTempForDay)} Current: ${fmt(latestTemp)}°C</span><span style="font-size:0.7rem;color:var(--text-muted);margin-left:0.5rem;">Target: ${targetTempForDay-3}–${targetTempForDay+3}°C</span></div>`;
+    } else {
+      document.getElementById('tempStatus').innerHTML = `<div><span class="temp-indicator ${getTempClass(latestTemp, null)}">${getTempIcon(latestTemp, null)} Current: ${fmt(latestTemp)}°C</span><span style="font-size:0.7rem;color:var(--text-muted);margin-left:0.5rem;">Optimal: 26–32°C</span></div>`;
+    }
+    renderTempChart(data);
+    renderResourceChart(data);
+    renderVaccinationTimeline();
+    renderDataTable(data);
+    document.getElementById('recordCount').textContent = `(${data.length} records)`;
+    document.getElementById('updatedLine').textContent = `Last updated: ${new Date().toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit'})}`;
+    updateSyncStatus(true);
+  }
+
+  function renderMortalityTimeline(data) {
+    const c = document.getElementById('mortalityTimeline'); if (!c) return;
+    const dr = data.filter(r => r.deaths > 0);
+    if (dr.length === 0) { c.innerHTML = '<div style="color:var(--text-muted);text-align:center;padding:1rem;">✅ No deaths recorded</div>'; return; }
+    c.innerHTML = dr.map(r => `<div class="mortality-item"><div class="mortality-dot"></div><div class="mortality-content"><div class="date">${r.date} ${r.time||''}</div><div class="count">${r.deaths} Death${r.deaths!==1?'s':''}</div><div class="note">Cause: ${r.deathCause||'Unrecorded'}</div></div></div>`).join('');
+  }
+
+  function renderMortalityKPI(data) {
+    const k = document.getElementById('mortalityKPI'); if (!k) return;
+    const total = data.reduce((s,r)=>s+r.deaths,0);
+    const start = data[data.length-1].birdsAlive;
+    const rate = start>0?(total/start*100).toFixed(1):0;
+    const days = Math.max(1,Math.ceil((data[0].dateObj-data[data.length-1].dateObj)/86400000)+1);
+    k.innerHTML = `<div class="label">Total Deaths</div><div class="value">${fmt(total)}</div><div class="subtitle">Over ${days} days · ${rate}% mortality · Started with ${fmt(start)} birds</div>`;
+  }
+
+  function renderWeightChart(data) {
+    const ctx = document.getElementById('weightChart')?.getContext('2d');
+    if (!ctx || typeof Chart==='undefined') return;
+    if (window.weightChartInstance) { window.weightChartInstance.destroy(); window.weightChartInstance = null; }
+    if (data.length===0) { document.getElementById('weightChart').parentNode.innerHTML='<p style="color:var(--text-muted);text-align:center;padding:2rem;">No weight data</p>'; return; }
+    const li = getLabelIndices(data.length);
+    const allSorted = [...allData].sort((a,b)=>a.dateObj-b.dateObj);
+    const oldestDate = allSorted.length>0?allSorted[0].dateObj:data[data.length-1].dateObj;
+    const targetValues = data.map(r => {
+      if (!TARGET_DATA) return null;
+      const dd = Math.floor((Date.UTC(r.dateObj.getFullYear(),r.dateObj.getMonth(),r.dateObj.getDate())-Date.UTC(oldestDate.getFullYear(),oldestDate.getMonth(),oldestDate.getDate()))/86400000)+1;
+      return TARGET_DATA[dd] ? TARGET_DATA[dd].weight : null;
+    });
+    const datasets = [{ label:'Avg Weight (g)', data:data.map(r=>r.avgWeight), borderColor:'#c9a94b', backgroundColor:'rgba(201,169,75,0.15)', borderWidth:3, pointBackgroundColor:'#fff', pointBorderColor:'#c9a94b', pointRadius:4, fill:true, tension:0.3 }];
+    datasets.push({ label:'Target Weight', data:targetValues, borderColor:'#8a949e', backgroundColor:'transparent', borderWidth:2, borderDash:[6,4], pointRadius:0, pointHoverRadius:5, fill:false, tension:0.2 });
+    window.weightChartInstance = new Chart(ctx, {
+      type:'line', data:{ labels:data.map(r=>`${r.dateObj.getDate()} ${r.dateObj.toLocaleString('en-GB',{month:'short'})}`), datasets },
+      options:{ responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{ display:true, position:'top', align:'end', labels:{ color:'#b9c7dd', font:{size:10}, boxWidth:15, padding:10 } }, tooltip:{ backgroundColor:'#0b1a2b', callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.y}g`}} },
+        scales:{ x:{ticks:{color:'#b9c7dd',font:{size:10}},grid:{color:'rgba(255,255,255,0.05)'}}, y:{ticks:{color:'#b9c7dd',font:{size:10}},grid:{color:'rgba(255,255,255,0.05)'},beginAtZero:false}}
+      },
+      plugins:[{ id:'lbl', afterDatasetsDraw(chart){ chart.getDatasetMeta(0).data.forEach((p,i)=>{ if(li.has(i)){ const v=chart.data.datasets[0].data[i]; chart.ctx.fillStyle='#c9a94b'; chart.ctx.font='bold 9px Georgia'; chart.ctx.textAlign='center'; chart.ctx.fillText(v+'g',p.x,p.y-10); } }); }}]
+    });
+  }
+
+  function renderCauseChart(data) {
+    const ctx = document.getElementById('causeChart')?.getContext('2d'); if (!ctx||typeof Chart==='undefined') return;
+    if (window.causeChartInstance) { window.causeChartInstance.destroy(); window.causeChartInstance = null; }
+    const dd = {}; data.forEach(r => { if(r.date) dd[r.date]=(dd[r.date]||0)+r.deaths; });
+    const sd = Object.keys(dd).sort((a,b)=>parseDate(a)-parseDate(b));
+    if (sd.length===0) { document.getElementById('causeChart').parentNode.innerHTML='<p style="color:var(--text-muted);text-align:center;padding:2rem;">No death data</p>'; return; }
+    const vals = sd.map(d=>dd[d]), maxVal = Math.max(...vals,1), li = getLabelIndices(sd.length);
+    window.causeChartInstance = new Chart(ctx, {
+      type:'line', data:{ labels:sd.map(d=>parseDate(d).toLocaleDateString('en-GB',{day:'numeric',month:'short'})), datasets:[{ data:vals, borderColor:'#e74c3c', backgroundColor:'rgba(231,76,60,0.2)', borderWidth:2, pointBackgroundColor:'#e74c3c', pointBorderColor:'#fff', pointRadius:4, fill:true, tension:0.3 }] },
+      options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false} }, scales:{ x:{ticks:{color:'#b9c7dd',font:{size:10}}}, y:{max:maxVal+1,ticks:{color:'#b9c7dd',font:{size:10},stepSize:1},beginAtZero:true}} },
+      plugins:[{ id:'lbl', afterDatasetsDraw(chart){ chart.getDatasetMeta(0).data.forEach((p,i)=>{ if(li.has(i)){ chart.ctx.fillStyle='#fff'; chart.ctx.font='bold 10px Georgia'; chart.ctx.textAlign='center'; chart.ctx.fillText(chart.data.datasets[0].data[i],p.x,p.y-12); } }); }}]
+    });
+  }
+
+  function renderTempChart(data) {
+    const ctx = document.getElementById('tempChart')?.getContext('2d'); if (!ctx||typeof Chart==='undefined') return;
+    if (window.tempChartInstance) { window.tempChartInstance.destroy(); window.tempChartInstance = null; }
+    const rec = data.slice(0,15).reverse();
+    if (rec.length===0) { document.getElementById('tempChart').parentNode.innerHTML='<p style="color:var(--text-muted);text-align:center;padding:2rem;">No temperature data</p>'; return; }
+    const li = getLabelIndices(rec.length);
+    const allSorted = [...allData].sort((a,b)=>a.dateObj-b.dateObj);
+    const oldestDate = allSorted.length>0?allSorted[0].dateObj:rec[rec.length-1].dateObj;
+    const targetTemps = rec.map(r => {
+      if (!TARGET_DATA) return null;
+      const dd = Math.floor((Date.UTC(r.dateObj.getFullYear(),r.dateObj.getMonth(),r.dateObj.getDate())-Date.UTC(oldestDate.getFullYear(),oldestDate.getMonth(),oldestDate.getDate()))/86400000)+1;
+      return TARGET_DATA[dd] ? TARGET_DATA[dd].temp : null;
+    });
+    const datasets = [{ label:'Temp (°C)', data:rec.map(r=>r.temp), borderColor:'#c9a94b', backgroundColor:'rgba(201,169,75,0.1)', borderWidth:3, pointRadius:4, pointBackgroundColor:'#fff', tension:0.3, fill:true }];
+    datasets.push({ label:'Target Temp', data:targetTemps, borderColor:'#8a949e', backgroundColor:'transparent', borderWidth:2, borderDash:[6,4], pointRadius:0, pointHoverRadius:5, fill:false, tension:0.2 });
+    window.tempChartInstance = new Chart(ctx, {
+      type:'line', data:{ labels:rec.map(r=>`${r.dateObj.getDate()}/${r.dateObj.getMonth()+1}`), datasets },
+      options:{ responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{ display:true, position:'top', align:'end', labels:{ color:'#b9c7dd', font:{size:10}, boxWidth:15, padding:10 } }, tooltip:{ backgroundColor:'#0b1a2b', callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.y}°C`}} },
+        scales:{ x:{ticks:{color:'#b9c7dd',font:{size:9}},grid:{display:false}}, y:{ticks:{color:'#b9c7dd',font:{size:9}},min:15,max:40}}
+      },
+      plugins:[{ id:'lbl', afterDatasetsDraw(chart){ chart.getDatasetMeta(0).data.forEach((p,i)=>{ if(li.has(i)){ chart.ctx.fillStyle='#c9a94b'; chart.ctx.font='bold 8px Georgia'; chart.ctx.textAlign='center'; chart.ctx.fillText(chart.data.datasets[0].data[i]+'°',p.x,p.y-10); } }); }}]
+    });
+  }
+
+  function renderResourceChart(data) {
+    const ctx = document.getElementById('resourceChart')?.getContext('2d'); if (!ctx||typeof Chart==='undefined') return;
+    if (window.resourceChartInstance) { window.resourceChartInstance.destroy(); window.resourceChartInstance = null; }
+    const avgF=data.reduce((s,r)=>s+r.feed,0)/data.length, avgW=data.reduce((s,r)=>s+r.water,0)/data.length;
+    window.resourceChartInstance = new Chart(ctx, {
+      type:'bar', data:{ labels:['Feed','Water'], datasets:[{ data:[avgF,avgW], backgroundColor:['#8a949e','rgba(201,169,75,0.7)'], borderColor:['#7a848e','#c9a94b'], borderWidth:3, borderRadius:12, borderSkipped:false, barPercentage:0.6, categoryPercentage:0.8 }] },
+      options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{backgroundColor:'#0b1a2b',callbacks:{label:ctx=>`${ctx.parsed.y.toFixed(1)} ${ctx.label==='Feed'?'kg':'L'}`}} },
+        scales:{ x:{ticks:{color:'#f0f2f5',font:{size:11,weight:'bold',family:'Georgia'},callback:(_,i)=>i===0?'Feed (kg)':'Water (L)'},grid:{display:false}}, y:{ticks:{color:'#b9c7dd',font:{size:10},callback:v=>v.toFixed(1)},beginAtZero:true}}
+      },
+      plugins:[{ id:'lbl', afterDatasetsDraw(chart){ chart.getDatasetMeta(0).data.forEach((b,i)=>{ const v=chart.data.datasets[0].data[i]; chart.ctx.fillStyle='#fff'; chart.ctx.font='bold 13px Georgia'; chart.ctx.textAlign='center'; chart.ctx.fillText(v.toFixed(1)+(i===0?'kg':'L'),b.x,b.y-10); }); }}]
+    });
+  }
+
+  function renderVaccinationTimeline() {
+    const container = document.getElementById('vaccinationTimeline');
+    const countBadge = document.getElementById('vaccinationCount');
+    const statsEl = document.getElementById('vaccinationStats');
+    let data = VACCINATION_DATA;
+    if (!data || data.length === 0) data = filterByFarmer(FALLBACK_VACCINATION_DATA, currentFarmer);
+    if (!container) return;
+    if (!data || data.length === 0) {
+      container.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:2rem;">No vaccination records found</div>';
+      if (countBadge) countBadge.textContent = '0 doses'; if (statsEl) statsEl.textContent = ''; return;
+    }
+    const totalDoses = data.reduce((sum,v) => sum + v.itemName.split(',').length, 0);
+    if (countBadge) countBadge.textContent = `${totalDoses} dose${totalDoses!==1?'s':''}`;
+    const spanDays = Math.round((parseDate(data[data.length-1].date)-parseDate(data[0].date))/86400000);
+    if (statsEl) statsEl.innerHTML = `<strong>${data.length}</strong> sessions · <strong>${totalDoses}</strong> total doses · Span: <strong>${spanDays} days</strong>`;
+
+    const desktopNodes = data.map((v,i) => {
+      const items = v.itemName.split(',').map(x=>x.trim());
+      const pd = parseDate(v.date);
+      const doc = calculateDayOfCycle(v.date, allData);
+      return `<div class="vaccination-node-desktop"><div class="vaccination-day">${doc?`Day ${doc}`:`#${i+1}`}</div><div class="vaccination-dot"></div><div class="vacc-node-card"><div class="vacc-node-date">${pd.toLocaleDateString('en-GB',{day:'numeric',month:'short'})}<span class="year">${pd.getFullYear()}</span></div><div class="vacc-tags">${items.map(item=>`<div class="vacc-tag">${item}</div>`).join('')}</div>${v.reactions?`<div style="font-size:0.6rem;color:#e74c3;margin-top:0.3rem;">⚠️ ${v.reactions}</div>`:''}</div></div>`;
+    }).join('');
+
+    const mobileNodes = data.map((v,i) => {
+      const items = v.itemName.split(',').map(x=>x.trim());
+      const pd = parseDate(v.date);
+      const doc = calculateDayOfCycle(v.date, allData);
+      return `<div class="vaccination-node-mobile"><div class="vaccination-node-day-mobile">${doc?`Day ${doc}`:`Session #${i+1}`}</div><div class="vaccination-node-date-mobile">${pd.toLocaleDateString('en-GB',{day:'numeric',month:'short'})}<span class="vaccination-node-year-mobile">${pd.getFullYear()}</span></div><div class="vaccination-node-tags-mobile">${items.map(item=>`<span class="vaccination-tag-mobile">${item}</span>`).join('')}</div>${v.reactions?`<div style="font-size:0.65rem;color:#e74c3;margin-top:0.4rem;">⚠️ ${v.reactions}</div>`:''}${v.notes?`<div style="font-size:0.6rem;color:var(--text-muted);margin-top:0.2rem;">📝 ${v.notes}</div>`:''}</div>`;
+    }).join('');
+    container.innerHTML = desktopNodes + mobileNodes;
+  }
+
+  function renderDataTable(data) {
+    const allSorted = [...allData].sort((a,b)=>a.dateObj-b.dateObj);
+    const oldestDate = allSorted.length>0?allSorted[0].dateObj:new Date();
+    const headers = ['Date','Time','Alive','Deaths','Cause','Feed(kg)','Water(L)','Temp(°C)','Weight(g)'];
+    const h = `<thead><tr>${headers.map(x=>`<th>${x}</th>`).join('')}</tr></thead>`;
+    const b = `<tbody>${data.map(r=>{
+      let targetTemp = null;
+      if (TARGET_DATA && r.dateObj) { const dd = Math.floor((Date.UTC(r.dateObj.getFullYear(),r.dateObj.getMonth(),r.dateObj.getDate())-Date.UTC(oldestDate.getFullYear(),oldestDate.getMonth(),oldestDate.getDate()))/86400000)+1; if(TARGET_DATA[dd]) targetTemp=TARGET_DATA[dd].temp; }
+      return `<tr><td style="font-weight:600;color:white;">${r.date}</td><td>${r.time||'—'}</td><td style="color:#c9a94b;font-weight:600;">${fmt(r.birdsAlive)}</td><td style="color:${r.deaths>0?'#c97a3b':'#b9c7dd'}">${r.deaths}</td><td>${r.deathCause||(r.deaths>0?'<span style="color:#e6c468;font-size:0.75rem;">Unrecorded</span>':'—')}</td><td>${fmt(r.feed,1)}</td><td>${fmt(r.water,1)}</td><td><span class="temp-indicator ${getTempClass(r.temp,targetTemp)}" style="padding:0.15rem 0.5rem;font-size:0.7rem;">${r.temp}°C</span></td><td>${(r.avgWeight!=null&&r.avgWeight>0)?`${fmt(r.avgWeight)}g`:'—'}</td></tr>`;
+    }).join('')}</tbody>`;
+    document.getElementById('dataTable').innerHTML = h + b;
+  }
+
+  window.addEventListener('online', () => updateSyncStatus(true));
+  window.addEventListener('offline', () => updateSyncStatus(false));
+  if (!navigator.onLine) updateSyncStatus(false);
+
+  let deferredPrompt, installButtonTimeout;
+  const installButton = document.getElementById('installButton');
+  function isAppInstalled() { return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true || document.referrer.includes('android-app://'); }
+  if (isAppInstalled()) installButton.style.display = 'none';
+  function showInstallButtonWithDelay() { if (installButtonTimeout) clearTimeout(installButtonTimeout); if (!isAppInstalled() && deferredPrompt) installButtonTimeout = setTimeout(() => { if (!isAppInstalled() && deferredPrompt) installButton.style.display = 'flex'; }, 5000); }
+  window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; showInstallButtonWithDelay(); });
+  installButton.addEventListener('click', async () => { if (!deferredPrompt) return; if (installButtonTimeout) clearTimeout(installButtonTimeout); installButton.style.display = 'none'; deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; });
+  window.addEventListener('appinstalled', () => { if (installButtonTimeout) clearTimeout(installButtonTimeout); installButton.style.display = 'none'; deferredPrompt = null; });
+
+  window.addEventListener('DOMContentLoaded', async () => {
+    document.getElementById('topMetrics').innerHTML = '<div class="metric-card" style="grid-column:span 6;text-align:center;">⏳ Loading your farm data...</div>';
+    try {
+      FARMER_REGISTRY = await fetchFarmerRegistry();
+      currentFarmer = getFarmerFromURL();
+      if (!currentFarmer) {
+        document.getElementById('topMetrics').innerHTML = '<div class="metric-card" style="grid-column:span 6;text-align:center;">❌ No farmer specified. Use <code>?farmer=name</code> in the URL.</div>';
+        document.getElementById('heroFarmerName').textContent = 'No farmer specified';
+        return;
+      }
+      currentFarmerId = currentFarmer.phone || currentFarmer.email;
+      updateUIForFarmer(currentFarmer);
+      const { data, success } = await fetchData();
+      if (data.length === 0) throw new Error('No data');
+      allData = data;
+      TARGET_DATA = await fetchTargetData();
+      VACCINATION_DATA = await fetchVaccinationData();
+      buildWeekFilterButtons(allData);
+      render(allData);
+
+      document.getElementById('toggleMortalityBtn')?.addEventListener('click', () => {
+        mortalityViewMode = mortalityViewMode === 'timeline' ? 'total' : 'timeline';
+        updateMortalityDisplay();
+        const btn = document.getElementById('toggleMortalityBtn');
+        if (btn) btn.innerHTML = mortalityViewMode === 'total' ? ' Show Daily' : '📊 Show Total';
+        renderMortalityTimeline(filterDataByWeek(allData, currentFilter));
+        renderMortalityKPI(filterDataByWeek(allData, currentFilter));
+        updateMortalityDisplay();
+      });
+
+      document.getElementById('refreshBtn')?.addEventListener('click', async () => {
+        const btn = document.getElementById('refreshBtn'); btn.textContent = '↻ Refreshing...'; btn.disabled = true;
+        try {
+          const { data: freshData } = await fetchData(); allData = freshData;
+          TARGET_DATA = await fetchTargetData(); VACCINATION_DATA = await fetchVaccinationData();
+          buildWeekFilterButtons(allData); currentFilter = 'all';
+          document.querySelectorAll('.week-filter-btn').forEach(b => b.classList.remove('active'));
+          document.querySelector('.week-filter-btn[data-filter="all"]')?.classList.add('active');
+          render(allData); btn.textContent = '✓ Updated!';
+          setTimeout(() => { btn.textContent = '↻ Refresh'; btn.disabled = false; }, 1500);
+        } catch(e) { btn.textContent = '✗ Error'; setTimeout(() => { btn.textContent = '↻ Refresh'; btn.disabled = false; }, 2000); }
+      });
+
+      if (success) setInterval(async () => { const { data: freshData } = await fetchData(); allData = freshData; TARGET_DATA = await fetchTargetData(); VACCINATION_DATA = await fetchVaccinationData(); render(filterDataByWeek(allData, currentFilter)); }, 300000);
+    } catch(e) {
+      FARMER_REGISTRY = FALLBACK_FARMER_REGISTRY;
+      currentFarmer = getFarmerFromURL() || FALLBACK_FARMER_REGISTRY[0];
+      currentFarmerId = currentFarmer.phone || currentFarmer.email;
+      updateUIForFarmer(currentFarmer);
+      allData = filterByFarmer(FALLBACK_DATA, currentFarmer); ALL_UNFILTERED_DATA = [...FALLBACK_DATA];
+      TARGET_DATA = await fetchTargetData(); VACCINATION_DATA = await fetchVaccinationData();
+      buildWeekFilterButtons(allData); render(allData);
+    }
+  });
+})();
+</script>
+</body>
+</html>
