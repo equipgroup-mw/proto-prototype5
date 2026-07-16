@@ -44,9 +44,16 @@
       "icons": [{ "src": "icon.png", "sizes": "192x192" }]
     },
     {
-      "name": "Farmer Dashboard",
+      "name": "Farmer Directory",
+      "short_name": "Directory",
+      "description": "Select your farm dashboard",
+      "url": "./directory.html",
+      "icons": [{ "src": "icon.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "My Farm Dashboard",
       "short_name": "My Farm",
-      "description": "View your farm data",
+      "description": "Direct link to personal farm view",
       "url": "./user.html",
       "icons": [{ "src": "icon.png", "sizes": "192x192" }]
     }

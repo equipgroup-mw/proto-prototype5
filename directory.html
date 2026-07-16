@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farm Directory | Proto Poultry Project</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Imported core variables and styling from your dashboard */
+    :root {
+      --brand-gold: #c9a94b;
+      --brand-gold-light: #e6c468;
+      --brand-navy: #0a1625;
+      --brand-dark-blue: #0f2136;
+      --brand-card-bg: #10273e;
+      --text-primary: #f0f2f5;
+      --text-secondary: #b9c7dd;
+      --text-muted: #8896aa;
+      --success: #2ecc71;
+      --danger: #e74c3c;
+      --border-subtle: rgba(201, 169, 75, 0.2);
+      --shadow-card: 0 8px 32px rgba(0,0,0,0.4);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --radius-card: 20px;
+      --radius-pill: 30px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: linear-gradient(145deg, var(--brand-navy) 0%, var(--brand-dark-blue) 100%);
+      font-family: 'Libre Franklin', system-ui, -apple-system, sans-serif;
+      padding: clamp(1rem, 4vw, 3rem);
+      color: var(--text-primary);
+      line-height: 1.5;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    /* Re-using your dashboard's typography rules */
+    h1, h2, h3, h4, h5, h6, .section-title, .card-header {
+      font-family: 'Georgia', serif; 
+      font-weight: 700; 
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; width: 100%; }
+    
+    /* Hero / Header */
+    .hero-section { perspective: 800px; margin-bottom: 2rem; }
+    .hero-card { 
+      background: linear-gradient(160deg, #1e3a5f, #142d4a, #0d1f36); 
+      border: 2px solid rgba(201,169,75,0.6); 
+      border-radius: 28px; 
+      padding: clamp(1.5rem, 4vw, 2.5rem); 
+      position: relative; 
+      overflow: hidden; 
+      box-shadow: 0 20px 60px rgba(201, 169, 75, 0.15), 0 12px 40px rgba(0,0,0,0.5); 
+      text-align: center;
+    }
+    .hero-top-line { position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, rgba(201,169,75,0), #e6c468, rgba(201,169,75,0)); box-shadow: 0 0 15px rgba(201,169,75,0.5); z-index: 2; }
+    .hero-icon { font-size: 3rem; margin-bottom: 0.5rem; display: block; }
+    .hero-title { font-size: clamp(2rem, 6vw, 3.5rem); color: #ffffff; margin-bottom: 0.5rem; letter-spacing: -1px; line-height: 1.1; }
+    .hero-subtitle { font-size: clamp(1rem, 3vw, 1.2rem); color: var(--brand-gold-light); max-width: 600px; margin: 0 auto; }
+
+    /* Search Bar */
+    .search-bar { max-width: 550px; margin: 2.5rem auto 0; position: relative; }
+    .search-bar input {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
+      font-family: 'Libre Franklin', sans-serif;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-pill);
+      color: var(--text-primary);
+      outline: none;
+      transition: var(--transition);
+    }
+    .search-bar input::placeholder { color: var(--text-muted); }
+    .search-bar input:focus {
+      border-color: var(--brand-gold);
+      background: rgba(201, 169, 75, 0.05);
+      box-shadow: 0 0 0 4px rgba(201, 169, 75, 0.15);
+    }
+
+    /* District Dropdown Accordion */
+    .districts-container { margin-top: 3rem; display: flex; flex-direction: column; gap: 1rem; }
+    
+    .district-group {
+      background: var(--brand-card-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      transition: var(--transition);
+    }
+    .district-group:hover { border-color: rgba(201, 169, 75, 0.4); }
+
+    .district-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 1.5rem;
+      cursor: pointer;
+      background: linear-gradient(135deg, rgba(201,169,75,0.08) 0%, transparent 100%);
+      border-left: 4px solid var(--brand-gold);
+      transition: var(--transition);
+    }
+    .district-header:hover { background: rgba(201,169,75,0.12); }
+    
+    .district-title-group { display: flex; align-items: center; gap: 0.8rem; }
+    .district-name { 
+      font-size: 1.4rem; 
+      color: #ffffff; 
+      font-family: 'Georgia', serif;
+    }
+    .district-count {
+      background: var(--brand-gold);
+      color: var(--brand-navy);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-pill);
+    }
+    
+    .dropdown-icon {
+      font-size: 1.5rem;
+      color: var(--brand-gold);
+      transition: transform 0.3s ease;
+    }
+    .district-group.active .dropdown-icon { transform: rotate(180deg); }
+
+    .district-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-in-out;
+      padding: 0 1.5rem;
+    }
+    .district-group.active .district-content { max-height: 5000px; padding-bottom: 1.5rem; }
+
+    /* Farmers Grid inside Dropdown */
+    .farmers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .farmer-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 1.2rem;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .farmer-card:hover {
+      transform: translateY(-3px);
+      background: rgba(201, 169, 75, 0.06);
+      border-color: var(--brand-gold);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    .farmer-top { display: flex; align-items: center; gap: 1rem; }
+    
+    .farmer-avatar {
+      width: 45px; height: 45px;
+      background: rgba(201, 169, 75, 0.15);
+      border: 1.5px solid var(--brand-gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--brand-gold-light);
+      flex-shrink: 0;
+      font-family: 'Georgia', serif;
+    }
+
+    .farmer-info { flex: 1; min-width: 0; }
+    .farmer-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.15rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .farmer-phone {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .view-dashboard-btn {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--brand-gold);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4rem;
+      padding-top: 0.8rem;
+      border-top: 1px dashed rgba(255,255,255,0.1);
+      transition: var(--transition);
+    }
+    .farmer-card:hover .view-dashboard-btn { color: var(--brand-gold-light); }
+
+    .status-message {
+      text-align: center;
+      padding: 4rem;
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+    .status-message.error { color: var(--danger); }
+
+    /* Mobile Adjustments */
+    @media (max-width: 768px) {
+      .farmers-grid { grid-template-columns: 1fr; }
+      .district-header { padding: 1rem; }
+      .district-name { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="hero-section">
+    <div class="hero-card">
+      <div class="hero-top-line"></div>
+      <span class="hero-icon">🐔</span>
+      <h1 class="hero-title">Farm Directory</h1>
+      <p class="hero-subtitle">Select your district and farm below to view live flock analytics, mortality tracking, and vaccination history.</p>
+      
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="🔍 Search by farmer name or district..." oninput="filterFarmers()">
+      </div>
+    </div>
+  </div>
+
+  <div id="districtsContainer" class="districts-container">
+    <div class="status-message">Loading farmers...</div>
+  </div>
+
+</div>
+
+<script>
+  // --- CONFIGURATION ---
+  // Change this if your dashboard file has a different name
+  const DASHBOARD_PAGE = "user.html"; 
+  const FARMER_REGISTRY_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRyGfky3hmhDVQgZGF9_cbndTHAxBpnHHPXd80Jsv-cY7zotnEwI6AmAbZvZ4sNmGhxW4dmvnWmDkGy/pub?gid=877233883&single=true&output=csv";
+
+  let allFarmers = [];
+
+  // Simple CSV Parser 
+  function parseCSV(text) {
+    const rows = []; let row = [], field = '', inQuotes = false;
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i], next = text[i+1];
+      if (ch === '"' && !inQuotes) inQuotes = true;
+      else if (ch === '"' && inQuotes && next === '"') { field += '"'; i++; }
+      else if (ch === '"' && inQuotes) inQuotes = false;
+      else if (ch === ',' && !inQuotes) { row.push(field.trim()); field = ''; }
+      else if ((ch === '\n' || ch === '\r') && !inQuotes) { 
+        if (field || row.length) { row.push(field.trim()); rows.push(row); row = []; field = ''; } 
+        if (ch === '\r' && next === '\n') i++; 
+      }
+      else field += ch;
+    }
+    if (field || row.length) { row.push(field.trim()); rows.push(row); }
+    return rows.filter(r => r.length > 1 && r.some(c => c.trim() !== ''));
+  }
+
+  async function loadFarmers() {
+    const container = document.getElementById('districtsContainer');
+    try {
+      const response = await fetch(FARMER_REGISTRY_URL, { cache: 'no-store' });
+      if (!response.ok) throw new Error('Failed to fetch');
+      
+      const rows = parseCSV(await response.text());
+      if (rows.length < 2) throw new Error('No data found');
+
+      const headers = rows[0].map(h => h.toLowerCase().trim());
+      const nameIdx = headers.indexOf('name');
+      const phoneIdx = headers.indexOf('phone');
+      const districtIdx = headers.indexOf('district');
+
+      if (nameIdx === -1) throw new Error('Name column not found in sheet');
+
+      allFarmers = [];
+      for (let i = 1; i < rows.length; i++) {
+        const row = rows[i];
+        if (row.length === 0) continue;
+        
+        const name = (row[nameIdx] || '').trim();
+        const phone = phoneIdx >= 0 ? (row[phoneIdx] || '').trim() : '';
+        let district = districtIdx >= 0 ? (row[districtIdx] || '').trim() : '';
+        
+        if(!district) district = "Unspecified Location";
+        if (name) allFarmers.push({ name, phone, district });
+      }
+
+      renderDistricts(allFarmers);
+
+    } catch (error) {
+      console.error("Error loading farmers:", error);
+      container.innerHTML = '<div class="status-message error">⚠️ Could not load farmer directory. Please try again later.</div>';
+    }
+  }
+
+  function renderDistricts(farmersList) {
+    const container = document.getElementById('districtsContainer');
+    
+    if (farmersList.length === 0) {
+      container.innerHTML = '<div class="status-message">No farmers found matching your search.</div>';
+      return;
+    }
+
+    // 1. Group farmers by district
+    const districts = {};
+    farmersList.forEach(farmer => {
+      if (!districts[farmer.district]) {
+        districts[farmer.district] = [];
+      }
+      districts[farmer.district].push(farmer);
+    });
+
+    // 2. Sort districts alphabetically
+    const sortedDistricts = Object.keys(districts).sort();
+
+    // 3. Generate HTML
+    let html = '';
+    sortedDistricts.forEach(districtName => {
+      const farmersInDistrict = districts[districtName];
+      const count = farmersInDistrict.length;
+      
+      // Create farmer cards
+      const cardsHtml = farmersInDistrict.map(farmer => {
+        const slug = farmer.name.toLowerCase().replace(/\s+/g, '-');
+        const dashboardUrl = `${DASHBOARD_PAGE}?farmer=${slug}`;
+        const initials = farmer.name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+
+        return `
+          <a href="${dashboardUrl}" class="farmer-card">
+            <div class="farmer-top">
+              <div class="farmer-avatar">${initials}</div>
+              <div class="farmer-info">
+                <div class="farmer-name">${farmer.name}</div>
+                <div class="farmer-phone">📞 ${farmer.phone || 'N/A'}</div>
+              </div>
+            </div>
+            <div class="view-dashboard-btn">
+              <span>View Dashboard</span>
+              <span>→</span>
+            </div>
+          </a>
+        `;
+      }).join('');
+
+      html += `
+        <div class="district-group">
+          <div class="district-header" onclick="toggleDropdown(this)">
+            <div class="district-title-group">
+              <span class="district-name">${districtName}</span>
+              <span class="district-count">${count} Farmer${count !== 1 ? 's' : ''}</span>
+            </div>
+            <span class="dropdown-icon">▼</span>
+          </div>
+          <div class="district-content">
+            <div class="farmers-grid">
+              ${cardsHtml}
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    container.innerHTML = html;
+    
+  }
+
+  function toggleDropdown(headerElement) {
+    const group = headerElement.parentElement;
+    group.classList.toggle('active');
+  }
+
+  function filterFarmers() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    const filtered = allFarmers.filter(f => 
+      f.name.toLowerCase().includes(searchTerm) || 
+      f.district.toLowerCase().includes(searchTerm)
+    );
+    
+    renderDistricts(filtered);
+    
+    // If searching, auto-expand all visible districts
+    if (searchTerm !== '') {
+      document.querySelectorAll('.district-group').forEach(g => g.classList.add('active'));
+    }
+  }
+
+  // Initialize on page load
+  loadFarmers();
+</script>
+
+</body>
+</html>

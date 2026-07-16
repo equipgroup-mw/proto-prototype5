@@ -51,8 +51,8 @@
     
     .dashboard { max-width: 1400px; margin: 0 auto; width: 100%; }
     
-    /* ========== FARMER SELECTOR ========== */
-    .farmer-selector {
+    /* ========== AGGREGATE INFO BAR ========== */
+    .agg-bar {
       background: rgba(201,169,75,0.06);
       border: 1px solid var(--border-subtle);
       border-radius: 16px;
@@ -61,122 +61,26 @@
       margin-bottom: 0.5rem;
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 1rem;
       flex-wrap: wrap;
     }
-    .farmer-selector-inner {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      flex-wrap: wrap;
-      width: 100%;
-    }
-    .farmer-label {
-      font-size: clamp(0.7rem, 2.2vw, 0.78rem);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: var(--text-muted);
+    .agg-info { display: flex; align-items: center; gap: 0.8rem; }
+    .agg-label {
+      font-size: clamp(0.8rem, 2.5vw, 1rem);
+      color: var(--text-secondary);
       font-weight: 600;
-      white-space: nowrap;
     }
-    .farmer-dropdown {
-      background: rgba(201, 169, 75, 0.08);
-      color: var(--text-primary);
-      border: 1px solid var(--border-subtle);
-      padding: clamp(0.4rem, 1.5vw, 0.5rem) clamp(0.8rem, 2vw, 1rem);
-      border-radius: var(--radius-pill);
-      font-family: 'Libre Franklin', sans-serif;
-      font-weight: 500;
-      font-size: clamp(0.75rem, 2.5vw, 0.85rem);
-      cursor: pointer;
-      transition: var(--transition);
-      min-width: 200px;
-      flex: 1;
-      max-width: 400px;
-      outline: none;
-    }
-    .farmer-dropdown:hover {
-      border-color: var(--brand-gold);
-      background: rgba(201, 169, 75, 0.15);
-    }
-    .farmer-dropdown:focus {
-      border-color: var(--brand-gold-light);
-      box-shadow: 0 0 0 3px rgba(201, 169, 75, 0.2);
-    }
-    .farmer-dropdown option {
-      background: var(--brand-navy);
-      color: var(--text-primary);
-      padding: 0.5rem;
-    }
-    .farmer-info {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      margin-left: auto;
-    }
-    .farmer-detail {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-size: clamp(0.7rem, 2.2vw, 0.75rem);
-      color: var(--text-secondary);
-      background: rgba(201,169,75,0.08);
-      padding: 0.3rem 0.8rem;
-      border-radius: 20px;
-      border: 1px solid var(--border-subtle);
-      flex-wrap: wrap;
-    }
-    .farmer-name {
-      font-weight: 700;
-      color: var(--brand-gold-light);
-      font-family: 'Georgia', serif;
-    }
-    .farmer-district {
-      color: var(--text-muted);
-      font-size: 0.7rem;
-    }
-    .farmer-contact {
-      color: var(--text-secondary);
-      font-size: 0.7rem;
-    }
-    .farmer-count-badge {
+    .agg-count-badge {
       background: var(--brand-gold);
       color: var(--brand-navy);
-      padding: 0.2rem 0.6rem;
-      border-radius: 12px;
+      padding: 0.3rem 0.8rem;
+      border-radius: var(--radius-pill);
       font-weight: 700;
-      font-size: 0.7rem;
+      font-size: 0.85rem;
       white-space: nowrap;
     }
     
-    /* ========== ADMIN RETURN LINK & SHARE BUTTON ========== */
-    #adminReturnLink {
-      font-family: 'Libre Franklin', sans-serif;
-      margin-top: 0.3rem;
-    }
-    #adminReturnLink a {
-      color: var(--brand-gold-light);
-      text-decoration: none;
-      font-size: 0.75rem;
-      transition: var(--transition);
-    }
-    #adminReturnLink a:hover {
-      color: var(--brand-gold);
-      text-decoration: underline;
-    }
-    #shareFarmerBtn {
-      animation: none !important;
-      background: var(--brand-card-bg);
-      color: var(--brand-gold-light);
-      border: 1px solid var(--brand-gold);
-    }
-    #shareFarmerBtn:hover {
-      background: var(--brand-gold) !important;
-      color: var(--brand-navy) !important;
-      border-color: var(--brand-gold) !important;
-    }
-
     /* ========== MONITORING BAR ========== */
     .monitoring-bar {
       display: flex;
@@ -198,155 +102,30 @@
       align-items: flex-start;
       min-width: 0;
     }
-    .monitoring-age-row {
-      display: flex;
-      align-items: baseline;
-      gap: 0.5rem;
-      flex-wrap: nowrap;
-      white-space: nowrap;
-    }
-    .monitoring-age-label {
-      font-size: clamp(0.7rem, 2.2vw, 0.78rem);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: var(--text-muted);
-      font-weight: 600;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    .monitoring-age-value {
-      font-size: clamp(1rem, 3vw, 1.3rem);
-      font-weight: 700;
-      color: var(--brand-gold-light);
-      font-family: 'Georgia', serif;
-      white-space: nowrap;
-    }
-    .monitoring-age-sub {
-      font-size: clamp(0.65rem, 2vw, 0.7rem);
-      color: var(--text-muted);
-      white-space: nowrap;
-    }
-    .monitoring-filter {
-      flex: 0 0 50%;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      flex-wrap: wrap;
-      padding-left: clamp(1rem, 3vw, 2rem);
-      justify-content: flex-start;
-    }
-    .monitoring-filter-label {
-      font-size: clamp(0.65rem, 2vw, 0.7rem);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text-muted);
-      font-weight: 600;
-      white-space: nowrap;
-      margin-right: 0.3rem;
-    }
-    .week-filter-btn {
-      background: rgba(201, 169, 75, 0.08);
-      color: var(--text-secondary);
-      border: 1px solid var(--border-subtle);
-      padding: clamp(0.3rem, 1.2vw, 0.4rem) clamp(0.5rem, 1.8vw, 0.8rem);
-      border-radius: var(--radius-pill);
-      font-family: 'Libre Franklin', sans-serif;
-      font-weight: 600;
-      font-size: clamp(0.62rem, 2vw, 0.7rem);
-      cursor: pointer;
-      transition: var(--transition);
-      white-space: nowrap;
-    }
-    .week-filter-btn:hover {
-      background: rgba(201, 169, 75, 0.2);
-      border-color: var(--brand-gold);
-      color: var(--brand-gold-light);
-      transform: translateY(-1px);
-    }
-    .week-filter-btn.active {
-      background: var(--brand-gold);
-      color: var(--brand-navy);
-      border-color: var(--brand-gold);
-      box-shadow: 0 4px 12px rgba(201, 169, 75, 0.4);
-      font-weight: 700;
-    }
+    .monitoring-age-row { display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: nowrap; white-space: nowrap; }
+    .monitoring-age-label { font-size: clamp(0.7rem, 2.2vw, 0.78rem); text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); font-weight: 600; white-space: nowrap; flex-shrink: 0; }
+    .monitoring-age-value { font-size: clamp(1rem, 3vw, 1.3rem); font-weight: 700; color: var(--brand-gold-light); font-family: 'Georgia', serif; white-space: nowrap; }
+    .monitoring-age-sub { font-size: clamp(0.65rem, 2vw, 0.7rem); color: var(--text-muted); white-space: nowrap; }
+    .monitoring-filter { flex: 0 0 50%; display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; padding-left: clamp(1rem, 3vw, 2rem); justify-content: flex-start; }
+    .monitoring-filter-label { font-size: clamp(0.65rem, 2vw, 0.7rem); text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 600; white-space: nowrap; margin-right: 0.3rem; }
+    .week-filter-btn { background: rgba(201, 169, 75, 0.08); color: var(--text-secondary); border: 1px solid var(--border-subtle); padding: clamp(0.3rem, 1.2vw, 0.4rem) clamp(0.5rem, 1.8vw, 0.8rem); border-radius: var(--radius-pill); font-family: 'Libre Franklin', sans-serif; font-weight: 600; font-size: clamp(0.62rem, 2vw, 0.7rem); cursor: pointer; transition: var(--transition); white-space: nowrap; }
+    .week-filter-btn:hover { background: rgba(201, 169, 75, 0.2); border-color: var(--brand-gold); color: var(--brand-gold-light); transform: translateY(-1px); }
+    .week-filter-btn.active { background: var(--brand-gold); color: var(--brand-navy); border-color: var(--brand-gold); box-shadow: 0 4px 12px rgba(201, 169, 75, 0.4); font-weight: 700; }
 
     /* ========== HEADER ========== */
-    .header { 
-      display: flex; 
-      align-items: center; 
-      justify-content: space-between;
-      gap: 2rem; 
-      margin-bottom: 1.5rem; 
-      padding: 0.5rem 0; 
-    }
+    .header { display: flex; align-items: center; justify-content: space-between; gap: 2rem; margin-bottom: 1.5rem; padding: 0.5rem 0; }
     .header-content { flex: 1; min-width: 0; }
-    .header h1 { 
-      font-size: clamp(1.4rem, 5vw, 2.2rem); 
-      letter-spacing: -0.3px; 
-      color: #ffffff; 
-      display: flex; 
-      align-items: center; 
-      gap: 0.5rem; 
-      line-height: 1.2;
-      margin-bottom: 0.3rem;
-    }
-    .header h1 .live-badge { 
-      background: var(--brand-gold); 
-      color: var(--brand-navy); 
-      font-size: clamp(0.7rem, 2.5vw, 0.9rem); 
-      padding: 0.2rem 0.8rem; 
-      border-radius: var(--radius-pill); 
-      font-weight: 600; 
-      white-space: nowrap; 
-    }
-    .subtitle { 
-      color: var(--text-secondary); 
-      font-size: clamp(0.85rem, 2.8vw, 1rem); 
-      display: flex; 
-      align-items: center; 
-      gap: 0.5rem; 
-      flex-wrap: wrap; 
-    }
-    .latest-update-badge { 
-      background: rgba(201, 169, 75, 0.12); 
-      border: 1px solid var(--brand-gold); 
-      color: var(--brand-gold-light); 
-      padding: 0.2rem 0.7rem; 
-      border-radius: var(--radius-pill); 
-      font-size: clamp(0.7rem, 2.5vw, 0.75rem); 
-      font-weight: 500; 
-      display: inline-flex; 
-      align-items: center; 
-      gap: 0.3rem; 
-      white-space: nowrap; 
-    }
-    .logo-row {
-      display: flex;
-      align-items: center;
-      gap: clamp(1rem, 3vw, 2rem);
-      flex-shrink: 0;
-    }
-    .logo-link {
-      display: block;
-      text-decoration: none;
-      transition: var(--transition);
-    }
+    .header h1 { font-size: clamp(1.4rem, 5vw, 2.2rem); letter-spacing: -0.3px; color: #ffffff; display: flex; align-items: center; gap: 0.5rem; line-height: 1.2; margin-bottom: 0.3rem; }
+    .header h1 .live-badge { background: var(--brand-gold); color: var(--brand-navy); font-size: clamp(0.7rem, 2.5vw, 0.9rem); padding: 0.2rem 0.8rem; border-radius: var(--radius-pill); font-weight: 600; white-space: nowrap; }
+    .subtitle { color: var(--text-secondary); font-size: clamp(0.85rem, 2.8vw, 1rem); display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+    .latest-update-badge { background: rgba(201, 169, 75, 0.12); border: 1px solid var(--brand-gold); color: var(--brand-gold-light); padding: 0.2rem 0.7rem; border-radius: var(--radius-pill); font-size: clamp(0.7rem, 2.5vw, 0.75rem); font-weight: 500; display: inline-flex; align-items: center; gap: 0.3rem; white-space: nowrap; }
+    
+    /* Updated logo-row to stretch 2 items into the space of 3 */
+    .logo-row { display: flex; align-items: center; gap: clamp(1.5rem, 4vw, 3rem); flex-shrink: 0; }
+    .logo-link { display: block; text-decoration: none; transition: var(--transition); flex: 1; }
     .logo-link:hover { transform: translateY(-3px); }
-    .logo-link:hover .logo-item {
-      box-shadow: 0 8px 25px rgba(201, 169, 75, 0.6);
-      border-color: var(--brand-gold-light);
-    }
-    .logo-item {
-      height: clamp(60px, 12vw, 80px);
-      border-radius: 16px;
-      overflow: hidden;
-      border: 3px solid var(--brand-gold);
-      box-shadow: 0 4px 15px rgba(201, 169, 75, 0.4);
-      transition: var(--transition);
-      background: rgba(255,255,255,0.05);
-      flex-shrink: 0;
-    }
+    .logo-link:hover .logo-item { box-shadow: 0 8px 25px rgba(201, 169, 75, 0.6); border-color: var(--brand-gold-light); }
+    .logo-item { height: clamp(60px, 12vw, 80px); border-radius: 16px; overflow: hidden; border: 3px solid var(--brand-gold); box-shadow: 0 4px 15px rgba(201, 169, 75, 0.4); transition: var(--transition); background: rgba(255,255,255,0.05); flex-shrink: 0; width: 100%; }
     .logo-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .header-title-row { display: none; }
     .header-meta-row { display: none; }
@@ -355,21 +134,7 @@
 
     /* ========== HERO CARD ========== */
     .hero-section { margin-bottom: 1.5rem; perspective: 800px; }
-    .hero-card {
-      background: linear-gradient(160deg, #1e3a5f, #142d4a, #0d1f36);
-      border: 2px solid rgba(201,169,75,0.6);
-      border-radius: 28px;
-      padding: clamp(1.2rem, 3vw, 1.8rem);
-      min-height: 200px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(201, 169, 75, 0.15), 0 12px 40px rgba(0,0,0,0.5);
-      gap: clamp(1.5rem, 4vw, 3rem);
-      animation: heroFadeIn 0.8s ease-out;
-    }
+    .hero-card { background: linear-gradient(160deg, #1e3a5f, #142d4a, #0d1f36); border: 2px solid rgba(201,169,75,0.6); border-radius: 28px; padding: clamp(1.2rem, 3vw, 1.8rem); min-height: 200px; display: flex; align-items: center; justify-content: space-between; position: relative; overflow: hidden; box-shadow: 0 20px 60px rgba(201, 169, 75, 0.15), 0 12px 40px rgba(0,0,0,0.5); gap: clamp(1.5rem, 4vw, 3rem); animation: heroFadeIn 0.8s ease-out; }
     @keyframes heroFadeIn { from { opacity: 0; transform: translateY(15px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
     .hero-top-line { position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, rgba(201,169,75,0), #e6c468, rgba(201,169,75,0)); box-shadow: 0 0 15px rgba(201,169,75,0.5); z-index: 2; }
     .hero-ambient-light { position: absolute; top: -40%; right: -10%; width: 450px; height: 450px; background: radial-gradient(circle, rgba(201,169,75,0.1) 0%, transparent 70%); pointer-events: none; z-index: 1; }
@@ -397,39 +162,19 @@
     .trend-up { color: var(--success); background: rgba(46, 204, 113, 0.12); }
     .trend-down { color: var(--danger); background: rgba(231, 76, 60, 0.12); }
     .metric-card .value { font-size: clamp(1.4rem, 5vw, 2rem); font-weight: 700; color: white; line-height: 1.1; margin: 0.1rem 0; letter-spacing: -0.5px; }
-    .metric-card .context { 
-      font-size: clamp(0.6rem, 2vw, 0.68rem); 
-      color: var(--text-muted); 
-      margin-top: auto; 
-      padding-top: 0.4rem; 
-      border-top: 1px dashed rgba(255,255,255,0.08); 
-      line-height: 1.5;
-    }
+    .metric-card .context { font-size: clamp(0.6rem, 2vw, 0.68rem); color: var(--text-muted); margin-top: auto; padding-top: 0.4rem; border-top: 1px dashed rgba(255,255,255,0.08); line-height: 1.5; }
     
-    .context-target-diff {
-      font-weight: 700;
-      display: inline-block;
-      margin-left: 0.2rem;
-    }
-    .context-target-diff.ahead {
-      color: var(--success);
-    }
-    .context-target-diff.behind {
-      color: var(--danger);
-    }
-    
-    .target-reference {
-      color: var(--text-secondary);
-      font-weight: 500;
-    }
-
     .section-title { font-size: clamp(0.75rem, 2.5vw, 0.85rem); text-transform: uppercase; letter-spacing: 2px; font-weight: 700; color: var(--brand-gold); margin: clamp(1.2rem, 4vw, 2rem) 0 clamp(0.5rem, 2vw, 0.8rem); padding-bottom: clamp(0.3rem, 1.5vw, 0.4rem); display: inline-flex; align-items: center; gap: 0.5rem; position: relative; }
     .section-title::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, var(--brand-gold), transparent); border-radius: 2px; }
     .card { background: var(--brand-card-bg); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-card); padding: clamp(1rem, 4vw, 1.5rem); margin-top: clamp(0.6rem, 2vw, 1rem); box-shadow: var(--shadow-card); backdrop-filter: blur(2px); }
     .card-header { font-size: clamp(1rem, 3.5vw, 1.15rem); font-weight: 700; margin-bottom: clamp(0.8rem, 3vw, 1.2rem); display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; border-left: 4px solid var(--brand-gold); padding-left: clamp(0.6rem, 2.5vw, 1rem); color: #ffffff; line-height: 1.3; flex-wrap: wrap; }
     .card-header-action { background: rgba(201, 169, 75, 0.15); color: var(--brand-gold-light); border: 1px solid var(--brand-gold); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: clamp(0.7rem, 2.5vw, 0.8rem); font-weight: 600; cursor: pointer; font-family: 'Libre Franklin', sans-serif; transition: var(--transition); display: inline-flex; align-items: center; gap: 0.3rem; }
     .card-header-action:hover { background: var(--brand-gold); color: var(--brand-navy); }
-    .two-column { display: grid; grid-template-columns: repeat(auto-fit, minmax(clamp(280px, 45vw, 320px), 1fr)); gap: clamp(0.8rem, 2.5vw, 1rem); margin-top: clamp(0.5rem, 2vw, 0.8rem); }
+    
+    /* Stack vertically by default for Mortality and Environment */
+    .stack-column { display: flex; flex-direction: column; gap: clamp(0.8rem, 2.5vw, 1rem); margin-top: clamp(0.5rem, 2vw, 0.8rem); }
+    @media (min-width: 901px) { .stack-column { gap: 1rem; } }
+
     table { width: 100%; border-collapse: collapse; font-size: clamp(0.75rem, 2.5vw, 0.85rem); min-width: 500px; }
     th { text-align: left; padding: clamp(0.5rem, 2vw, 0.7rem) clamp(0.4rem, 1.5vw, 0.5rem); color: var(--brand-gold); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid var(--brand-gold); background: rgba(201, 169, 75, 0.08); font-size: clamp(0.7rem, 2.3vw, 0.75rem); white-space: nowrap; }
     td { padding: clamp(0.45rem, 1.8vw, 0.6rem) clamp(0.4rem, 1.5vw, 0.5rem); border-bottom: 1px solid rgba(255,255,255,0.05); color: #d3dce9; font-size: clamp(0.75rem, 2.5vw, 0.8rem); }
@@ -437,7 +182,8 @@
     .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; margin: 0 -0.5rem; padding: 0 0.5rem; max-height: 400px; overflow-y: auto; }
     .chart-container { position: relative; height: clamp(220px, 45vw, 300px); width: 100%; margin-top: clamp(0.6rem, 2vw, 1rem); display: flex; align-items: center; justify-content: center; }
     .chart-container canvas { max-width: 100%; max-height: 100%; }
-    .mortality-timeline { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 0.5rem; }
+    
+    .mortality-timeline { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 0.5rem; max-height: 300px; overflow-y: auto; padding-right: 0.5rem; }
     .mortality-item { display: flex; align-items: center; gap: 0.8rem; padding: 0.6rem 0.8rem; background: rgba(231, 76, 60, 0.08); border-radius: 12px; border-left: 3px solid #e74c3c; transition: var(--transition); }
     .mortality-item:hover { background: rgba(231, 76, 60, 0.15); transform: translateX(4px); }
     .mortality-dot { width: 10px; height: 10px; border-radius: 50%; background: #e74c3c; flex-shrink: 0; box-shadow: 0 0 6px rgba(231, 76, 60, 0.4); }
@@ -450,412 +196,49 @@
     .kpi-total .label { font-size: clamp(0.85rem, 2.8vw, 1rem); text-transform: uppercase; letter-spacing: 2px; color: var(--brand-gold-light); margin-bottom: 0.8rem; }
     .kpi-total .value { font-size: clamp(3.5rem, 10vw, 5rem); font-weight: 700; color: #ffffff; line-height: 1; text-shadow: 0 4px 8px rgba(0,0,0,0.4); font-family: 'Georgia', serif; }
     .kpi-total .subtitle { font-size: clamp(0.75rem, 2.5vw, 0.9rem); color: var(--text-muted); margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid rgba(255,255,255,0.1); }
-    .temp-indicator { display: inline-flex; align-items: center; gap: 0.4rem; padding: clamp(0.25rem, 1.5vw, 0.35rem) clamp(0.6rem, 2.5vw, 0.9rem); border-radius: var(--radius-pill); font-size: clamp(0.7rem, 2.4vw, 0.8rem); font-weight: 600; margin-bottom: clamp(0.5rem, 2vw, 1rem); }
-    .temp-optimal { background: rgba(201, 169, 75, 0.15); color: var(--brand-gold-light); border: 1px solid var(--brand-gold); }
-    .temp-warning { background: rgba(241, 196, 15, 0.12); color: #f1c40f; border: 1px solid #d4ac0d; }
-    .temp-critical { background: rgba(231, 76, 60, 0.12); color: #e74c3c; border: 1px solid #c0392b; }
+    
+    /* Farm Status Bars */
+    .farm-status-list { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 0.5rem; }
+    .status-item { display: flex; flex-direction: column; gap: 0.4rem; }
+    .status-header { display: flex; justify-content: space-between; align-items: center; }
+    .status-label { font-size: 0.9rem; color: var(--text-primary); font-weight: 600; }
+    .status-value { font-size: 0.9rem; color: var(--brand-gold-light); font-weight: 700; }
+    .progress-track { width: 100%; height: 12px; background: rgba(255,255,255,0.05); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+    .progress-fill { height: 100%; border-radius: 20px; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+    .progress-optimal { background: linear-gradient(90deg, var(--brand-gold), var(--brand-gold-light)); }
+    .progress-available { background: linear-gradient(90deg, var(--success), #27ae60); }
+    .progress-missing { background: linear-gradient(90deg, #c0392b, var(--danger)); }
+    .status-subtext { font-size: 0.75rem; color: var(--text-muted); }
+    
+    /* Vaccination Status Grid */
+    .vacc-status-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; }
+    .vacc-status-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .vacc-status-name { font-family: 'Georgia', serif; font-size: 1rem; color: #ffffff; font-weight: 700; }
+    .vacc-stat-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; }
+    .vacc-covered { color: var(--success); font-weight: 700; }
+    .vacc-missing { color: var(--danger); font-weight: 700; }
+
     .updated { text-align: right; color: var(--text-muted); font-size: clamp(0.65rem, 2.2vw, 0.7rem); margin-top: clamp(1.2rem, 4vw, 2rem); padding-top: 0.8rem; border-top: 1px solid rgba(255,255,255,0.06); }
-    .error-message { background: rgba(231, 76, 60, 0.12); border: 1px solid var(--danger); padding: clamp(0.6rem, 2.5vw, 0.9rem); border-radius: 12px; color: #ffcccc; font-size: clamp(0.75rem, 2.5vw, 0.85rem); margin: clamp(0.4rem, 1.5vw, 0.6rem) 0; line-height: 1.4; }
-    .error-message code { background: rgba(0,0,0,0.2); padding: 0.15rem 0.4rem; border-radius: 4px; font-family: monospace; font-size: 0.9em; word-break: break-all; }
-
-    /* ========== VACCINATION CARD (DESKTOP) ========== */
-    .vaccination-card {
-      background: linear-gradient(160deg, #1a3048 0%, #0f2136 100%);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-card);
-      padding: 1.8rem 2rem 2rem;
-      margin-top: clamp(0.6rem, 2vw, 1rem);
-      box-shadow: var(--shadow-card);
-      position: relative;
-      overflow: hidden;
-    }
-    .vaccination-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 4px; height: 100%;
-      background: linear-gradient(180deg, var(--brand-gold), rgba(201,169,75,0.15));
-    }
-    .vaccination-header {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 2.5rem;
-      padding-left: 0.3rem;
-    }
-    .vaccination-header-icon {
-      width: 42px; height: 42px;
-      border-radius: 50%;
-      background: rgba(201,169,75,0.1);
-      border: 1.5px solid rgba(201,169,75,0.35);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem;
-      flex-shrink: 0;
-    }
-    .vaccination-header-text {
-      font-family: 'Georgia', serif;
-      font-size: clamp(1rem, 3.5vw, 1.1rem);
-      font-weight: 700;
-      color: #ffffff;
-    }
-    .vaccination-header-sub {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      margin-top: 0.1rem;
-    }
-    .vaccination-header-count {
-      margin-left: auto;
-      background: rgba(201,169,75,0.1);
-      border: 1px solid var(--border-subtle);
-      color: var(--brand-gold-light);
-      font-size: 0.7rem;
-      font-weight: 600;
-      padding: 0.25rem 0.85rem;
-      border-radius: 20px;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    /* Timeline track */
-    .vaccination-timeline {
-      display: flex;
-      align-items: flex-start;
-      gap: 0;
-      padding-top: 1rem;
-      padding-left: 0.3rem;
-      position: relative;
-    }
-    .vaccination-timeline::before {
-      content: '';
-      position: absolute;
-      top: 14px;
-      left: calc(0.3rem + 80px / 2);
-      right: calc(80px / 2);
-      height: 2px;
-      background: linear-gradient(90deg,
-        rgba(201,169,75,0.1) 0%,
-        var(--brand-gold) 20%,
-        var(--brand-gold-light) 50%,
-        var(--brand-gold) 80%,
-        rgba(201,169,75,0.1) 100%
-      );
-    }
-
-    /* Each node - DESKTOP ONLY */
-    .vaccination-node-desktop {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0;
-      position: relative;
-      cursor: default;
-    }
-    .vaccination-node-desktop:hover .vaccination-dot {
-      transform: scale(1.25);
-      box-shadow: 0 0 0 8px rgba(201,169,75,0.4), 0 0 24px rgba(201,169,75,0.5);
-    }
-    .vaccination-node-desktop:hover .vacc-node-card {
-      border-color: rgba(201,169,75,0.6);
-      background: rgba(201,169,75,0.06);
-    }
-
-    .vaccination-day {
-      font-size: 0.62rem;
-      font-weight: 700;
-      color: var(--brand-gold-light);
-      background: rgba(201,169,75,0.1);
-      border: 1px solid rgba(201,169,75,0.25);
-      border-radius: 10px;
-      padding: 0.12rem 0.55rem;
-      margin-bottom: 0.45rem;
-      white-space: nowrap;
-      letter-spacing: 0.5px;
-      font-family: 'Libre Franklin', sans-serif;
-    }
-
-    .vaccination-dot {
-      width: 22px; height: 22px;
-      border-radius: 50%;
-      background: var(--brand-gold);
-      border: 3px solid #10273e;
-      box-shadow: 0 0 0 4px rgba(201,169,75,0.3), 0 0 16px rgba(201,169,75,0.3);
-      flex-shrink: 0;
-      transition: all 0.25s ease;
-      position: relative;
-      z-index: 2;
-      animation: vaccDotPulse 2.5s ease-in-out infinite;
-    }
-    @keyframes vaccDotPulse {
-      0%, 100% { box-shadow: 0 0 0 4px rgba(201,169,75,0.3), 0 0 14px rgba(201,169,75,0.25); }
-      50% { box-shadow: 0 0 0 7px rgba(201,169,75,0.45), 0 0 22px rgba(201,169,75,0.4); }
-    }
-
-    .vacc-node-card {
-      margin-top: 0.7rem;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 12px;
-      padding: 0.65rem 0.7rem 0.7rem;
-      width: calc(100% - 12px);
-      transition: all 0.2s ease;
-    }
-    .vacc-node-date {
-      font-family: 'Georgia', serif;
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #ffffff;
-      text-align: center;
-      margin-bottom: 0.5rem;
-      line-height: 1.25;
-    }
-    .vacc-node-date .year {
-      display: block;
-      font-family: 'Libre Franklin', sans-serif;
-      font-size: 0.6rem;
-      font-weight: 400;
-      color: var(--text-muted);
-      margin-top: 0.05rem;
-    }
-    .vacc-tags { display: flex; flex-direction: column; gap: 0.28rem; }
-    .vacc-tag {
-      font-size: 0.62rem;
-      font-weight: 700;
-      padding: 0.22rem 0.55rem;
-      border-radius: 10px;
-      text-align: center;
-      line-height: 1.3;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      background: rgba(201,169,75,0.14);
-      border: 1px solid rgba(201,169,75,0.35);
-      color: var(--brand-gold-light);
-      font-family: 'Libre Franklin', sans-serif;
-    }
-
-    /* Footer */
-    .vaccination-footer {
-      margin-top: 1.5rem;
-      padding-top: 0.9rem;
-      border-top: 1px dashed rgba(255,255,255,0.07);
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-    }
-    .vaccination-coverage-stat { font-size: 0.7rem; color: var(--text-muted); }
-    .vaccination-coverage-stat strong { color: var(--text-secondary); font-weight: 600; }
-
-    /* Hide mobile elements on desktop */
-    .vaccination-node-mobile { display: none; }
-
-    /* ========== MOBILE VACCINATION ========== */
-    @media (max-width: 900px) {
-      .vaccination-card {
-        padding: 1rem 0.9rem 1.2rem;
-      }
-      .vaccination-card::before { width: 3px; }
-      .vaccination-header {
-        margin-bottom: 1rem;
-        padding-left: 0.2rem;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-      }
-      .vaccination-header-icon {
-        width: 32px; height: 32px;
-        font-size: 1rem;
-      }
-      .vaccination-header-text { 
-        font-size: 0.95rem;
-        flex: 1;
-      }
-      .vaccination-header-sub { font-size: 0.6rem; }
-      .vaccination-header-count {
-        font-size: 0.62rem;
-        padding: 0.2rem 0.6rem;
-        margin-left: 0;
-        flex-basis: 100%;
-        text-align: center;
-        order: 1;
-      }
-
-      .vaccination-node-desktop { display: none; }
-      .vaccination-node-mobile { display: block; }
-
-      .vaccination-timeline { 
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 0.6rem;
-      }
-      .vaccination-timeline::before { display: none; }
-
-      .vaccination-node-mobile {
-        background: rgba(255,255,255,0.025);
-        border: 1px solid rgba(255,255,255,0.06);
-        border-radius: 12px;
-        padding: 0.9rem 1rem;
-        transition: all 0.2s ease;
-      }
-      .vaccination-node-mobile:active {
-        border-color: rgba(201,169,75,0.35);
-        background: rgba(201,169,75,0.05);
-      }
-
-      .vaccination-node-day-mobile {
-        display: inline-block;
-        font-family: 'Libre Franklin', sans-serif;
-        font-size: 0.62rem;
-        font-weight: 700;
-        color: var(--brand-gold-light);
-        background: rgba(201,169,75,0.1);
-        border: 1px solid rgba(201,169,75,0.25);
-        border-radius: 8px;
-        padding: 0.15rem 0.5rem;
-        margin-bottom: 0.6rem;
-        letter-spacing: 0.5px;
-      }
-
-      .vaccination-node-date-mobile {
-        font-family: 'Georgia', serif;
-        font-size: 0.95rem;
-        font-weight: 700;
-        color: #ffffff;
-        margin-bottom: 0.5rem;
-        line-height: 1.3;
-      }
-      .vaccination-node-year-mobile {
-        font-family: 'Libre Franklin', sans-serif;
-        font-size: 0.62rem;
-        font-weight: 400;
-        color: var(--text-muted);
-        margin-left: 0.3rem;
-      }
-
-      .vaccination-node-tags-mobile {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.35rem;
-      }
-      .vaccination-tag-mobile {
-        font-family: 'Libre Franklin', sans-serif;
-        font-size: 0.68rem;
-        font-weight: 600;
-        padding: 0.3rem 0.65rem;
-        border-radius: 8px;
-        background: rgba(201,169,75,0.12);
-        border: 1px solid rgba(201,169,75,0.28);
-        color: var(--brand-gold-light);
-        white-space: nowrap;
-      }
-
-      .vaccination-footer {
-        margin-top: 0.8rem;
-        padding-top: 0.6rem;
-        justify-content: center;
-      }
-      .vaccination-coverage-stat {
-        font-size: 0.62rem;
-        text-align: center;
-      }
-    }
 
     /* ========== INSTALL BUTTON ========== */
-    #installButton {
-      position: fixed;
-      bottom: clamp(1rem, 3vw, 2rem);
-      right: clamp(1rem, 3vw, 2rem);
-      z-index: 1000;
-      display: none;
-      background: linear-gradient(135deg, var(--brand-gold), var(--brand-gold-light));
-      color: var(--brand-navy);
-      border: none;
-      border-radius: 50px;
-      padding: clamp(0.8rem, 2vw, 1.2rem) clamp(1.5rem, 3vw, 2.5rem);
-      font-family: 'Libre Franklin', sans-serif;
-      font-weight: 700;
-      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-      box-shadow: 0 8px 25px rgba(201, 169, 75, 0.5), 0 4px 12px rgba(0,0,0,0.3);
-      cursor: pointer;
-      transition: var(--transition);
-      align-items: center;
-      gap: 0.5rem;
-      animation: pulseInstall 2s infinite;
-      max-width: 90vw;
-    }
-    @keyframes pulseInstall {
-      0%, 100% { transform: scale(1); box-shadow: 0 8px 25px rgba(201, 169, 75, 0.5), 0 4px 12px rgba(0,0,0,0.3); }
-      50% { transform: scale(1.03); box-shadow: 0 12px 35px rgba(201, 169, 75, 0.7), 0 6px 18px rgba(0,0,0,0.4); }
-    }
+    #installButton { position: fixed; bottom: clamp(1rem, 3vw, 2rem); right: clamp(1rem, 3vw, 2rem); z-index: 1000; display: none; background: linear-gradient(135deg, var(--brand-gold), var(--brand-gold-light)); color: var(--brand-navy); border: none; border-radius: 50px; padding: clamp(0.8rem, 2vw, 1.2rem) clamp(1.5rem, 3vw, 2.5rem); font-family: 'Libre Franklin', sans-serif; font-weight: 700; font-size: clamp(0.9rem, 2.5vw, 1.1rem); box-shadow: 0 8px 25px rgba(201, 169, 75, 0.5), 0 4px 12px rgba(0,0,0,0.3); cursor: pointer; transition: var(--transition); align-items: center; gap: 0.5rem; animation: pulseInstall 2s infinite; max-width: 90vw; }
+    @keyframes pulseInstall { 0%, 100% { transform: scale(1); box-shadow: 0 8px 25px rgba(201, 169, 75, 0.5), 0 4px 12px rgba(0,0,0,0.3); } 50% { transform: scale(1.03); box-shadow: 0 12px 35px rgba(201, 169, 75, 0.7), 0 6px 18px rgba(0,0,0,0.4); } }
     #installButton:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 12px 35px rgba(201, 169, 75, 0.6), 0 6px 18px rgba(0,0,0,0.4); }
-    #installButton:active { transform: translateY(0) scale(0.98); }
     #installButton .install-icon { font-size: clamp(1.2rem, 3vw, 1.5rem); line-height: 1; }
-    @media (max-width: 400px) {
-      #installButton { padding: 0.7rem 1.2rem; font-size: 0.9rem; bottom: 1rem; right: 1rem; }
-    }
 
-    /* ========== MOBILE OPTIMIZATIONS ========== */
     @media (max-width: 900px) {
       body { padding: 0.8rem; background: #0a1625; }
       .header { flex-direction: column; align-items: stretch; gap: 0.7rem; padding: 0.2rem 0 1rem; }
       .header-content { display: none; }
-      .subtitle { display: none; }
-      .header-title-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.8rem;
-        flex-wrap: wrap;
-      }
-      .header-title-row h1 {
-        font-size: clamp(1.2rem, 5.5vw, 1.6rem);
-        letter-spacing: -0.3px;
-        color: #ffffff;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        line-height: 1.2;
-      }
+      .header-title-row { display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; flex-wrap: wrap; }
+      .header-title-row h1 { font-size: clamp(1.2rem, 5.5vw, 1.6rem); color: #ffffff; display: flex; align-items: center; gap: 0.5rem; line-height: 1.2; }
       .header-title-row h1 .live-badge { display: none; }
-      .header-meta-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.5rem;
-        flex-wrap: wrap;
-      }
-      .location-text { color: var(--text-secondary); font-size: 0.75rem; display: inline-flex; align-items: center; }
-      .refresh-btn {
-        display: inline-flex;
-        background: var(--brand-gold);
-        color: var(--brand-navy);
-        border: none;
-        border-radius: var(--radius-pill);
-        padding: 0.4rem 0.9rem;
-        font-family: 'Libre Franklin', sans-serif;
-        font-weight: 700;
-        font-size: 0.78rem;
-        cursor: pointer;
-        transition: var(--transition);
-        white-space: nowrap;
-        flex-shrink: 0;
-      }
-      .refresh-btn:hover { background: var(--brand-gold-light); transform: translateY(-1px); }
-      .logo-row { order: -1; width: 100%; justify-content: space-between; gap: clamp(0.2rem, 1.5vw, 0.5rem); }
+      .header-meta-row { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap; }
+      .refresh-btn { display: inline-flex; background: var(--brand-gold); color: var(--brand-navy); border: none; border-radius: var(--radius-pill); padding: 0.4rem 0.9rem; font-family: 'Libre Franklin', sans-serif; font-weight: 700; font-size: 0.78rem; cursor: pointer; transition: var(--transition); white-space: nowrap; flex-shrink: 0; }
+      .logo-row { order: -1; width: 100%; justify-content: space-between; gap: clamp(1rem, 4vw, 1.5rem); }
       .logo-link { flex: 1; }
-      .logo-item { height: clamp(45px, 11vw, 65px); border-width: 2px; width: 100%; }
-      #latestUpdateBadge { font-size: 0.65rem; padding: 0.2rem 0.5rem; margin-left: auto; }
-      #adminReturnLink { width: 100%; text-align: center; margin-top: 0.5rem; }
-      .hero-card {
-        flex-direction: row;
-        align-items: flex-start;
-        padding: 1.2rem;
-        gap: 1rem;
-        min-height: auto;
-        border-radius: 16px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        background: #11263c;
-      }
+      .logo-item { height: clamp(50px, 12vw, 70px); border-width: 2px; width: 100%; }
+      .hero-card { flex-direction: row; align-items: flex-start; padding: 1.2rem; gap: 1rem; min-height: auto; border-radius: 16px; background: #11263c; }
       .hero-left { width: 45px; margin-top: 0.3rem; }
       .hero-icon-ring { width: 45px; box-shadow: none; border-width: 1px; }
       .hero-icon { font-size: 1.8rem; }
@@ -863,7 +246,6 @@
       .hero-title { font-size: 0.7rem; letter-spacing: 1.5px; margin-bottom: 0.1rem; color: var(--text-muted); }
       .hero-kpi { font-size: 2.2rem; letter-spacing: -1px; line-height: 1.1; margin-bottom: 0.2rem; }
       .hero-started { font-size: 0.8rem; color: rgba(255,255,255,0.6); }
-      .hero-started strong { color: rgba(255,255,255,0.9); }
       .hero-right { position: absolute; top: 1rem; right: 1rem; align-items: flex-end; }
       .sync-pill { padding: 0.25rem 0.6rem; font-size: 0.7rem; background: rgba(46, 204, 113, 0.15); border-color: rgba(46, 204, 113, 0.3); color: var(--success); }
       .sync-dot { width: 6px; height: 6px; }
@@ -874,7 +256,6 @@
       .metric-card .label { font-size: 0.6rem; letter-spacing: 0.5px; }
       .metric-card .value { font-size: 1.2rem; }
       .metric-card .context { font-size: 0.6rem; }
-      .two-column { grid-template-columns: 1fr; }
       .card { padding: 1rem; border-radius: 12px; }
       .section-title { font-size: 0.7rem; }
       .chart-container { height: 220px; }
@@ -908,31 +289,19 @@
     </div>
     <div class="logo-row">
       <a href="https://www.equipgroup.co" target="_blank" rel="noopener noreferrer" class="logo-link" title="Visit Equip">
-        <div class="logo-item">
-          <img src="EquipLogo.png" alt="Equip" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23c9a94b%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2250%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%230a1625%22 font-size=%2240%22%3EE%3C/text%3E%3C/svg%3E'">
-        </div>
+        <div class="logo-item"><img src="EquipLogo.png" alt="Equip" onerror="this.style.display='none'"></div>
       </a>
       <a href="https://kelfoods.net/proto-chicks/" target="_blank" rel="noopener noreferrer" class="logo-link" title="Visit Proto">
-        <div class="logo-item">
-          <img src="Proto.png" alt="Proto" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23c9a94b%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2250%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%230a1625%22 font-size=%2240%22%3EP%3C/text%3E%3C/svg%3E'">
-        </div>
-      </a>
-      <a href="https://hailcotton.com/" target="_blank" rel="noopener noreferrer" class="logo-link" title="Visit Hail &amp; Cotton">
-        <div class="logo-item">
-          <img src="HC.png" alt="Hail &amp; Cotton" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23c9a94b%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2250%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%230a1625%22 font-size=%2240%22%3EHC%3C/text%3E%3C/svg%3E'">
-        </div>
+        <div class="logo-item"><img src="Proto.png" alt="Proto" onerror="this.style.display='none'"></div>
       </a>
     </div>
   </div>
 
-  <!-- FARMER SELECTOR -->
-  <div class="farmer-selector" id="farmerSelectorSection">
-    <div class="farmer-selector-inner">
-      <label class="farmer-label" for="farmerSelect">👨‍🌾 Select Farmer</label>
-      <select id="farmerSelect" class="farmer-dropdown">
-        <option value="all">All Farmers (Aggregated View)</option>
-      </select>
-      <div class="farmer-info" id="farmerInfo"></div>
+  <!-- AGGREGATE INFO BAR -->
+  <div class="agg-bar">
+    <div class="agg-info">
+      <span class="agg-label">All Farmers (Aggregated View)</span>
+      <span class="agg-count-badge" id="aggFarmerCount">0 farmers</span>
     </div>
   </div>
 
@@ -940,11 +309,7 @@
     <div class="hero-card">
       <div class="hero-top-line"></div>
       <div class="hero-ambient-light"></div>
-      <div class="hero-left">
-        <div class="hero-icon-ring">
-          <span class="hero-icon">🐔</span>
-        </div>
-      </div>
+      <div class="hero-left"><div class="hero-icon-ring"><span class="hero-icon">🐔</span></div></div>
       <div class="hero-center">
         <div class="hero-farmer-name" id="heroFarmerName"></div>
         <div class="hero-title">BIRDS ALIVE</div>
@@ -952,10 +317,7 @@
         <div class="hero-started">Started with <strong id="heroStarted">—</strong></div>
       </div>
       <div class="hero-right">
-        <div class="sync-pill">
-          <span class="sync-dot" id="syncDot"></span>
-          <span id="syncStatusText">Synced</span>
-        </div>
+        <div class="sync-pill"><span class="sync-dot" id="syncDot"></span><span id="syncStatusText">Synced</span></div>
         <div class="hero-context-bottom">Auto-refresh: 5 min</div>
       </div>
     </div>
@@ -984,7 +346,7 @@
   </div>
 
   <div class="section-title">☠️ Mortality Analysis</div>
-  <div class="two-column">
+  <div class="stack-column">
     <div class="card">
       <div class="card-header">Deaths by Day</div>
       <div class="chart-container"><canvas id="causeChart"></canvas></div>
@@ -999,33 +361,40 @@
     </div>
   </div>
 
-  <!-- 💉 Vaccination History -->
-  <div class="section-title">💉 Vaccination History</div>
-  <div class="vaccination-card" id="vaccinationCard">
-    <div class="vaccination-header">
-      <div class="vaccination-header-icon">💉</div>
-      <div>
-        <div class="vaccination-header-text">Vaccination Record</div>
-        <div class="vaccination-header-sub">Full flock immunisation history</div>
-      </div>
-      <div class="vaccination-header-count" id="vaccinationCount">— doses</div>
+  <div class="section-title">💉 Vaccination Coverage</div>
+  <div class="card" id="vaccinationCard">
+    <div class="card-header">
+      <span>Vaccination Status by Farmer</span>
+      <span id="vaccinationCount" style="font-size:0.8rem;color:var(--text-muted);font-weight:400;font-family:'Libre Franklin';">— doses</span>
     </div>
-    <div id="vaccinationTimeline" class="vaccination-timeline"></div>
-    <div class="vaccination-footer">
-      <div class="vaccination-coverage-stat" id="vaccinationStats"></div>
-    </div>
+    <div id="vaccinationTimeline" class="vacc-status-grid"></div>
   </div>
 
   <div class="section-title">🌡️ Environment & Resources</div>
-  <div class="two-column">
-    <div class="card">
-      <div class="card-header">Temperature Monitoring</div>
-      <div id="tempStatus"></div>
-      <div class="chart-container"><canvas id="tempChart"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-header">Resources Currently in Use</div>
-      <div class="chart-container"><canvas id="resourceChart"></canvas></div>
+  <div class="card">
+    <div class="card-header">Farm Status Overview</div>
+    <div id="envStatusContainer" class="farm-status-list">
+      <div class="status-item">
+        <div class="status-header">
+          <span class="status-label">🌡️ Farms with Optimal Temperature</span>
+          <span class="status-value" id="tempOptimalValue">0 / 0</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill progress-optimal" id="tempOptimalBar" style="width: 0%;"></div>
+        </div>
+        <div class="status-subtext" id="tempOptimalSubtext">Optimal range: 26°C – 32°C</div>
+      </div>
+      
+      <div class="status-item">
+        <div class="status-header">
+          <span class="status-label">🏠 Farms with Litter Available</span>
+          <span class="status-value" id="litterAvailableValue">0 / 0</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill progress-available" id="litterAvailableBar" style="width: 0%;"></div>
+        </div>
+        <div class="status-subtext" id="litterAvailableSubtext">Current litter status across all active farms</div>
+      </div>
     </div>
   </div>
 
@@ -1048,7 +417,6 @@
 
 <script>
   (function() {
-    // ========== CONFIGURATION ==========
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRyGfky3hmhDVQgZGF9_cbndTHAxBpnHHPXd80Jsv-cY7zotnEwI6AmAbZvZ4sNmGhxW4dmvnWmDkGy/pub?gid=1870817852&single=true&output=csv";
     const TARGET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRyGfky3hmhDVQgZGF9_cbndTHAxBpnHHPXd80Jsv-cY7zotnEwI6AmAbZvZ4sNmGhxW4dmvnWmDkGy/pub?gid=972239246&single=true&output=csv";
     const VACCINATION_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRyGfky3hmhDVQgZGF9_cbndTHAxBpnHHPXd80Jsv-cY7zotnEwI6AmAbZvZ4sNmGhxW4dmvnWmDkGy/pub?gid=513211046&single=true&output=csv";
@@ -1064,12 +432,6 @@
     const FALLBACK_DATA = [
       { time:"16:00", date:"25 May 2026", birdsAlive:201, deaths:0, deathCause:"", feed:3, water:20, temp:30, litter:"yes", avgWeight:null, timeMinutes:960, phone:"+265888123456", email:"" },
       { time:"10:00", date:"27 May 2026", birdsAlive:200, deaths:1, deathCause:"Squashed under tray", feed:3, water:20, temp:30, litter:"no", avgWeight:99, timeMinutes:600, phone:"+265888123456", email:"" },
-      { time:"10:00", date:"29 May 2026", birdsAlive:199, deaths:1, deathCause:"Stepped on", feed:3, water:20, temp:30, litter:"no", avgWeight:99, timeMinutes:600, phone:"+265888123456", email:"" },
-      { time:"8:30", date:"30 May 2026", birdsAlive:199, deaths:0, deathCause:"", feed:3, water:20, temp:28, litter:"no", avgWeight:112, timeMinutes:510, phone:"+265888123456", email:"john@example.com" },
-      { time:"12:00", date:"30 May 2026", birdsAlive:199, deaths:0, deathCause:"", feed:3, water:20, temp:28, litter:"no", avgWeight:120, timeMinutes:720, phone:"+265888123456", email:"" },
-      { time:"17:00", date:"30 May 2026", birdsAlive:199, deaths:0, deathCause:"", feed:3, water:20, temp:30, litter:"no", avgWeight:125, timeMinutes:1020, phone:"+265888123456", email:"" },
-      { time:"8:00", date:"31 May 2026", birdsAlive:199, deaths:0, deathCause:"", feed:3, water:20, temp:30, litter:"Yes", avgWeight:129, timeMinutes:480, phone:"+265888123456", email:"" },
-      { time:"8:00", date:"1 June 2026", birdsAlive:198, deaths:1, deathCause:"Low temperature", feed:3, water:20, temp:30, litter:"Yes", avgWeight:135, timeMinutes:480, phone:"+265888123456", email:"" },
       { time:"17:30", date:"1 June 2026", birdsAlive:198, deaths:0, deathCause:"", feed:3, water:20, temp:30, litter:"Yes", avgWeight:147, timeMinutes:1050, phone:"+265888123456", email:"" }
     ];
 
@@ -1080,12 +442,10 @@
 
     const FALLBACK_VACCINATION_DATA = [
       { date:"25 May 2026", itemName:"Gumboro, Newcastle (NCD), IB, IB Variant", phone:"+265888123456", email:"", reactions:"", notes:"" },
-      { date:"9 June 2026", itemName:"Gumboro", phone:"+265888123456", email:"", reactions:"", notes:"" },
-      { date:"12 June 2026", itemName:"Newcastle (NCD)", phone:"+265888123456", email:"", reactions:"", notes:"" }
+      { date:"9 June 2026", itemName:"Gumboro", phone:"+265888123456", email:"", reactions:"", notes:"" }
     ];
 
     let currentFilter = 'all';
-    let currentFarmerId = 'all';
     let allData = [];
 
     const toNum = (val) => { if (val === null || val === undefined || val === '') return 0; let num = Number(String(val).replace(/[^0-9.-]/g, '')); return isNaN(num) ? 0 : num; };
@@ -1113,7 +473,6 @@
       }
       const d = new Date(trimmed);
       if (!isNaN(d.getTime())) return d;
-      console.warn('Unable to parse date:', dateStr, '- falling back to today');
       return new Date();
     };
 
@@ -1157,17 +516,14 @@
     function mapFarmDataColumns(headers) {
       const lower = headers.map(h => h.toLowerCase().trim().replace(/\s+/g, ' '));
       return {
-        time: lower.findIndex(h => /^time$/i.test(h)),
-        date: lower.findIndex(h => /^date$/i.test(h)),
-        phone: lower.findIndex(h => /^phone$/i.test(h) || h === 'phone'),
-        email: lower.findIndex(h => /^email$/i.test(h) || h === 'email'),
+        time: lower.findIndex(h => /^time$/i.test(h)), date: lower.findIndex(h => /^date$/i.test(h)),
+        phone: lower.findIndex(h => /^phone$/i.test(h) || h === 'phone'), email: lower.findIndex(h => /^email$/i.test(h) || h === 'email'),
         birdsAlive: lower.findIndex(h => /bird.*alive|alive|stock|count/i.test(h)),
         deaths: lower.findIndex(h => /death|dead|mortality/i.test(h) && !/cause/i.test(h)),
         deathCause: lower.findIndex(h => /death.*cause|cause.*death|cause/i.test(h)),
         feed: lower.findIndex(h => /feed.*given|feed.*kg|feed/i.test(h)),
         water: lower.findIndex(h => /water.*litre|water.*l|water/i.test(h)),
-        temp: lower.findIndex(h => /temp/i.test(h)),
-        litter: lower.findIndex(h => /litter/i.test(h)),
+        temp: lower.findIndex(h => /temp/i.test(h)), litter: lower.findIndex(h => /litter/i.test(h)),
         avgWeight: lower.findIndex(h => /avg.*weight|weight.*avg|weight/i.test(h))
       };
     }
@@ -1179,238 +535,34 @@
         phone: lower.findIndex(h => /^phone$/i.test(h) || h === 'phone'),
         email: lower.findIndex(h => /^email$/i.test(h) || h === 'email'),
         itemName: lower.findIndex(h => /item.*name|item|vaccine|vaccination/i.test(h)),
-        reactions: lower.findIndex(h => /reaction/i.test(h)),
-        notes: lower.findIndex(h => /note/i.test(h))
+        reactions: lower.findIndex(h => /reaction/i.test(h)), notes: lower.findIndex(h => /note/i.test(h))
       };
     }
 
-    // ========== URL PARAMETER FUNCTIONS ==========
-    function getFarmerFromURL() {
-      const params = new URLSearchParams(window.location.search);
-      const farmerParam = params.get('farmer');
-      
-      if (!farmerParam) return 'all';
-      
-      const farmer = FARMER_REGISTRY.find(f => {
-        const nameSlug = f.name.toLowerCase().replace(/\s+/g, '-');
-        return nameSlug === farmerParam.toLowerCase() ||
-               f.phone === farmerParam ||
-               f.email === farmerParam;
-      });
-      
-      return farmer ? (farmer.phone || farmer.email) : 'all';
-    }
-
-    function getFarmerShareURL(farmer) {
-      const baseUrl = window.location.origin + window.location.pathname;
-      const nameSlug = farmer.name.toLowerCase().replace(/\s+/g, '-');
-      return `${baseUrl}?farmer=${nameSlug}`;
-    }
-
-    function getRepoPath() {
-      const pathParts = window.location.pathname.split('/');
-      if (pathParts[pathParts.length - 1].includes('.')) {
-        pathParts.pop();
-      }
-      return pathParts.join('/').replace(/\/$/, '') || '';
-    }
-
-    function updateManifestForFarmer() {
-      const manifestLink = document.querySelector('link[rel="manifest"]');
-      if (!manifestLink) return;
-      
-      if (manifestLink.href.startsWith('blob:')) {
-        URL.revokeObjectURL(manifestLink.href);
-      }
-      
-      const repoPath = getRepoPath();
-      
-      if (currentFarmerId !== 'all') {
-        const farmer = FARMER_REGISTRY.find(f => 
-          f.phone === currentFarmerId || f.email === currentFarmerId
-        );
-        
-        if (farmer) {
-          document.title = `${farmer.name}'s Poultry Dashboard`;
-          
-          const firstName = farmer.name.split(' ')[0];
-          const nameSlug = farmer.name.toLowerCase().replace(/\s+/g, '-');
-          
-          const dynamicManifest = {
-            name: `${farmer.name}'s Poultry Dashboard`,
-            short_name: `${firstName}'s Farm`,
-            description: `Poultry farm dashboard for ${farmer.name} - ${farmer.district}`,
-            start_url: `${repoPath}/index.html?farmer=${nameSlug}`,
-            scope: `${repoPath}/`,
-            display: "standalone",
-            background_color: "#0a1625",
-            theme_color: "#c9a94b",
-            orientation: "any",
-            id: `${repoPath}/?farmer=${nameSlug}`,
-            categories: ["business", "productivity"],
-            lang: "en",
-            dir: "ltr",
-            prefer_related_applications: false,
-            icons: [
-              {
-                src: `${repoPath}/icon.png`,
-                sizes: "2000x2000",
-                type: "image/png",
-                purpose: "any"
-              },
-              {
-                src: `${repoPath}/icon.png`,
-                sizes: "512x512",
-                type: "image/png",
-                purpose: "maskable any"
-              },
-              {
-                src: `${repoPath}/icon.png`,
-                sizes: "192x192",
-                type: "image/png",
-                purpose: "any"
-              }
-            ],
-            shortcuts: [
-              {
-                name: `${farmer.name}'s Dashboard`,
-                short_name: "Dashboard",
-                description: `View ${farmer.name}'s poultry farm data`,
-                url: `${repoPath}/index.html?farmer=${nameSlug}`,
-                icons: [{ "src": `${repoPath}/icon.png`, "sizes": "192x192" }]
-              }
-            ]
-          };
-          
-          const blob = new Blob([JSON.stringify(dynamicManifest)], {type: 'application/json'});
-          manifestLink.href = URL.createObjectURL(blob);
-          
-          console.log(`📱 Dynamic manifest created for ${farmer.name}`);
-        }
-      } else {
-        manifestLink.href = './manifest.json';
-        document.title = 'Poultry Farm Dashboard | Multi-Farmer Monitoring';
-        console.log('📱 Admin manifest restored');
-      }
-    }
-
-    function updateShareButton(farmer) {
-      const shareBtn = document.getElementById('shareFarmerBtn');
-      if (!shareBtn) return;
-      
-      if (!farmer) {
-        shareBtn.style.display = 'none';
-        return;
-      }
-      
-      const shareURL = getFarmerShareURL(farmer);
-      shareBtn.style.display = 'inline-flex';
-      shareBtn.onclick = () => {
-        if (navigator.share) {
-          navigator.share({
-            title: `${farmer.name}'s Poultry Dashboard`,
-            text: `View ${farmer.name}'s poultry farm data`,
-            url: shareURL
-          }).catch(() => copyToClipboard(shareURL));
-        } else {
-          copyToClipboard(shareURL);
-        }
-      };
-    }
-
-    function copyToClipboard(text) {
-      navigator.clipboard.writeText(text).then(() => {
-        alert('✅ Dashboard link copied to clipboard!');
-      }).catch(() => {
-        const textarea = document.createElement('textarea');
-        textarea.value = text;
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textarea);
-        alert('✅ Dashboard link copied to clipboard!');
-      });
-    }
-
-    function updateAdminIndicator() {
-      const isFarmerView = currentFarmerId !== 'all';
-      
-      const farmerSelector = document.getElementById('farmerSelectorSection');
-      if (farmerSelector) {
-        farmerSelector.style.display = isFarmerView ? 'none' : 'flex';
-      }
-      
-      if (isFarmerView) {
-        if (!document.getElementById('adminReturnLink')) {
-          const headerTitleRow = document.querySelector('.header-title-row');
-          if (headerTitleRow) {
-            const adminLink = document.createElement('div');
-            adminLink.id = 'adminReturnLink';
-            adminLink.innerHTML = `<a href="${window.location.origin + window.location.pathname}">← Return to Admin Dashboard</a>`;
-            headerTitleRow.appendChild(adminLink);
-          }
-        }
-        
-        if (!document.getElementById('shareFarmerBtn')) {
-          const shareBtn = document.createElement('button');
-          shareBtn.id = 'shareFarmerBtn';
-          shareBtn.className = 'refresh-btn';
-          shareBtn.textContent = '📤 Share Dashboard';
-          const refreshBtn = document.getElementById('refreshBtn');
-          if (refreshBtn && refreshBtn.parentNode) {
-            refreshBtn.parentNode.insertBefore(shareBtn, refreshBtn.nextSibling);
-          }
-        }
-        
-        const farmer = FARMER_REGISTRY.find(f => 
-          f.phone === currentFarmerId || f.email === currentFarmerId
-        );
-        updateShareButton(farmer);
-      } else {
-        const adminLink = document.getElementById('adminReturnLink');
-        if (adminLink) adminLink.remove();
-        
-        const shareBtn = document.getElementById('shareFarmerBtn');
-        if (shareBtn) shareBtn.style.display = 'none';
-      }
-      
-      updateManifestForFarmer();
-    }
-
-    // ========== FARMER REGISTRY FUNCTIONS ==========
+    // ========== DATA FETCHING ==========
     async function fetchFarmerRegistry() {
       try {
-        if (!FARMER_REGISTRY_URL || FARMER_REGISTRY_URL.includes('YOUR_FARMER_REGISTRY_GID')) {
-          console.warn('Farmer Registry URL not configured, using fallback data');
-          return FALLBACK_FARMER_REGISTRY;
-        }
         const response = await fetch(FARMER_REGISTRY_URL, { cache: 'no-store' });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const csvText = await response.text();
-        if (!csvText.trim()) throw new Error('Empty CSV');
-        const rows = parseCSV(csvText);
+        const rows = parseCSV(await response.text());
         if (rows.length < 2) throw new Error('No data rows');
         const headers = rows[0].map(h => h.toLowerCase().trim());
         const nameIdx = headers.findIndex(h => h === 'name');
         const phoneIdx = headers.findIndex(h => h === 'phone');
         const emailIdx = headers.findIndex(h => h === 'email');
         const districtIdx = headers.findIndex(h => h === 'district');
-        
-        if (nameIdx === -1) throw new Error('Missing name column in farmer registry');
+        if (nameIdx === -1) throw new Error('Missing name column');
         
         const farmers = [];
         for (let i = 1; i < rows.length; i++) {
-          const row = rows[i];
-          if (row.length === 0) continue;
+          const row = rows[i]; if (row.length === 0) continue;
           const farmer = {
             name: (row[nameIdx] || '').trim(),
             phone: phoneIdx >= 0 ? (row[phoneIdx] || '').trim() : '',
             email: emailIdx >= 0 ? (row[emailIdx] || '').trim() : '',
             district: districtIdx >= 0 ? (row[districtIdx] || '').trim() : ''
           };
-          if (farmer.name && (farmer.phone || farmer.email)) {
-            farmers.push(farmer);
-          }
+          if (farmer.name && (farmer.phone || farmer.email)) farmers.push(farmer);
         }
         return farmers.length > 0 ? farmers : FALLBACK_FARMER_REGISTRY;
       } catch (err) {
@@ -1419,123 +571,11 @@
       }
     }
 
-    function populateFarmerDropdown() {
-      const select = document.getElementById('farmerSelect');
-      if (!select) return;
-      
-      select.innerHTML = '<option value="all">All Farmers (Aggregated View)</option>';
-      
-      FARMER_REGISTRY.forEach(farmer => {
-        const identifier = farmer.phone || farmer.email;
-        const option = document.createElement('option');
-        option.value = identifier;
-        option.textContent = `${farmer.name} (${farmer.district})`;
-        select.appendChild(option);
-      });
-      
-      select.value = currentFarmerId;
-    }
-
-    function initializeFarmerInfo() {
-      updateFarmerInfo(null);
-    }
-
-    function updateFarmerInfo(farmer) {
-      const infoDiv = document.getElementById('farmerInfo');
-      const heroFarmerName = document.getElementById('heroFarmerName');
-      
-      if (!farmer) {
-        if (infoDiv) infoDiv.innerHTML = '<span class="farmer-count-badge" id="farmerCountBadge">0 farmers</span>';
-        if (heroFarmerName) heroFarmerName.textContent = '';
-        updateFarmerCountBadge();
-        updateShareButton(null);
-        return;
-      }
-      
-      if (infoDiv) {
-        infoDiv.innerHTML = `
-          <div class="farmer-detail">
-            <span class="farmer-name">${farmer.name}</span>
-            <span class="farmer-district">📍 ${farmer.district}</span>
-            <span class="farmer-contact">📞 ${farmer.phone || farmer.email}</span>
-          </div>
-        `;
-      }
-      
-      if (heroFarmerName) {
-        heroFarmerName.textContent = `${farmer.name}'s Flock`;
-      }
-      
-      updateShareButton(farmer);
-    }
-
-    function updateFarmerCountBadge() {
-      const badge = document.getElementById('farmerCountBadge');
-      if (!badge) return;
-      
-      const activeFarmers = new Set();
-      
-      ALL_UNFILTERED_DATA.forEach(record => {
-        const phone = record.phone || '';
-        const email = record.email || '';
-        const farmer = FARMER_REGISTRY.find(f => 
-          (f.phone && phone && f.phone === phone) || (f.email && email && f.email === email)
-        );
-        if (farmer) activeFarmers.add(farmer.name);
-      });
-      
-      badge.textContent = `${activeFarmers.size} farmer${activeFarmers.size !== 1 ? 's' : ''}`;
-    }
-
-    function getAggregateMetrics(allDataUnfiltered) {
-      const farmerGroups = new Map();
-      
-      allDataUnfiltered.forEach(record => {
-        const phone = record.phone || '';
-        const email = record.email || '';
-        const farmer = FARMER_REGISTRY.find(f => 
-          (f.phone && phone && f.phone === phone) || (f.email && email && f.email === email)
-        );
-        const key = farmer ? farmer.name : (phone || email || 'unknown');
-        
-        if (!farmerGroups.has(key)) {
-          farmerGroups.set(key, []);
-        }
-        farmerGroups.get(key).push(record);
-      });
-      
-      let totalBirdsAlive = 0;
-      let totalStartingBirds = 0;
-      let totalDeaths = 0;
-      let farmerCount = farmerGroups.size;
-      
-      farmerGroups.forEach((records, farmerName) => {
-        const sorted = [...records].sort((a, b) => b.dateObj - a.dateObj);
-        const latest = sorted[0];
-        const earliest = sorted[sorted.length - 1];
-        
-        totalBirdsAlive += latest.birdsAlive || 0;
-        totalStartingBirds += earliest.birdsAlive || 0;
-        totalDeaths += records.reduce((sum, r) => sum + (r.deaths || 0), 0);
-      });
-      
-      return {
-        totalBirdsAlive,
-        totalStartingBirds,
-        totalDeaths,
-        farmerCount,
-        mortalityRate: totalStartingBirds > 0 ? ((totalDeaths / totalStartingBirds) * 100).toFixed(1) : '0.0'
-      };
-    }
-
-    // ========== DATA FETCHING ==========
     async function fetchData() {
       try {
         const response = await fetch(CSV_URL, { cache: 'no-store' });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const csvText = await response.text();
-        if (!csvText.trim()) throw new Error('Empty CSV');
-        const rows = parseCSV(csvText);
+        const rows = parseCSV(await response.text());
         if (rows.length < 2) throw new Error('No data rows');
         const headers = rows[0], col = mapFarmDataColumns(headers);
         if (col.birdsAlive === -1 || col.date === -1) throw new Error('Missing critical columns');
@@ -1544,14 +584,10 @@
         for (let i = 1; i < rows.length; i++) {
           const row = rows[i]; if (row.length === 0) continue;
           const dateVal = (row[col.date] || '').trim(); if (!dateVal) continue;
-          
           const dateObj = parseDate(dateVal);
           const timeStr = col.time >= 0 ? (row[col.time] || '').trim() : '';
           const { time, timeMinutes } = parseTime(timeStr);
-          
           const weightVal = col.avgWeight >= 0 ? (row[col.avgWeight] || '').trim() : '';
-          const phone = col.phone >= 0 ? (row[col.phone] || '').trim() : '';
-          const email = col.email >= 0 ? (row[col.email] || '').trim() : '';
           
           data.push({ 
             time, timeMinutes, date: dateVal, dateObj,
@@ -1563,54 +599,31 @@
             temp: col.temp >= 0 ? toNum(row[col.temp]) : 0,
             litter: col.litter >= 0 ? (row[col.litter] || '').trim().toLowerCase() : '',
             avgWeight: weightVal ? toNum(weightVal) : null,
-            phone, email
+            phone: col.phone >= 0 ? (row[col.phone] || '').trim() : '',
+            email: col.email >= 0 ? (row[col.email] || '').trim() : ''
           });
         }
         data.sort((a, b) => { const d = b.dateObj - a.dateObj; return d !== 0 ? d : (b.timeMinutes - a.timeMinutes); });
-        
         ALL_UNFILTERED_DATA = [...data];
-        
-        const filtered = filterByFarmer(data, currentFarmerId);
-        return { data: filtered, success: true, allData: data };
+        return { data, success: true };
       } catch (err) {
         console.error('Data fetch error:', err);
         updateSyncStatus(false);
         ALL_UNFILTERED_DATA = [...FALLBACK_DATA];
-        const filtered = filterByFarmer(FALLBACK_DATA, currentFarmerId);
-        return { data: filtered, success: false, allData: FALLBACK_DATA };
+        return { data: FALLBACK_DATA, success: false };
       }
-    }
-
-    function filterByFarmer(data, farmerId) {
-      if (farmerId === 'all') return data;
-      
-      const farmer = FARMER_REGISTRY.find(f => 
-        f.phone === farmerId || f.email === farmerId
-      );
-      
-      if (!farmer) return data;
-      
-      return data.filter(record => 
-        (farmer.phone && record.phone === farmer.phone) || 
-        (farmer.email && record.email === farmer.email)
-      );
     }
 
     async function fetchTargetData() {
       try {
-        if (!TARGET_CSV_URL) return null;
         const response = await fetch(TARGET_CSV_URL, { cache: 'no-store' });
         if (!response.ok) return null;
-        const csvText = await response.text();
-        if (!csvText.trim()) return null;
-        const rows = parseCSV(csvText);
+        const rows = parseCSV(await response.text());
         if (rows.length < 2) return null;
         const targets = {};
         for (let i = 1; i < rows.length; i++) {
-          const row = rows[i];
-          if (row.length < 3) continue;
-          const day = toNum(row[0]), temp = toNum(row[1]), weight = toNum(row[2]);
-          if (day > 0) targets[day] = { temp, weight };
+          const row = rows[i]; if (row.length < 3) continue;
+          const day = toNum(row[0]); if (day > 0) targets[day] = { temp: toNum(row[1]), weight: toNum(row[2]) };
         }
         return targets;
       } catch (err) { return null; }
@@ -1618,186 +631,93 @@
 
     async function fetchVaccinationData() {
       try {
-        if (!VACCINATION_CSV_URL || VACCINATION_CSV_URL.includes('YOUR_PUBLISHED')) return null;
         const response = await fetch(VACCINATION_CSV_URL, { cache: 'no-store' });
         if (!response.ok) return null;
-        const csvText = await response.text();
-        if (!csvText.trim()) return null;
-        const rows = parseCSV(csvText);
+        const rows = parseCSV(await response.text());
         if (rows.length < 2) return null;
-        
-        const headers = rows[0];
-        const col = mapVaccinationColumns(headers);
-        
-        if (col.dateGiven === -1 || col.itemName === -1) {
-          console.warn('Vaccination sheet missing required columns');
-          return null;
-        }
+        const headers = rows[0], col = mapVaccinationColumns(headers);
+        if (col.dateGiven === -1 || col.itemName === -1) return null;
         
         const vaccinations = [];
         for (let i = 1; i < rows.length; i++) {
-          const row = rows[i];
-          if (row.length === 0) continue;
+          const row = rows[i]; if (row.length === 0) continue;
           const date = col.dateGiven >= 0 ? (row[col.dateGiven] || '').trim() : '';
           const itemName = col.itemName >= 0 ? (row[col.itemName] || '').trim() : '';
-          const phone = col.phone >= 0 ? (row[col.phone] || '').trim() : '';
-          const email = col.email >= 0 ? (row[col.email] || '').trim() : '';
-          const reactions = col.reactions >= 0 ? (row[col.reactions] || '').trim() : '';
-          const notes = col.notes >= 0 ? (row[col.notes] || '').trim() : '';
-          
           if (date && itemName) {
-            vaccinations.push({ date, itemName, phone, email, reactions, notes });
+            vaccinations.push({ 
+              date, itemName, 
+              phone: col.phone >= 0 ? (row[col.phone] || '').trim() : '', 
+              email: col.email >= 0 ? (row[col.email] || '').trim() : ''
+            });
           }
         }
-        vaccinations.sort((a, b) => parseDate(a.date) - parseDate(b.date));
-        
-        const filtered = filterVaccinationsByFarmer(vaccinations, currentFarmerId);
-        return filtered;
-      } catch (err) {
-        console.error('Vaccination fetch error:', err);
-        return null;
-      }
-    }
-
-    function filterVaccinationsByFarmer(vaccinations, farmerId) {
-      if (farmerId === 'all') return vaccinations;
-      
-      const farmer = FARMER_REGISTRY.find(f => 
-        f.phone === farmerId || f.email === farmerId
-      );
-      
-      if (!farmer) return vaccinations;
-      
-      const hasIdentifiers = vaccinations.some(v => v.phone || v.email);
-      
-      if (hasIdentifiers) {
-        return vaccinations.filter(v => 
-          (farmer.phone && v.phone === farmer.phone) || 
-          (farmer.email && v.email === farmer.email)
-        );
-      } else {
-        console.warn('Vaccination records lack farmer identifiers - showing all records. Please backfill Phone/Email columns.');
         return vaccinations;
-      }
+      } catch (err) { return null; }
     }
 
-    function calculateDayOfCycle(vaccinationDate, farmerData) {
-      if (!farmerData || farmerData.length === 0) return null;
-      
-      const sorted = [...farmerData].sort((a, b) => a.dateObj - b.dateObj);
-      const earliestDate = sorted[0].dateObj;
-      
-      const vaccDate = parseDate(vaccinationDate);
-      const diffDays = Math.floor((vaccDate - earliestDate) / (1000 * 60 * 60 * 24)) + 1;
-      
-      return diffDays > 0 ? diffDays : null;
+    // ========== AGGREGATE CALCULATIONS ==========
+    function getFarmerByIdentifier(phone, email) {
+      return FARMER_REGISTRY.find(f => 
+        (f.phone && phone && f.phone === phone) || (f.email && email && f.email === email)
+      );
     }
 
-    function getFarmerDataForVaccination(vaccinationRecord) {
-      if (vaccinationRecord.phone || vaccinationRecord.email) {
-        const farmer = FARMER_REGISTRY.find(f => 
-          (f.phone && vaccinationRecord.phone && f.phone === vaccinationRecord.phone) ||
-          (f.email && vaccinationRecord.email && f.email === vaccinationRecord.email)
-        );
+    function getActiveFarmers() {
+      const activeFarmers = new Set();
+      ALL_UNFILTERED_DATA.forEach(record => {
+        const farmer = getFarmerByIdentifier(record.phone, record.email);
+        if (farmer) activeFarmers.add(farmer.name);
+      });
+      return Array.from(activeFarmers);
+    }
+
+    function getLatestRecordsPerFarmer() {
+      const farmerLatestMap = new Map();
+      ALL_UNFILTERED_DATA.forEach(record => {
+        const farmer = getFarmerByIdentifier(record.phone, record.email);
         if (farmer) {
-          const farmerData = ALL_UNFILTERED_DATA.filter(r => 
-            (farmer.phone && r.phone === farmer.phone) ||
-            (farmer.email && r.email === farmer.email)
-          );
-          return farmerData;
+          if (!farmerLatestMap.has(farmer.name)) {
+            farmerLatestMap.set(farmer.name, record);
+          } else {
+            const existing = farmerLatestMap.get(farmer.name);
+            if (record.dateObj > existing.dateObj || (record.dateObj.getTime() === existing.dateObj.getTime() && record.timeMinutes > existing.timeMinutes)) {
+              farmerLatestMap.set(farmer.name, record);
+            }
+          }
         }
-      }
-      
-      if (currentFarmerId !== 'all') {
-        return allData;
-      }
-      
-      return ALL_UNFILTERED_DATA;
+      });
+      return farmerLatestMap;
     }
 
-    function renderVaccinationTimeline() {
-      const container = document.getElementById('vaccinationTimeline');
-      const countBadge = document.getElementById('vaccinationCount');
-      const statsEl = document.getElementById('vaccinationStats');
-      
-      let data = VACCINATION_DATA;
-      if (!data || data.length === 0) {
-        data = currentFarmerId === 'all' ? FALLBACK_VACCINATION_DATA : filterVaccinationsByFarmer(FALLBACK_VACCINATION_DATA, currentFarmerId);
-      }
+    function getAggregateMetrics() {
+      const farmerGroups = new Map();
+      ALL_UNFILTERED_DATA.forEach(record => {
+        const farmer = getFarmerByIdentifier(record.phone, record.email);
+        const key = farmer ? farmer.name : (record.phone || record.email || 'unknown');
+        if (!farmerGroups.has(key)) farmerGroups.set(key, []);
+        farmerGroups.get(key).push(record);
+      });
 
-      if (!container) return;
+      let totalBirdsAlive = 0, totalStartingBirds = 0, totalDeaths = 0;
+      farmerGroups.forEach((records) => {
+        const sorted = [...records].sort((a, b) => b.dateObj - a.dateObj);
+        const latest = sorted[0];
+        const earliest = sorted[sorted.length - 1];
+        totalBirdsAlive += latest.birdsAlive || 0;
+        totalStartingBirds += earliest.birdsAlive || 0;
+        totalDeaths += records.reduce((sum, r) => sum + (r.deaths || 0), 0);
+      });
 
-      if (!data || data.length === 0) {
-        container.innerHTML = `<div style="text-align:center;color:var(--text-muted);padding:2rem;">No vaccination records found${currentFarmerId !== 'all' ? '<br><small style="font-size:0.7rem;">(Vaccination data may need Phone/Email backfilled)</small>' : ''}</div>`;
-        if (countBadge) countBadge.textContent = '0 doses';
-        if (statsEl) statsEl.textContent = '';
-        return;
-      }
-
-      const totalDoses = data.reduce((sum, v) => sum + v.itemName.split(',').length, 0);
-      if (countBadge) countBadge.textContent = `${totalDoses} dose${totalDoses !== 1 ? 's' : ''}`;
-
-      const firstDate = parseDate(data[0].date);
-      const lastDate = parseDate(data[data.length - 1].date);
-      const spanDays = Math.round((lastDate - firstDate) / 86400000);
-      if (statsEl) statsEl.innerHTML = `<strong>${data.length}</strong> sessions · <strong>${totalDoses}</strong> total doses · Span: <strong>${spanDays} days</strong>`;
-
-      const desktopNodes = data.map((v, index) => {
-        const itemList = v.itemName.split(',').map(i => i.trim());
-        const parsedDate = parseDate(v.date);
-        const dateFormatted = parsedDate.toLocaleDateString('en-GB', {day:'numeric', month:'short'});
-        const year = parsedDate.getFullYear();
-        const sessionNum = index + 1;
-        
-        const farmerData = getFarmerDataForVaccination(v);
-        const dayOfCycle = calculateDayOfCycle(v.date, farmerData);
-        const cycleLabel = dayOfCycle ? `Day ${dayOfCycle}` : `#${sessionNum}`;
-        
-        return `
-          <div class="vaccination-node-desktop">
-            <div class="vaccination-day">${cycleLabel}</div>
-            <div class="vaccination-dot"></div>
-            <div class="vacc-node-card">
-              <div class="vacc-node-date">
-                ${dateFormatted}
-                <span class="year">${year}</span>
-              </div>
-              <div class="vacc-tags">
-                ${itemList.map(item => `<div class="vacc-tag">${item}</div>`).join('')}
-              </div>
-              ${v.reactions ? `<div style="font-size:0.6rem;color:#e74c3;margin-top:0.3rem;">⚠️ ${v.reactions}</div>` : ''}
-            </div>
-          </div>`;
-      }).join('');
-
-      const mobileNodes = data.map((v, index) => {
-        const itemList = v.itemName.split(',').map(i => i.trim());
-        const parsedDate = parseDate(v.date);
-        const dateFormatted = parsedDate.toLocaleDateString('en-GB', {day:'numeric', month:'short'});
-        const year = parsedDate.getFullYear();
-        
-        const farmerData = getFarmerDataForVaccination(v);
-        const dayOfCycle = calculateDayOfCycle(v.date, farmerData);
-        const cycleLabel = dayOfCycle ? `Day ${dayOfCycle}` : `Session #${index + 1}`;
-        
-        return `
-          <div class="vaccination-node-mobile">
-            <div class="vaccination-node-day-mobile">${cycleLabel}</div>
-            <div class="vaccination-node-date-mobile">
-              ${dateFormatted}<span class="vaccination-node-year-mobile">${year}</span>
-            </div>
-            <div class="vaccination-node-tags-mobile">
-              ${itemList.map(item => `<span class="vaccination-tag-mobile">${item}</span>`).join('')}
-            </div>
-            ${v.reactions ? `<div style="font-size:0.65rem;color:#e74c3;margin-top:0.4rem;">⚠️ Reaction: ${v.reactions}</div>` : ''}
-            ${v.notes ? `<div style="font-size:0.6rem;color:var(--text-muted);margin-top:0.2rem;">📝 ${v.notes}</div>` : ''}
-          </div>`;
-      }).join('');
-
-      container.innerHTML = desktopNodes + mobileNodes;
+      return {
+        totalBirdsAlive,
+        totalStartingBirds,
+        totalDeaths,
+        farmerCount: farmerGroups.size,
+        mortalityRate: totalStartingBirds > 0 ? ((totalDeaths / totalStartingBirds) * 100).toFixed(1) : '0.0'
+      };
     }
 
-    /* ========== WEEK FILTERING ========== */
+    // ========== WEEK FILTERING ==========
     function getWeekMonday(date) {
       const d = new Date(date);
       const day = d.getDay();
@@ -1857,21 +777,6 @@
       return { symbol: isPositive ? '↑' : '↓', class: isGood ? 'up' : 'down', text: `${isPositive ? '+' : ''}${fmt(diff, 1)} ${pct !== 0 ? `(${pct}%)` : ''}` };
     }
 
-    function getTempClass(temp, targetTemp) {
-      if (!targetTemp) return temp >= 26 && temp <= 32 ? 'temp-optimal' : (temp < 24 || temp > 34 ? 'temp-critical' : 'temp-warning');
-      const lower = targetTemp - 3, upper = targetTemp + 3;
-      return temp >= lower && temp <= upper ? 'temp-optimal' : (temp < lower - 2 || temp > upper + 2 ? 'temp-critical' : 'temp-warning');
-    }
-    function getTempIcon(temp, targetTemp) {
-      if (!targetTemp) return temp >= 26 && temp <= 32 ? '✅' : (temp < 26 ? '️↓' : '🌡️↑');
-      const lower = targetTemp - 3, upper = targetTemp + 3;
-      return temp >= lower && temp <= upper ? '✅' : (temp < lower ? '️↓' : '🌡️↑');
-    }
-    function getTempStatus(temp, targetTemp) {
-      if (!targetTemp) return temp >= 26 && temp <= 32 ? 'Optimal range' : (temp < 26 ? 'Below optimal' : 'Above optimal');
-      const lower = targetTemp - 3, upper = targetTemp + 3;
-      return temp >= lower && temp <= upper ? `Optimal` : (temp < lower ? `Below` : `Above`);
-    }
     function updateSyncStatus(online) {
       const dot = document.getElementById('syncDot'), text = document.getElementById('syncStatusText');
       if (dot) dot.classList.toggle('offline', !online);
@@ -1879,81 +784,41 @@
     }
 
     let mortalityViewMode = 'timeline';
-    
     function updateMortalityDisplay() {
       const timeline = document.getElementById('mortalityTimeline'), kpi = document.getElementById('mortalityKPI');
       if (timeline) timeline.style.display = mortalityViewMode === 'total' ? 'none' : 'flex';
       if (kpi) kpi.style.display = mortalityViewMode === 'total' ? 'block' : 'none';
     }
-    function renderMortalitySection(data) {
-      renderMortalityTimeline(data); renderMortalityKPI(data); updateMortalityDisplay(); renderCauseChart(data);
-    }
+
     function updateBadge(date, time) {
       const text = `⏱ ${date} at ${time || '—'}`;
       const b = document.getElementById('latestUpdateBadge'), bm = document.getElementById('latestUpdateBadgeMobile');
       if (b) b.textContent = text; if (bm) bm.textContent = text;
     }
 
+    // ========== RENDER FUNCTIONS ==========
     function render(data) {
       if (!data || data.length === 0) {
         document.getElementById('topMetrics').innerHTML = '<div class="metric-card" style="grid-column:span 6;text-align:center;">❌ No data for this period</div>';
         if (window.weightChartInstance) { window.weightChartInstance.destroy(); window.weightChartInstance = null; }
-        renderCauseChart(data); renderMortalityTimeline(data); renderMortalityKPI(data); updateMortalityDisplay();
-        renderTempChart(data); document.getElementById('tempStatus').innerHTML = '<div><span class="temp-indicator temp-optimal">— No temperature data</span></div>';
-        renderResourceChart(data); renderDataTable(data);
+        renderCauseChart(data); renderMortalityTimeline(data); renderMortalityKPI(); updateMortalityDisplay();
+        renderEnvironmentStatus(); renderVaccinationStatus();
+        renderDataTable(data);
         document.getElementById('recordCount').textContent = `(${data.length} records)`;
         document.getElementById('updatedLine').textContent = `Last updated: ${new Date().toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit'})}`;
         document.getElementById('heroKPI').textContent = '—';
         document.getElementById('heroStarted').textContent = '—';
         document.getElementById('monitoringDays').textContent = '0 Days';
         document.getElementById('monitoringRange').textContent = 'No data';
-        updateFarmerCountBadge();
+        document.getElementById('aggFarmerCount').textContent = '0 farmers';
         return;
       }
 
-      const isAggregate = currentFarmerId === 'all';
-      
-      let startingBirds, latestBirdsAlive, totalDeaths, cumulativeDays, oldestFiltered, latest, veryFirstRecord;
-      
-      if (isAggregate) {
-        const agg = getAggregateMetrics(ALL_UNFILTERED_DATA);
-        latestBirdsAlive = agg.totalBirdsAlive;
-        startingBirds = agg.totalStartingBirds;
-        totalDeaths = agg.totalDeaths;
-        
-        const allSorted = [...ALL_UNFILTERED_DATA].sort((a, b) => a.dateObj - b.dateObj);
-        veryFirstRecord = allSorted[0];
-        latest = allSorted[allSorted.length - 1];
-        oldestFiltered = allSorted[0];
-        cumulativeDays = Math.max(1, Math.ceil((allSorted[allSorted.length - 1].dateObj - allSorted[0].dateObj) / 86400000) + 1);
-      } else {
-        oldestFiltered = data[data.length - 1];
-        const allSorted = [...data].sort((a, b) => a.dateObj - b.dateObj);
-        veryFirstRecord = allSorted[0];
-        latest = data[0];
-        latestBirdsAlive = latest.birdsAlive;
-        startingBirds = oldestFiltered.birdsAlive;
-        totalDeaths = data.reduce((s, r) => s + r.deaths, 0);
-        cumulativeDays = Math.max(1, Math.ceil((latest.dateObj - veryFirstRecord.dateObj) / 86400000) + 1);
-      }
-      
-      const mortalityRate = startingBirds > 0 ? (totalDeaths / startingBirds * 100).toFixed(1) : '0.0';
-      const latestTemp = latest.temp;
-      const litterStatus = latest.litter && latest.litter.includes('yes') ? 'Available' : 'Low';
-      let lastUnavailable = 'N/A';
-      for (let i = 0; i < data.length; i++) { if (!data[i].litter.includes('yes')) { lastUnavailable = `${data[i].date} ${data[i].time || ''}`.trim(); break; } }
-
-      let targetTempForDay = null;
-      let targetWeightForDay = null;
-      if (TARGET_DATA && !isAggregate) {
-        const utc1 = Date.UTC(latest.dateObj.getFullYear(), latest.dateObj.getMonth(), latest.dateObj.getDate());
-        const utc2 = Date.UTC(veryFirstRecord.dateObj.getFullYear(), veryFirstRecord.dateObj.getMonth(), veryFirstRecord.dateObj.getDate());
-        const dayDiff = Math.floor((utc1 - utc2) / (1000 * 60 * 60 * 24)) + 1;
-        if (TARGET_DATA[dayDiff]) {
-          targetTempForDay = TARGET_DATA[dayDiff].temp;
-          targetWeightForDay = TARGET_DATA[dayDiff].weight;
-        }
-      }
+      const agg = getAggregateMetrics();
+      const allSorted = [...ALL_UNFILTERED_DATA].sort((a, b) => a.dateObj - b.dateObj);
+      const veryFirstRecord = allSorted[0];
+      const latest = allSorted[allSorted.length - 1];
+      const cumulativeDays = Math.max(1, Math.ceil((latest.dateObj - veryFirstRecord.dateObj) / 86400000) + 1);
 
       const totalWeeks = Math.floor(cumulativeDays / 7);
       const remainingDays = cumulativeDays % 7;
@@ -1962,59 +827,38 @@
       else if (totalWeeks > 0) weekDayText = ` (${totalWeeks} week${totalWeeks !== 1 ? 's' : ''})`;
       else weekDayText = ` (${remainingDays} day${remainingDays !== 1 ? 's' : ''})`;
 
-      const oldestShort = oldestFiltered.dateObj.toLocaleDateString('en-GB', {day:'numeric', month:'short'});
-      const latestShort = latest.dateObj.toLocaleDateString('en-GB', {day:'numeric', month:'short'});
       document.getElementById('monitoringDays').textContent = `${cumulativeDays} Days${weekDayText}`;
-      document.getElementById('monitoringRange').textContent = `${oldestShort} – ${latestShort}`;
-
-      updateBadge(latest.date, latest.time);
-      document.getElementById('heroKPI').textContent = `${fmt(latestBirdsAlive)} Chickens`;
-      document.getElementById('heroStarted').textContent = isAggregate ? `${fmt(startingBirds)} (across ${FARMER_REGISTRY.length} farmers)` : fmt(startingBirds);
+      document.getElementById('monitoringRange').textContent = `${veryFirstRecord.dateObj.toLocaleDateString('en-GB', {day:'numeric', month:'short'})} – ${latest.dateObj.toLocaleDateString('en-GB', {day:'numeric', month:'short'})}`;
+      document.getElementById('aggFarmerCount').textContent = `${agg.farmerCount} farmer${agg.farmerCount !== 1 ? 's' : ''}`;
       
-      updateFarmerCountBadge();
+      updateBadge(latest.date, latest.time);
+      document.getElementById('heroKPI').textContent = `${fmt(agg.totalBirdsAlive)} Chickens`;
+      document.getElementById('heroStarted').textContent = `${fmt(agg.totalStartingBirds)} (across ${agg.farmerCount} farmers)`;
 
+      // Calculate Latest Metrics per Farmer for KPIs
+      const farmerLatestMap = getLatestRecordsPerFarmer();
+      let optimalTempCount = 0;
+      let litterAvailableCount = 0;
+      let totalAvgWeight = 0;
+      let weightCount = 0;
+
+      farmerLatestMap.forEach(record => {
+        if (record.temp >= 26 && record.temp <= 32) optimalTempCount++;
+        if (record.litter && record.litter.includes('yes')) litterAvailableCount++;
+        if (record.avgWeight) {
+          totalAvgWeight += record.avgWeight;
+          weightCount++;
+        }
+      });
+
+      const avgWeight = weightCount > 0 ? (totalAvgWeight / weightCount) : 0;
       const weightTrend = latest.avgWeight && data[1]?.avgWeight ? calculateTrend(latest.avgWeight, data[1].avgWeight, true) : { symbol: '—', class: 'neutral', text: 'Pending' };
-      const tempTrend = calculateTrend(latestTemp, data[1]?.temp, false);
-
-      let weightContext = 'Latest measurement';
-      if (!isAggregate && latest.avgWeight && targetWeightForDay) {
-        const diff = latest.avgWeight - targetWeightForDay;
-        const diffClass = diff >= 0 ? 'ahead' : 'behind';
-        const arrow = diff >= 0 ? '↑' : '↓';
-        const sign = diff >= 0 ? '+' : '';
-        weightContext = `Target: ${targetWeightForDay}g · <span class="context-target-diff ${diffClass}">${arrow} ${sign}${diff}g ${diff >= 0 ? 'ahead' : 'behind'}</span>`;
-      } else if (!isAggregate && targetWeightForDay && !latest.avgWeight) {
-        weightContext = `Target: ${targetWeightForDay}g · <span class="context-target-diff">No data yet</span>`;
-      } else if (isAggregate) {
-        weightContext = `Aggregated across ${FARMER_REGISTRY.length} farmers`;
-      }
-
-      let tempContext = getTempStatus(latestTemp, targetTempForDay);
-      if (!isAggregate && targetTempForDay) {
-        const diff = latestTemp - targetTempForDay;
-        const inRange = Math.abs(diff) <= 3;
-        const diffClass = inRange ? 'ahead' : 'behind';
-        const arrow = diff >= 0 ? '↑' : '↓';
-        const sign = diff >= 0 ? '+' : '';
-        tempContext = `Target: ${targetTempForDay}°C · <span class="context-target-diff ${diffClass}">${arrow} ${sign}${diff}°C · ${getTempStatus(latestTemp, targetTempForDay)}</span>`;
-      } else if (isAggregate) {
-        tempContext = `Latest reading across all farms`;
-      }
-
-      const targetMortalityRate = 5;
-      let mortalityContext = `${fmt(totalDeaths)} total deaths`;
-      if (startingBirds > 0) {
-        const rateDiff = parseFloat(mortalityRate) - targetMortalityRate;
-        const diffClass = rateDiff <= 0 ? 'ahead' : 'behind';
-        const arrow = rateDiff <= 0 ? '↓' : '↑';
-        mortalityContext = `Target: <${targetMortalityRate}% · <span class="context-target-diff ${diffClass}">${arrow} ${Math.abs(rateDiff).toFixed(1)}% ${rateDiff <= 0 ? 'below' : 'above'} target</span> · ${fmt(totalDeaths)} deaths`;
-      }
 
       const metrics = [
-        { label: 'Mortality Rate', value: `${mortalityRate}%`, sub: mortalityContext, trend: { symbol: '—', class: 'neutral', text: 'Tracking' } },
-        { label: 'Last Avg Weight', value: latest.avgWeight ? `${fmt(latest.avgWeight)}g` : '—', sub: weightContext, trend: weightTrend },
-        { label: 'Temperature', value: `${fmt(latestTemp)}°C`, sub: tempContext, trend: tempTrend },
-        { label: 'Litter Status', value: litterStatus, sub: `Last unavailable: ${lastUnavailable}`, trend: { symbol: '•', class: 'neutral', text: '—' } }
+        { label: 'Mortality Rate', value: `${agg.mortalityRate}%`, sub: `Target: <5% · ${fmt(agg.totalDeaths)} total deaths`, trend: { symbol: '—', class: 'neutral', text: 'Tracking' } },
+        { label: 'Last Avg Weight', value: avgWeight > 0 ? `${fmt(avgWeight)}g` : '—', sub: `Averaged across ${weightCount} farms`, trend: weightTrend },
+        { label: 'Temperature', value: `${optimalTempCount} / ${agg.farmerCount}`, sub: `Farms in optimal range (26–32°C)`, trend: { symbol: '•', class: 'neutral', text: '—' } },
+        { label: 'Litter Status', value: `${litterAvailableCount} / ${agg.farmerCount}`, sub: `Farms with litter available`, trend: { symbol: '•', class: 'neutral', text: '—' } }
       ];
 
       document.getElementById('topMetrics').innerHTML = metrics.map(m => {
@@ -2024,17 +868,14 @@
       }).join('');
 
       renderWeightChart(data.filter(r => r.avgWeight !== null).reverse());
-      renderCauseChart(data); renderMortalityTimeline(data); renderMortalityKPI(data); updateMortalityDisplay();
-      renderTempChart(data);
-
-      if (targetTempForDay) {
-        const lower = targetTempForDay - 3, upper = targetTempForDay + 3;
-        document.getElementById('tempStatus').innerHTML = `<div><span class="temp-indicator ${getTempClass(latestTemp, targetTempForDay)}">${getTempIcon(latestTemp, targetTempForDay)} Current: ${fmt(latestTemp)}°C</span><span style="font-size:0.7rem;color:var(--text-muted);margin-left:0.5rem;">Range: ${lower}–${upper}°C</span></div>`;
-      } else {
-        document.getElementById('tempStatus').innerHTML = `<div><span class="temp-indicator ${getTempClass(latestTemp, null)}">${getTempIcon(latestTemp, null)} Current: ${fmt(latestTemp)}°C</span><span style="font-size:0.7rem;color:var(--text-muted);margin-left:0.5rem;">Optimal: 26–32°C</span></div>`;
-      }
-
-      renderResourceChart(data); renderDataTable(data);
+      renderCauseChart(data); 
+      renderMortalityTimeline(data); 
+      renderMortalityKPI(); 
+      updateMortalityDisplay();
+      renderEnvironmentStatus(farmerLatestMap, agg.farmerCount);
+      renderVaccinationStatus();
+      renderDataTable(data);
+      
       document.getElementById('recordCount').textContent = `(${data.length} records)`;
       document.getElementById('updatedLine').textContent = `Last updated: ${new Date().toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit'})}`;
       updateSyncStatus(true);
@@ -2046,12 +887,8 @@
       if (deathRecords.length === 0) { c.innerHTML = '<div style="color:var(--text-muted);text-align:center;padding:1rem;">✅ No deaths recorded in this period</div>'; return; }
       c.innerHTML = deathRecords.map(r => {
         let farmerDisplay = '';
-        if (r.phone || r.email) {
-          const farmer = FARMER_REGISTRY.find(f => 
-            (f.phone && r.phone && f.phone === r.phone) || (f.email && r.email && f.email === r.email)
-          );
-          farmerDisplay = farmer ? ` · ${farmer.name}` : '';
-        }
+        const farmer = getFarmerByIdentifier(r.phone, r.email);
+        if (farmer) farmerDisplay = ` · ${farmer.name}`;
         return `
         <div class="mortality-item">
           <div class="mortality-dot"></div>
@@ -2064,27 +901,12 @@
       }).join('');
     }
 
-    function renderMortalityKPI(data) {
+    function renderMortalityKPI() {
       const k = document.getElementById('mortalityKPI'); if (!k) return;
-      
-      let total, start, rate, days;
-      
-      if (currentFarmerId === 'all') {
-        const agg = getAggregateMetrics(ALL_UNFILTERED_DATA);
-        total = agg.totalDeaths;
-        start = agg.totalStartingBirds;
-        rate = agg.mortalityRate;
-        
-        const allSorted = [...ALL_UNFILTERED_DATA].sort((a, b) => a.dateObj - b.dateObj);
-        days = Math.max(1, Math.ceil((allSorted[allSorted.length - 1].dateObj - allSorted[0].dateObj) / 86400000) + 1);
-      } else {
-        total = data.reduce((s,r)=>s+r.deaths,0);
-        start = data[data.length-1].birdsAlive;
-        rate = start > 0 ? (total/start*100).toFixed(1) : 0;
-        days = Math.max(1, Math.ceil((data[0].dateObj-data[data.length-1].dateObj)/86400000)+1);
-      }
-      
-      k.innerHTML = `<div class="label">Total Deaths</div><div class="value">${fmt(total)}</div><div class="subtitle">Over ${days} days · ${rate}% mortality · Started with ${fmt(start)} birds</div>`;
+      const agg = getAggregateMetrics();
+      const allSorted = [...ALL_UNFILTERED_DATA].sort((a, b) => a.dateObj - b.dateObj);
+      const days = Math.max(1, Math.ceil((allSorted[allSorted.length - 1].dateObj - allSorted[0].dateObj) / 86400000) + 1);
+      k.innerHTML = `<div class="label">Total Deaths</div><div class="value">${fmt(agg.totalDeaths)}</div><div class="subtitle">Over ${days} days · ${agg.mortalityRate}% mortality · Started with ${fmt(agg.totalStartingBirds)} birds</div>`;
     }
 
     function smartSample(data, maxPoints) {
@@ -2102,25 +924,11 @@
       if (window.weightChartInstance) { window.weightChartInstance.destroy(); window.weightChartInstance = null; }
       if (data.length===0) { document.getElementById('weightChart').parentNode.innerHTML='<p style="color:var(--text-muted);text-align:center;padding:2rem;">No weight data for this period</p>'; return; }
       const { sampledData, labelIndices } = smartSample(data, 14);
-      const allSorted = [...allData].sort((a, b) => a.dateObj - b.dateObj);
-      const oldestDate = allSorted.length > 0 ? allSorted[0].dateObj : sampledData[sampledData.length - 1].dateObj;
-      const targetValues = sampledData.map(r => {
-        if (!TARGET_DATA || currentFarmerId === 'all') return null;
-        const dayDiff = Math.floor((Date.UTC(r.dateObj.getFullYear(), r.dateObj.getMonth(), r.dateObj.getDate()) - Date.UTC(oldestDate.getFullYear(), oldestDate.getMonth(), oldestDate.getDate())) / 86400000) + 1;
-        return TARGET_DATA[dayDiff] ? TARGET_DATA[dayDiff].weight : null;
-      });
-      
-      const datasets = [
-        { label:'Avg Weight (g)', data:sampledData.map(r=>r.avgWeight), borderColor:'#c9a94b', backgroundColor:'rgba(201,169,75,0.15)', borderWidth:3, pointBackgroundColor:'#fff', pointBorderColor:'#c9a94b', pointRadius:4, pointHoverRadius:6, fill:true, tension:0.3 }
-      ];
-      
-      if (currentFarmerId !== 'all') {
-        datasets.push({ label:'Target Weight', data:targetValues, borderColor:'#8a949e', backgroundColor:'transparent', borderWidth:2, borderDash:[6,4], pointRadius:0, pointHoverRadius:5, pointBackgroundColor:'#8a949e', pointBorderColor:'#ffffff', fill:false, tension:0.2 });
-      }
       
       window.weightChartInstance = new Chart(ctx, {
         type:'line',
-        data:{ labels:sampledData.map(r=>`${r.dateObj.getDate()} ${r.dateObj.toLocaleString('en-GB',{month:'short'})}`), datasets },
+        data:{ labels:sampledData.map(r=>`${r.dateObj.getDate()} ${r.dateObj.toLocaleString('en-GB',{month:'short'})}`), 
+          datasets:[{ label:'Avg Weight (g)', data:sampledData.map(r=>r.avgWeight), borderColor:'#c9a94b', backgroundColor:'rgba(201,169,75,0.15)', borderWidth:3, pointBackgroundColor:'#fff', pointBorderColor:'#c9a94b', pointRadius:4, pointHoverRadius:6, fill:true, tension:0.3 }]},
         options:{ responsive:true, maintainAspectRatio:false,
           plugins:{ legend:{ display:true, position:'top', align:'end', labels:{ color:'#b9c7dd', font:{size:10}, boxWidth:15, padding:10 }},
             tooltip:{ backgroundColor:'#0b1a2b', titleColor:'#fff', bodyColor:'#f0f2f5', borderColor:'#c9a94b', borderWidth:1, callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.y}g`}}},
@@ -2154,98 +962,112 @@
       });
     }
 
-    function renderTempChart(data) {
-      const ctx = document.getElementById('tempChart')?.getContext('2d'); if (!ctx || typeof Chart==='undefined') return;
-      if (window.tempChartInstance) { window.tempChartInstance.destroy(); window.tempChartInstance = null; }
-      const rec = data.slice(0,15).reverse();
-      if (rec.length === 0) { document.getElementById('tempChart').parentNode.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:2rem;">No temperature data for this period</p>'; return; }
-      const { sampledData, labelIndices } = smartSample(rec, 14);
-      const allSorted = [...allData].sort((a, b) => a.dateObj - b.dateObj);
-      const oldestDate = allSorted.length > 0 ? allSorted[0].dateObj : sampledData[sampledData.length - 1].dateObj;
-      const targetTemps = sampledData.map(r => {
-        if (!TARGET_DATA || currentFarmerId === 'all') return null;
-        const dayDiff = Math.floor((Date.UTC(r.dateObj.getFullYear(), r.dateObj.getMonth(), r.dateObj.getDate()) - Date.UTC(oldestDate.getFullYear(), oldestDate.getMonth(), oldestDate.getDate())) / 86400000) + 1;
-        return TARGET_DATA[dayDiff] ? TARGET_DATA[dayDiff].temp : null;
-      });
-      let latestTargetTemp = null;
-      if (TARGET_DATA && rec[0] && currentFarmerId !== 'all') {
-        const dayDiff = Math.floor((Date.UTC(rec[0].dateObj.getFullYear(), rec[0].dateObj.getMonth(), rec[0].dateObj.getDate()) - Date.UTC(oldestDate.getFullYear(), oldestDate.getMonth(), oldestDate.getDate())) / 86400000) + 1;
-        if (TARGET_DATA[dayDiff]) latestTargetTemp = TARGET_DATA[dayDiff].temp;
+    function renderEnvironmentStatus(farmerLatestMap, totalFarmers) {
+      let optimalTempCount = 0;
+      let litterAvailableCount = 0;
+
+      if (farmerLatestMap) {
+        farmerLatestMap.forEach(record => {
+          if (record.temp >= 26 && record.temp <= 32) optimalTempCount++;
+          if (record.litter && record.litter.includes('yes')) litterAvailableCount++;
+        });
       }
-      const datasets = [
-        { label:'Temp (°C)', data:sampledData.map(r=>r.temp), borderColor:'#c9a94b', backgroundColor:'rgba(201,169,75,0.1)', borderWidth:3, pointRadius:4, pointBackgroundColor:'#fff', tension:0.3, fill:true }
-      ];
-      
-      if (currentFarmerId !== 'all') {
-        datasets.push({ label:'Target Temp', data:targetTemps, borderColor:'#8a949e', backgroundColor:'transparent', borderWidth:2, borderDash:[6,4], pointRadius:0, pointHoverRadius:5, fill:false, tension:0.2 });
-        if (latestTargetTemp) {
-          const lower = latestTargetTemp - 3, upper = latestTargetTemp + 3;
-          datasets.push({ label:`Upper (${upper}°C)`, data:Array(sampledData.length).fill(upper), borderColor:'rgba(201,169,75,0.25)', borderDash:[4,4], borderWidth:1, pointRadius:0, fill:false });
-          datasets.push({ label:`Lower (${lower}°C)`, data:Array(sampledData.length).fill(lower), borderColor:'rgba(201,169,75,0.25)', borderDash:[4,4], borderWidth:1, pointRadius:0, fill:false });
-        }
-      }
-      
-      window.tempChartInstance = new Chart(ctx, {
-        type:'line',
-        data:{ labels:sampledData.map(r=>`${r.dateObj.getDate()}/${r.dateObj.getMonth()+1}`), datasets },
-        options:{ responsive:true, maintainAspectRatio:false,
-          plugins:{ legend:{ display:true, position:'top', align:'end', labels:{ color:'#b9c7dd', font:{size:10}, boxWidth:15, padding:10 }},
-            tooltip:{ backgroundColor:'#0b1a2b', titleColor:'#fff', bodyColor:'#f0f2f5', borderColor:'#c9a94b', borderWidth:1, callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.y}°C`}}},
-          scales:{ x:{ticks:{color:'#b9c7dd',font:{size:9}},grid:{display:false}}, y:{ticks:{color:'#b9c7dd',font:{size:9}},grid:{color:'rgba(255,255,255,0.05)'},min:15,max:40}}},
-        plugins:[{ id:'lbl', afterDatasetsDraw(chart){
-          chart.getDatasetMeta(0).data.forEach((p,i)=>{
-            const v=chart.data.datasets[0].data[i];
-            if(v!==null&&v!==undefined&&labelIndices.has(i)){ chart.ctx.fillStyle='#c9a94b'; chart.ctx.font='bold 8px Georgia'; chart.ctx.textAlign='center'; chart.ctx.fillText(v+'°',p.x,p.y-10); }
-          });
-        }}]
-      });
+
+      const tempPercent = totalFarmers > 0 ? (optimalTempCount / totalFarmers) * 100 : 0;
+      const litterPercent = totalFarmers > 0 ? (litterAvailableCount / totalFarmers) * 100 : 0;
+
+      document.getElementById('tempOptimalValue').textContent = `${optimalTempCount} / ${totalFarmers}`;
+      document.getElementById('tempOptimalBar').style.width = `${tempPercent}%`;
+      document.getElementById('litterAvailableValue').textContent = `${litterAvailableCount} / ${totalFarmers}`;
+      document.getElementById('litterAvailableBar').style.width = `${litterPercent}%`;
     }
 
-    function renderResourceChart(data) {
-      const ctx = document.getElementById('resourceChart')?.getContext('2d'); if (!ctx || typeof Chart==='undefined') return;
-      if (window.resourceChartInstance) { window.resourceChartInstance.destroy(); window.resourceChartInstance = null; }
-      const avgF=data.reduce((s,r)=>s+r.feed,0)/data.length, avgW=data.reduce((s,r)=>s+r.water,0)/data.length;
-      window.resourceChartInstance = new Chart(ctx, {
-        type:'bar',
-        data:{ labels:['Feed','Water'], datasets:[{ label:'Daily', data:[avgF,avgW], backgroundColor:['#8a949e','rgba(201,169,75,0.7)'], borderColor:['#7a848e','#c9a94b'], borderWidth:3, borderRadius:12, borderSkipped:false, barPercentage:0.6, categoryPercentage:0.8 }]},
-        options:{ responsive:true, maintainAspectRatio:false,
-          plugins:{ legend:{display:false}, tooltip:{backgroundColor:'#0b1a2b',callbacks:{label:ctx=>`${ctx.parsed.y.toFixed(1)} ${ctx.label==='Feed'?'kg':'L'}`}}},
-          scales:{ x:{ticks:{color:'#f0f2f5',font:{size:11,weight:'bold',family:'Georgia'},callback:(_,i)=>i===0?'Feed (kg)':'Water (L)'},grid:{display:false}}, y:{max:25,ticks:{color:'#b9c7dd',font:{size:10},callback:v=>v.toFixed(1)},grid:{color:'rgba(255,255,255,0.05)'},beginAtZero:true}}},
-        plugins:[{ id:'lbl', afterDatasetsDraw(chart){
-          chart.getDatasetMeta(0).data.forEach((b,i)=>{ const v=chart.data.datasets[0].data[i]; chart.ctx.fillStyle='#fff'; chart.ctx.font='bold 13px Georgia'; chart.ctx.textAlign='center'; chart.ctx.fillText(v.toFixed(1)+(i===0?'kg':'L'),b.x,b.y-10); });
-        }}]
+    function renderVaccinationStatus() {
+      const container = document.getElementById('vaccinationTimeline');
+      const countBadge = document.getElementById('vaccinationCount');
+      
+      let vaccData = VACCINATION_DATA;
+      if (!vaccData || vaccData.length === 0) vaccData = FALLBACK_VACCINATION_DATA;
+
+      if (!vaccData || vaccData.length === 0) {
+        container.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:2rem;">No vaccination records found</div>';
+        countBadge.textContent = '0 doses';
+        return;
+      }
+
+      const knownVaccines = ["Gumboro", "Newcastle", "NCD", "IB", "IB Variant", "Lasota", "Clone", "Hitchner"];
+      const activeFarmers = getActiveFarmers();
+      const totalActiveFarmers = activeFarmers.length;
+
+      // Initialize coverage map
+      const coverageMap = {};
+      knownVaccines.forEach(v => coverageMap[v] = new Set());
+
+      // Parse vaccination data
+      vaccData.forEach(record => {
+        const farmer = getFarmerByIdentifier(record.phone, record.email);
+        if (!farmer) return;
+
+        const items = record.itemName.split(',').map(i => i.trim());
+        items.forEach(item => {
+          knownVaccines.forEach(v => {
+            if (item.toLowerCase().includes(v.toLowerCase())) {
+              coverageMap[v].add(farmer.name);
+            }
+          });
+        });
       });
+
+      const totalDoses = vaccData.reduce((sum, v) => sum + v.itemName.split(',').length, 0);
+      countBadge.textContent = `${totalDoses} dose${totalDoses !== 1 ? 's' : ''}`;
+
+      let html = '';
+      knownVaccines.forEach(vaccine => {
+        const coveredCount = coverageMap[vaccine].size;
+        const missingCount = totalActiveFarmers - coveredCount;
+        const percent = totalActiveFarmers > 0 ? (coveredCount / totalActiveFarmers) * 100 : 0;
+        
+        let barColor = 'progress-missing';
+        if (percent === 100) barColor = 'progress-available';
+        else if (percent > 0) barColor = 'progress-optimal';
+
+        html += `
+          <div class="vacc-status-card">
+            <div class="vacc-status-name">${vaccine}</div>
+            <div class="vacc-stat-row">
+              <span class="vacc-covered">✅ ${coveredCount} Covered</span>
+              <span class="vacc-missing">❌ ${missingCount} Missing</span>
+            </div>
+            <div class="progress-track" style="margin-top:0.5rem;">
+              <div class="progress-fill ${barColor}" style="width: ${percent}%;"></div>
+            </div>
+            <div class="status-subtext" style="margin-top:0.3rem;">${percent.toFixed(0)}% of active farmers</div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
     }
 
     function renderDataTable(data) {
-      const allSorted = [...allData].sort((a, b) => a.dateObj - b.dateObj);
-      const oldestDate = allSorted.length > 0 ? allSorted[0].dateObj : new Date();
-      const showIdentifier = currentFarmerId === 'all';
-      const headers = ['Date','Time',...((showIdentifier) ? ['Farmer'] : []),'Alive','Deaths','Cause','Feed(kg)','Water(L)','Temp(°C)','Weight(g)'];
+      const headers = ['Date','Time','Farmer','Alive','Deaths','Cause','Feed(kg)','Water(L)','Temp(°C)','Weight(g)'];
       const h = `<thead><tr>${headers.map(x=>`<th>${x}</th>`).join('')}</tr></thead>`;
       const b = `<tbody>${data.map(r=>{
-        let targetTemp = null;
-        if (TARGET_DATA && r.dateObj && currentFarmerId !== 'all') {
-          const dayDiff = Math.floor((Date.UTC(r.dateObj.getFullYear(),r.dateObj.getMonth(),r.dateObj.getDate()) - Date.UTC(oldestDate.getFullYear(),oldestDate.getMonth(),oldestDate.getDate())) / 86400000) + 1;
-          if (TARGET_DATA[dayDiff]) targetTemp = TARGET_DATA[dayDiff].temp;
-        }
         let farmerDisplay = '';
-        if (r.phone || r.email) {
-          const farmer = FARMER_REGISTRY.find(f => 
-            (f.phone && r.phone && f.phone === r.phone) || (f.email && r.email && f.email === r.email)
-          );
-          farmerDisplay = farmer ? farmer.name : (r.phone || r.email);
-        }
+        const farmer = getFarmerByIdentifier(r.phone, r.email);
+        if (farmer) farmerDisplay = farmer.name;
+        else if (r.phone || r.email) farmerDisplay = r.phone || r.email;
+
         return `<tr>
           <td style="font-weight:600;color:white;">${r.date}</td>
           <td>${r.time||'—'}</td>
-          ${showIdentifier ? `<td style="color:#c9a94b;font-size:0.75rem;">${farmerDisplay}</td>` : ''}
+          <td style="color:#c9a94b;font-size:0.75rem;">${farmerDisplay}</td>
           <td style="color:#c9a94b;font-weight:600;">${fmt(r.birdsAlive)}</td>
           <td style="color:${r.deaths>0?'#c97a3b':'#b9c7dd'}">${r.deaths}</td>
           <td>${r.deathCause&&r.deathCause.trim()?`<span style="color:#c97a3b;font-size:0.75rem;">${r.deathCause.trim()}</span>`:(r.deaths>0?'<span style="color:#e6c468;font-size:0.75rem;">Unrecorded</span>':'—')}</td>
           <td>${fmt(r.feed,1)}</td>
           <td>${fmt(r.water,1)}</td>
-          <td><span class="temp-indicator ${getTempClass(r.temp,targetTemp)}" style="padding:0.15rem 0.5rem;font-size:0.7rem;">${r.temp}°C</span></td>
+          <td>${r.temp}°C</td>
           <td>${(r.avgWeight!=null&&r.avgWeight>0)?`${fmt(r.avgWeight)}g`:'—'}</td>
         </tr>`;
       }).join('')}</tbody>`;
@@ -2253,19 +1075,9 @@
     }
 
     /* ========== ONLINE/OFFLINE DETECTION ========== */
-    window.addEventListener('online', () => {
-      updateSyncStatus(true);
-      console.log('🌐 Back online');
-    });
-    
-    window.addEventListener('offline', () => {
-      updateSyncStatus(false);
-      console.log('📡 Offline - using cached data');
-    });
-    
-    if (!navigator.onLine) {
-      updateSyncStatus(false);
-    }
+    window.addEventListener('online', () => updateSyncStatus(true));
+    window.addEventListener('offline', () => updateSyncStatus(false));
+    if (!navigator.onLine) updateSyncStatus(false);
 
     /* ========== PWA INSTALL ========== */
     let deferredPrompt, installButtonTimeout;
@@ -2290,60 +1102,33 @@
       deferredPrompt = null;
     });
     window.addEventListener('appinstalled', () => { if (installButtonTimeout) clearTimeout(installButtonTimeout); installButton.style.display = 'none'; deferredPrompt = null; });
-    window.addEventListener('beforeunload', () => { if (installButtonTimeout) clearTimeout(installButtonTimeout); });
 
     /* ========== INIT ========== */
     window.addEventListener('DOMContentLoaded', async () => {
       const m = document.getElementById('topMetrics');
       if (m) m.innerHTML = '<div class="metric-card" style="grid-column:span 6;text-align:center;">⏳ Loading farmer registry & flock data...</div>';
       
-      initializeFarmerInfo();
-      
       try {
-        // Step 1: Load farmer registry FIRST
         FARMER_REGISTRY = await fetchFarmerRegistry();
-        
-        // Step 2: Check URL for farmer parameter
-        currentFarmerId = getFarmerFromURL();
-        
-        // Step 3: Update UI based on view type (includes manifest update)
-        updateAdminIndicator();
-        
-        // Step 4: Populate dropdown and update farmer info
-        populateFarmerDropdown();
-        
-        if (currentFarmerId !== 'all') {
-          const farmer = FARMER_REGISTRY.find(f => 
-            f.phone === currentFarmerId || f.email === currentFarmerId
-          );
-          updateFarmerInfo(farmer);
-        }
-        
-        // Step 5: Load farm data
         const { data, success } = await fetchData();
         if (data.length === 0) throw new Error('No data records');
         allData = data;
-        
-        // Step 6: Load target data
         TARGET_DATA = await fetchTargetData();
-        
-        // Step 7: Load vaccination data
         VACCINATION_DATA = await fetchVaccinationData();
         
-        // Step 8: Render everything
-        renderVaccinationTimeline();
         buildWeekFilterButtons(allData);
         render(allData);
         
-        // Setup event listeners
         document.getElementById('toggleMortalityBtn')?.addEventListener('click', () => {
           mortalityViewMode = mortalityViewMode === 'timeline' ? 'total' : 'timeline';
           updateMortalityDisplay();
           const btn = document.getElementById('toggleMortalityBtn');
           if (btn) btn.innerHTML = mortalityViewMode === 'total' ? ' Show Daily' : '📊 Show Total';
-          renderMortalitySection(filterDataByWeek(allData, currentFilter));
+          renderMortalityTimeline(filterDataByWeek(allData, currentFilter));
+          renderMortalityKPI();
+          updateMortalityDisplay();
         });
-        
+
         document.getElementById('refreshBtn')?.addEventListener('click', async () => {
           const refreshBtn = document.getElementById('refreshBtn');
           refreshBtn.textContent = '↻ Refreshing...';
@@ -2353,7 +1138,6 @@
             allData = freshData;
             TARGET_DATA = await fetchTargetData();
             VACCINATION_DATA = await fetchVaccinationData();
-            renderVaccinationTimeline();
             buildWeekFilterButtons(allData);
             currentFilter = 'all';
             document.querySelectorAll('.week-filter-btn').forEach(b => b.classList.remove('active'));
@@ -2367,68 +1151,26 @@
             setTimeout(() => { refreshBtn.textContent = '↻ Refresh Data'; refreshBtn.disabled = false; }, 2000);
           }
         });
-        
-        document.getElementById('farmerSelect')?.addEventListener('change', async (e) => {
-          currentFarmerId = e.target.value;
-          
-          if (currentFarmerId === 'all') {
-            updateFarmerInfo(null);
-          } else {
-            const farmer = FARMER_REGISTRY.find(f => 
-              f.phone === currentFarmerId || f.email === currentFarmerId
-            );
-            updateFarmerInfo(farmer);
-          }
-          
-          updateManifestForFarmer();
-          
-          const { data: freshData } = await fetchData();
-          allData = freshData;
-          VACCINATION_DATA = await fetchVaccinationData();
-          renderVaccinationTimeline();
-          buildWeekFilterButtons(allData);
-          currentFilter = 'all';
-          document.querySelectorAll('.week-filter-btn').forEach(b => b.classList.remove('active'));
-          const allBtn = document.querySelector('.week-filter-btn[data-filter="all"]');
-          if (allBtn) allBtn.classList.add('active');
-          render(allData);
-        });
-        
-        // Auto-refresh every 5 minutes
+
         if (success) setInterval(async () => {
           const { data: freshData } = await fetchData();
           allData = freshData;
           TARGET_DATA = await fetchTargetData();
           VACCINATION_DATA = await fetchVaccinationData();
-          renderVaccinationTimeline();
           render(filterDataByWeek(allData, currentFilter));
         }, 300000);
       } catch(e) {
         console.error('Initialization error:', e);
         FARMER_REGISTRY = FALLBACK_FARMER_REGISTRY;
-        
-        currentFarmerId = getFarmerFromURL();
-        updateAdminIndicator();
-        populateFarmerDropdown();
-        
-        allData = filterByFarmer(FALLBACK_DATA, currentFarmerId);
+        allData = FALLBACK_DATA;
         ALL_UNFILTERED_DATA = [...FALLBACK_DATA];
         TARGET_DATA = await fetchTargetData();
         VACCINATION_DATA = await fetchVaccinationData();
-        renderVaccinationTimeline();
         buildWeekFilterButtons(allData);
         render(allData);
       }
     });
   })();
-
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then(reg => console.log('Proto Project SW registered!', reg.scope))
-        .catch(err => console.log('SW registration failed', err));
-    });
-  }
 </script>
 </body>
 </html>

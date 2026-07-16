@@ -1,11 +1,14 @@
-const CACHE_NAME = 'proto-project-v3';
+const CACHE_NAME = 'proto-project-v4'; // Updated version to v4
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './overview.html',
+  './directory.html', // Added directory page
   './user.html',
   './manifest.json',
   './icon.png',
+  './EquipLogo.png', // Added for offline directory page
+  './Proto.png',     // Added for offline directory page
   'https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700;800&family=Georgia:wght@400;700&display=swap',
   'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js'
 ];
@@ -15,7 +18,7 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('Caching app shell (v3)');
+        console.log('Caching app shell (v4)');
         return cache.addAll(ASSETS_TO_CACHE);
       })
   );
